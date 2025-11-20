@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forged in Carbon | Future Engineering</title>
+    <meta name="description" content="Forged in Carbon (FIC) - Premium 3D Modeling, Printing & Carbon Fiber components based in Durban, South Africa.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Three.js for 3D Background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cyan: {
+                            400: '#00f3ff',
+                            500: '#00d4e0',
+                        },
+                        carbon: {
+                            800: '#1a1a1a',
+                            900: '#0a0a0a',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Rajdhani', 'sans-serif'],
+                        display: ['Orbitron', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'carbon-pattern': "url('data:image/svg+xml,%3Csvg width=\\'20\\' height=\\'20\\' viewBox=\\'0 0 20 20\\' xmlns=\\'http://www.w3.org/2000/svg\\'%3E%3Cg fill=\\'%23171717\\' fill-opacity=\\'0.4\\' fill-rule=\\'evenodd\\'%3E%3Ccircle cx=\\'3\\' cy=\\'3\\' r=\\'3\\'/%3E%3Ccircle cx=\\'13\\' cy=\\'13\\' r=\\'3\\'/%3E%3C/g%3E%3C/svg%3E')",
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #00f3ff; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #008c94; 
+        }
+
+        /* Text Selection */
+        ::selection {
+            background: #00f3ff;
+            color: #000;
+        }
+
+        /* Neon Glow Utilities */
+        .neon-text {
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.7), 0 0 20px rgba(0, 243, 255, 0.5);
+        }
+        .neon-border {
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.3), inset 0 0 5px rgba(0, 243, 255, 0.1);
+        }
+        .neon-box:hover {
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.6), inset 0 0 10px rgba(0, 243, 255, 0.2);
+            border-color: #00f3ff;
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 0.8s ease-out;
+        }
+        
+        /* Assistant Pulse */
+        .voice-wave {
+            display: flex;
+            align-items: center;
+            height: 20px;
+            gap: 3px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .voice-wave.active {
+            opacity: 1;
+        }
+        .bar {
+            width: 4px;
+            background: #00f3ff;
+            border-radius: 2px;
+            animation: sound 0ms -800ms linear infinite alternate;
+        }
+        @keyframes sound {
+            0% { height: 3px; opacity: .35; }
+            100% { height: 100%; opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-carbon-900 text-gray-300 font-sans antialiased overflow-x-hidden selection:bg-cyan-400 selection:text-black">
+
+    <!-- LOADER -->
+    <div id="loader">
+        <div class="text-4xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 tracking-widest mb-4 animate-pulse">
+            LOADING F.I.C
+        </div>
+        <div class="w-64 h-1 bg-gray-800 rounded-full overflow-hidden">
+            <div class="w-full h-full bg-cyan-400 origin-left animate-[grow_1.5s_ease-in-out]"></div>
+        </div>
+    </div>
+
+    <!-- 3D BACKGROUND CANVAS -->
+    <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full -z-10 opacity-60"></canvas>
+
+    <!-- NAVIGATION -->
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <i class="fa-solid fa-cube text-cyan-400 text-2xl animate-spin-slow"></i>
+                    <span class="font-display font-bold text-2xl text-white tracking-wider">FIC</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="hover:text-cyan-400 transition-colors px-3 py-2 rounded-md text-sm font-medium uppercase tracking-widest">Home</a>
+                        <a href="#about" class="hover:text-cyan-400 transition-colors px-3 py-2 rounded-md text-sm font-medium uppercase tracking-widest">About</a>
+                        <a href="#services" class="hover:text-cyan-400 transition-colors px-3 py-2 rounded-md text-sm font-medium uppercase tracking-widest">Services</a>
+                        <a href="#gallery" class="hover:text-cyan-400 transition-colors px-3 py-2 rounded-md text-sm font-medium uppercase tracking-widest">Showcase</a>
+                        <a href="#contact" class="bg-cyan-500/10 border border-cyan-400/50 text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all duration-300 px-4 py-2 rounded-none skew-x-[-10deg] text-sm font-bold uppercase">
+                            <span class="skew-x-[10deg] inline-block">Contact Us</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div class="hidden md:hidden bg-black/95 border-b border-white/10" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="text-gray-300 hover:text-cyan-400 block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="#about" class="text-gray-300 hover:text-cyan-400 block px-3 py-2 rounded-md text-base font-medium">About</a>
+                <a href="#services" class="text-gray-300 hover:text-cyan-400 block px-3 py-2 rounded-md text-base font-medium">Services</a>
+                <a href="#contact" class="text-cyan-400 block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="relative h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <!-- Overlay Gradient -->
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-carbon-900 z-0"></div>
+        
+        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
+            <div class="inline-block mb-4 px-4 py-1 border border-cyan-500/30 rounded-full bg-cyan-500/10 backdrop-blur-sm">
+                <span class="text-cyan-400 text-sm font-bold tracking-[0.2em] uppercase">Durban • South Africa</span>
+            </div>
+            <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter mb-6 leading-tight">
+                FORGED IN <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-gray-100 via-gray-400 to-gray-600 neon-text">CARBON</span>
+            </h1>
+            <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-400 font-light tracking-wide mb-10">
+                Advanced 3D Modeling. Precision Printing. Carbon Fiber Fabrication. <br>
+                <span class="text-cyan-400">We engineer the impossible.</span>
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                <a href="#contact" class="group relative px-8 py-4 bg-cyan-400 text-black font-display font-bold tracking-wider uppercase overflow-hidden">
+                    <div class="absolute inset-0 w-full h-full bg-white/30 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
+                    Start Your Project
+                </a>
+                <a href="https://wa.me/27740535875" target="_blank" class="flex items-center gap-3 text-white hover:text-cyan-400 transition-colors group">
+                    <div class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center group-hover:border-cyan-400 transition-colors">
+                        <i class="fa-brands fa-whatsapp text-xl"></i>
+                    </div>
+                    <span class="uppercase font-bold tracking-widest text-sm">Chat on WhatsApp</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <i class="fa-solid fa-chevron-down text-cyan-400/50 text-2xl"></i>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="py-24 bg-carbon-900 relative border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="relative group">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                    <div class="relative bg-black rounded-lg overflow-hidden border border-white/10">
+                        <!-- UPDATED IMAGE: Futuristic Manufacturing/Tech -->
+                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1000&auto=format&fit=crop" 
+                             alt="Advanced Manufacturing" 
+                             referrerpolicy="no-referrer"
+                             class="w-full h-[500px] object-cover object-center opacity-80 hover:scale-105 transition-transform duration-700 filter contrast-125">
+                        <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black to-transparent">
+                            <div class="text-cyan-400 font-display font-bold text-xl">EST. DURBAN</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h2 class="font-display text-4xl font-bold text-white mb-6">THE FUTURE IS <span class="text-cyan-400">LIGHTWEIGHT</span></h2>
+                    <p class="text-gray-400 text-lg mb-6 leading-relaxed">
+                        At <strong>Forged in Carbon</strong>, we don't just manufacture parts; we engineer performance. Based in Durban, we specialize in the convergence of additive manufacturing and composite materials.
+                    </p>
+                    <p class="text-gray-400 text-lg mb-8 leading-relaxed">
+                        Whether you need a custom intake manifold for a track car, a complex architectural model, or a high-strength carbon fiber component using our advanced 3D printed mold technology, we bring the digital world into physical reality.
+                    </p>
+                    
+                    <ul class="space-y-4">
+                        <li class="flex items-center gap-4">
+                            <i class="fa-solid fa-check text-cyan-400"></i>
+                            <span class="text-white">Automotive Grade Precision</span>
+                        </li>
+                        <li class="flex items-center gap-4">
+                            <i class="fa-solid fa-check text-cyan-400"></i>
+                            <span class="text-white">Rapid Prototyping & Iteration</span>
+                        </li>
+                        <li class="flex items-center gap-4">
+                            <i class="fa-solid fa-check text-cyan-400"></i>
+                            <span class="text-white">Bespoke One-off Components</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES SECTION -->
+    <section id="services" class="py-24 bg-black bg-carbon-pattern relative">
+        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-carbon-900 to-transparent h-32"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-20">
+                <h2 class="font-display text-4xl md:text-5xl font-bold text-white mb-4">OUR <span class="text-cyan-400">CAPABILITIES</span></h2>
+                <p class="text-gray-500 max-w-xl mx-auto">Bridging the gap between concept and carbon.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="group neon-box bg-gray-900/50 backdrop-blur-sm border border-white/10 p-8 rounded-xl transition-all duration-300 hover:-translate-y-2">
+                    <div class="w-14 h-14 bg-cyan-900/30 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-400/20 transition-colors">
+                        <i class="fa-solid fa-pen-ruler text-cyan-400 text-2xl"></i>
+                    </div>
+                    <h3 class="font-display text-2xl font-bold text-white mb-4">3D Design & Modeling</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        From napkin sketches to CAD perfection. We design complex organic shapes and mechanical assemblies optimized for manufacturing.
+                    </p>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="group neon-box bg-gray-900/50 backdrop-blur-sm border border-white/10 p-8 rounded-xl transition-all duration-300 hover:-translate-y-2">
+                    <div class="w-14 h-14 bg-cyan-900/30 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-400/20 transition-colors">
+                        <i class="fa-solid fa-layer-group text-cyan-400 text-2xl"></i>
+                    </div>
+                    <h3 class="font-display text-2xl font-bold text-white mb-4">Precision 3D Printing</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        Utilizing industrial-grade filaments to create robust functional parts, jigs, and fixtures. High resolution, dimensional accuracy.
+                    </p>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="group neon-box bg-gray-900/50 backdrop-blur-sm border border-white/10 p-8 rounded-xl transition-all duration-300 hover:-translate-y-2">
+                    <div class="w-14 h-14 bg-cyan-900/30 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-400/20 transition-colors">
+                        <i class="fa-solid fa-gem text-cyan-400 text-2xl"></i>
+                    </div>
+                    <h3 class="font-display text-2xl font-bold text-white mb-4">Carbon Fiber Forging</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        The ultimate in strength-to-weight. We use 3D printed molds to create custom carbon fiber components with complex geometries impossible for traditional tooling.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SHOWCASE/GALLERY -->
+    <section id="gallery" class="py-24 bg-carbon-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+                <div>
+                    <h2 class="font-display text-4xl font-bold text-white">PROJECT <span class="text-cyan-400">SHOWCASE</span></h2>
+                </div>
+                <a href="https://www.facebook.com/profile.php?id=100089768038702" target="_blank" class="text-sm text-cyan-400 hover:text-white transition-colors mt-4 md:mt-0 flex items-center gap-2">
+                    View all on Facebook <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Gallery Item 1: Automotive -->
+                <div class="relative h-80 group overflow-hidden rounded-lg cursor-pointer">
+                    <!-- UPDATED IMAGE: Dark Automotive Detail -->
+                    <img src="https://images.unsplash.com/photo-1544614471-7c4e1cf1a432?q=80&w=1000&auto=format&fit=crop" 
+                         alt="Automotive Design" 
+                         referrerpolicy="no-referrer"
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 filter brightness-75 group-hover:brightness-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                    <div class="absolute bottom-0 left-0 p-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <span class="text-cyan-400 text-xs font-bold tracking-widest uppercase">Automotive</span>
+                        <h4 class="text-white font-display text-xl mt-1">Custom Aero Parts</h4>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 2: 3D Print -->
+                <div class="relative h-80 group overflow-hidden rounded-lg cursor-pointer">
+                    <!-- UPDATED IMAGE: 3D Printing Nozzle -->
+                    <img src="https://images.unsplash.com/photo-1565630916779-e303be97b6f5?q=80&w=1000&auto=format&fit=crop" 
+                         alt="3D Printing Process" 
+                         referrerpolicy="no-referrer"
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 filter brightness-75 group-hover:brightness-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                    <div class="absolute bottom-0 left-0 p-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <span class="text-cyan-400 text-xs font-bold tracking-widest uppercase">Manufacturing</span>
+                        <h4 class="text-white font-display text-xl mt-1">Rapid Prototyping</h4>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 3: Components -->
+                <div class="relative h-80 group overflow-hidden rounded-lg cursor-pointer md:col-span-2 lg:col-span-1">
+                    <!-- UPDATED IMAGE: Mechanical Components/Engine -->
+                    <img src="https://images.unsplash.com/photo-1517524008697-546c79c9179b?q=80&w=1000&auto=format&fit=crop" 
+                         alt="Engineering Detail" 
+                         referrerpolicy="no-referrer"
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 filter brightness-75 group-hover:brightness-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                    <div class="absolute bottom-0 left-0 p-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <span class="text-cyan-400 text-xs font-bold tracking-widest uppercase">Components</span>
+                        <h4 class="text-white font-display text-xl mt-1">Engine Bay Styling</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="py-24 relative overflow-hidden bg-black">
+        <div class="absolute inset-0 opacity-20">
+            <div class="absolute top-0 left-1/4 w-64 h-64 bg-cyan-500 rounded-full filter blur-[100px]"></div>
+            <div class="absolute bottom-0 right-1/4 w-64 h-64 bg-blue-600 rounded-full filter blur-[100px]"></div>
+        </div>
+
+        <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+            <h2 class="font-display text-5xl font-bold text-white mb-2">READY TO <span class="text-cyan-400">FORGE?</span></h2>
+            <p class="text-gray-400 mb-12">Contact us today to discuss your project. From concept to carbon.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <!-- WhatsApp -->
+                <a href="https://wa.me/27740535875" target="_blank" class="group bg-gray-900/80 border border-gray-800 hover:border-green-500 p-8 rounded-xl transition-all duration-300">
+                    <i class="fa-brands fa-whatsapp text-4xl text-gray-400 group-hover:text-green-500 mb-4 transition-colors"></i>
+                    <h3 class="text-white font-bold uppercase tracking-wider text-sm">WhatsApp</h3>
+                    <p class="text-gray-500 text-xs mt-2 group-hover:text-green-400">+27 74 053 5875</p>
+                </a>
+
+                <!-- Email -->
+                <a href="mailto:neels.dutoit74@gmail.com" class="group bg-gray-900/80 border border-gray-800 hover:border-cyan-400 p-8 rounded-xl transition-all duration-300">
+                    <i class="fa-regular fa-envelope text-4xl text-gray-400 group-hover:text-cyan-400 mb-4 transition-colors"></i>
+                    <h3 class="text-white font-bold uppercase tracking-wider text-sm">Email</h3>
+                    <p class="text-gray-500 text-xs mt-2 group-hover:text-cyan-400">neels.dutoit74@gmail.com</p>
+                </a>
+
+                <!-- Facebook -->
+                <a href="https://www.facebook.com/profile.php?id=100089768038702" target="_blank" class="group bg-gray-900/80 border border-gray-800 hover:border-blue-500 p-8 rounded-xl transition-all duration-300">
+                    <i class="fa-brands fa-facebook-f text-4xl text-gray-400 group-hover:text-blue-500 mb-4 transition-colors"></i>
+                    <h3 class="text-white font-bold uppercase tracking-wider text-sm">Facebook</h3>
+                    <p class="text-gray-500 text-xs mt-2 group-hover:text-blue-400">@ForgedInCarbon</p>
+                </a>
+            </div>
+
+            <div class="text-gray-500 text-sm">
+                <p>Based in Durban, South Africa. Operating Globally.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black border-t border-white/5 py-8 text-center">
+        <div class="max-w-7xl mx-auto px-4">
+            <p class="text-gray-600 text-sm font-display">
+                &copy; 2025 Forged in Carbon. All Rights Reserved. <br>
+                <span class="text-xs opacity-50">Engineered for the Future.</span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- AI VOICE ASSISTANT UI -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
+        <!-- Speech Bubble -->
+        <div id="assistant-bubble" class="bg-gray-900 border border-cyan-400/30 p-4 rounded-tl-xl rounded-tr-xl rounded-bl-xl shadow-2xl max-w-xs mb-2 transform scale-0 transition-transform duration-300 origin-bottom-right">
+            <p class="text-cyan-400 font-display text-xs font-bold mb-1">FIC ASSISTANT</p>
+            <p class="text-white text-sm" id="assistant-text">System Online. Click the mic to activate introduction.</p>
+        </div>
+        
+        <!-- Button -->
+        <button id="assistant-btn" class="w-14 h-14 rounded-full bg-black border border-cyan-400 shadow-[0_0_20px_rgba(0,243,255,0.3)] flex items-center justify-center hover:bg-cyan-900/50 transition-all group relative overflow-hidden">
+            <div class="absolute inset-0 bg-cyan-400/10 animate-ping rounded-full"></div>
+            <i class="fa-solid fa-microphone text-cyan-400 text-xl relative z-10 group-hover:text-white transition-colors"></i>
+            
+            <!-- Visualizer Bars -->
+            <div class="voice-wave absolute bottom-0 left-1/2 transform -translate-x-1/2 h-full w-full justify-center items-end pb-3 gap-[2px] opacity-0 transition-opacity duration-300">
+                <div class="bar w-[2px] bg-cyan-400 h-2" style="animation-duration: 474ms"></div>
+                <div class="bar w-[2px] bg-cyan-400 h-4" style="animation-duration: 433ms"></div>
+                <div class="bar w-[2px] bg-cyan-400 h-3" style="animation-duration: 407ms"></div>
+                <div class="bar w-[2px] bg-cyan-400 h-5" style="animation-duration: 458ms"></div>
+            </div>
+        </button>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // LOADER
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    // Animate Hero Text entry
+                }, 800);
+            }, 1500);
+        });
+
+        // THREE.JS BACKGROUND ANIMATION
+        const initThreeJS = () => {
+            const canvas = document.getElementById('bg-canvas');
+            const scene = new THREE.Scene();
+            // Fog to blend edges
+            scene.fog = new THREE.FogExp2(0x000000, 0.0015);
+
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+            // Create Carbon Lattice (Points)
+            const geometry = new THREE.BufferGeometry();
+            const count = 1500;
+            const positions = new Float32Array(count * 3);
+            
+            for(let i = 0; i < count * 3; i++) {
+                positions[i] = (Math.random() - 0.5) * 25; // Spread
+            }
+            
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            
+            // Material for dots
+            const material = new THREE.PointsMaterial({
+                size: 0.08,
+                color: 0x00f3ff,
+                transparent: true,
+                opacity: 0.8,
+            });
+
+            // Create Lines between nearby points (Simulate weave)
+            // Note: Calculating lines every frame is heavy, so we use a static line segments approach or just points for performance
+            // Let's stick to a dense point cloud that rotates to simulate the "weave" structure
+            
+            const particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+            
+            camera.position.z = 5;
+
+            // Mouse Interaction
+            let mouseX = 0;
+            let mouseY = 0;
+            
+            document.addEventListener('mousemove', (event) => {
+                mouseX = event.clientX / window.innerWidth - 0.5;
+                mouseY = event.clientY / window.innerHeight - 0.5;
+            });
+
+            const animate = () => {
+                requestAnimationFrame(animate);
+                
+                // Gentle rotation
+                particles.rotation.y += 0.001;
+                particles.rotation.x += 0.0005;
+
+                // Mouse influence
+                particles.rotation.y += mouseX * 0.01;
+                particles.rotation.x += mouseY * 0.01;
+
+                // Wave effect
+                const positions = particles.geometry.attributes.position.array;
+                const time = Date.now() * 0.001;
+                
+                // Subtle breathing animation for particles could go here
+
+                renderer.render(scene, camera);
+            };
+
+            animate();
+
+            // Resize Handler
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        };
+
+        initThreeJS();
+
+        // VOICE ASSISTANT LOGIC
+        const btn = document.getElementById('assistant-btn');
+        const bubble = document.getElementById('assistant-bubble');
+        const bubbleText = document.getElementById('assistant-text');
+        const wave = document.querySelector('.voice-wave');
+        const icon = btn.querySelector('i');
+
+        // Open bubble after delay
+        setTimeout(() => {
+            bubble.classList.remove('scale-0');
+        }, 3000);
+
+        btn.addEventListener('click', () => {
+            if ('speechSynthesis' in window) {
+                // Visual updates
+                icon.style.display = 'none';
+                wave.style.opacity = '1';
+                bubbleText.textContent = "Greeting you...";
+
+                // Speech
+                const text = "Welcome to Forged in Carbon. We are Durban's premier destination for high-performance 3D modeling, printing, and carbon fiber fabrication. How can we engineer your future today?";
+                const utterance = new SpeechSynthesisUtterance(text);
+                
+                // Configure voice (try to get a deeper/tech voice if available)
+                const voices = window.speechSynthesis.getVoices();
+                // Prefer English SA if available, else default
+                // Note: Voices load async in some browsers, simple fallback
+                
+                utterance.volume = 1;
+                utterance.rate = 0.9;
+                utterance.pitch = 0.8; // Lower pitch for "tech" feel
+
+                utterance.onend = () => {
+                    icon.style.display = 'block';
+                    wave.style.opacity = '0';
+                    bubbleText.textContent = "Click to listen again.";
+                };
+
+                window.speechSynthesis.cancel(); // Stop any previous
+                window.speechSynthesis.speak(utterance);
+            } else {
+                bubbleText.textContent = "Voice module unavailable on this browser.";
+            }
+        });
+
+        // Smooth Scroll for Anchor Links (redundant with scroll-smooth but good for older browsers)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
