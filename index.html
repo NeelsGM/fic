@@ -504,53 +504,62 @@
 
     <!-- CONTACT SECTION -->
     <section id="contact" class="py-24 relative overflow-hidden bg-black">
-        <div class="absolute inset-0 opacity-20">
-            <div class="absolute top-0 left-1/4 w-64 h-64 bg-cyan-500 rounded-full filter blur-[100px]"></div>
-            <div class="absolute bottom-0 right-1/4 w-64 h-64 bg-blue-600 rounded-full filter blur-[100px]"></div>
+    <div class="absolute inset-0 opacity-20">
+        <div class="absolute top-0 left-1/4 w-64 h-64 bg-cyan-500 rounded-full filter blur-[100px]"></div>
+        <div class="absolute bottom-0 right-1/4 w-64 h-64 bg-blue-600 rounded-full filter blur-[100px]"></div>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <h2 class="font-display text-3xl md:text-5xl font-bold text-white mb-2">READY TO <span class="text-cyan-400">FORGE?</span></h2>
+        <p class="text-gray-400 mb-12 text-lg">Send your project details below to start a WhatsApp consultation.</p>
+
+        <div class="max-w-2xl mx-auto bg-gray-900/50 backdrop-blur-xl border border-white/10 p-8 rounded-2xl neon-border">
+            <form id="whatsappForm" class="space-y-6 text-left">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-cyan-400 text-xs font-bold uppercase tracking-widest mb-2">Your Name</label>
+                        <input type="text" id="custName" required placeholder="John Doe" 
+                            class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-400 transition-colors">
+                    </div>
+                    <div>
+                        <label class="block text-cyan-400 text-xs font-bold uppercase tracking-widest mb-2">Project Category</label>
+                        <select id="projType" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-400 transition-colors appearance-none">
+                            <option>Custom Aero / Automotive</option>
+                            <option>Industrial Prototyping</option>
+                            <option>Carbon Fiber Components</option>
+                            <option>3D Scanning & Design</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-cyan-400 text-xs font-bold uppercase tracking-widest mb-2">Project Details</label>
+                    <textarea id="projDetails" rows="4" placeholder="Briefly describe what you need forged..." required 
+                        class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-400 transition-colors"></textarea>
+                </div>
+
+                <button type="button" onclick="sendToWhatsApp()" 
+                    class="w-full py-4 bg-cyan-400 text-black font-display font-bold uppercase tracking-[0.2em] hover:bg-white transition-all duration-300 flex items-center justify-center gap-3 shadow-[0_0_15px_rgba(0,243,255,0.4)]">
+                    <i class="fa-brands fa-whatsapp text-xl"></i>
+                    Initialize WhatsApp Inquiry
+                </button>
+            </form>
         </div>
 
-        <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
-            <h2 class="font-display text-3xl md:text-5xl font-bold text-white mb-2">READY TO <span class="text-cyan-400">FORGE?</span></h2>
-            <p class="text-gray-400 mb-12 text-lg">Contact us today to discuss your project. From concept to carbon.</p>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                <!-- WhatsApp -->
-                <a href="https://wa.me/27740535875" target="_blank" class="group bg-gray-900/80 border border-gray-800 hover:border-green-500 p-8 rounded-xl transition-all duration-300">
-                    <i class="fa-brands fa-whatsapp text-4xl text-gray-400 group-hover:text-green-500 mb-4 transition-colors"></i>
-                    <h3 class="text-white font-bold uppercase tracking-wider text-sm">WhatsApp</h3>
-                    <p class="text-gray-500 text-xs mt-2 group-hover:text-green-400">+27 74 053 5875</p>
-                </a>
-
-                <!-- Email -->
-                <a href="mailto:sales@fic-3d.co.za" class="group bg-gray-900/80 border border-gray-800 hover:border-cyan-400 p-8 rounded-xl transition-all duration-300">
-                    <i class="fa-regular fa-envelope text-4xl text-gray-400 group-hover:text-cyan-400 mb-4 transition-colors"></i>
-                    <h3 class="text-white font-bold uppercase tracking-wider text-sm">Email</h3>
-                    <p class="text-gray-500 text-xs mt-2 group-hover:text-cyan-400">sales@fic-3d.co.za</p>
-                </a>
-
-                <!-- Facebook -->
-                <a href="https://www.facebook.com/profile.php?id=100089768038702" target="_blank" class="group bg-gray-900/80 border border-gray-800 hover:border-blue-500 p-8 rounded-xl transition-all duration-300">
-                    <i class="fa-brands fa-facebook-f text-4xl text-gray-400 group-hover:text-blue-500 mb-4 transition-colors"></i>
-                    <h3 class="text-white font-bold uppercase tracking-wider text-sm">Facebook</h3>
-                    <p class="text-gray-500 text-xs mt-2 group-hover:text-blue-400">@ForgedInCarbon</p>
-                </a>
-            </div>
-
-            <div class="text-gray-500 text-sm">
-                <p>Based in Durban, South Africa. Operating Globally.</p>
-            </div>
+        <div class="mt-12 flex justify-center gap-8 text-gray-500">
+            <a href="mailto:sales@fic-3d.co.za" class="hover:text-cyan-400 transition-colors flex items-center gap-2">
+                <i class="fa-regular fa-envelope"></i> Email
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=100089768038702" target="_blank" class="hover:text-blue-500 transition-colors flex items-center gap-2">
+                <i class="fa-brands fa-facebook-f"></i> Facebook
+            </a>
         </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="bg-black border-t border-white/5 py-8 text-center">
-        <div class="max-w-7xl mx-auto px-4">
-            <p class="text-gray-600 text-sm font-display">
-                &copy; 2025 Forged in Carbon. All Rights Reserved. <br>
-                <span class="text-xs opacity-50">Engineered for the Future.</span>
-            </p>
+        
+        <div class="mt-8 text-gray-600 text-xs tracking-widest uppercase">
+            Based in Durban, South Africa • Operating Globally
         </div>
-    </footer>
+    </div>
+</section>
 
     <!-- JAVASCRIPT -->
     <script>
@@ -662,6 +671,7 @@
     </script>
 </body>
 </html>
+
 
 
 
