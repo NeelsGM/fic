@@ -1,9 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M1HMNM7P0Z"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-M1HMNM7P0Z');
+    </script>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forged in Carbon | Industrial 3D Printing & Engineering</title>
+    <title>Forged in Carbon | 3D Printing & Engineering Durban</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -22,67 +30,82 @@
     </script>
 
     <style>
-        .neon-text { text-shadow: 0 0 10px rgba(0, 243, 255, 0.7); }
-        #loader { 
-            position: fixed; inset: 0; background: #000; z-index: 10000; 
-            display: flex; justify-content: center; align-items: center; 
-            transition: opacity 0.5s ease-out; 
-        }
+        .neon-text { text-shadow: 0 0 15px rgba(0, 243, 255, 0.7); }
         canvas#bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        #loader { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease-out; }
+        .glass-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
     </style>
 </head>
-<body class="bg-carbon-900 text-gray-300 font-sans selection:bg-cyan-400 selection:text-black">
+<body class="bg-carbon-900 text-gray-300 font-sans">
 
     <div id="loader">
-        <div class="text-2xl font-display font-bold text-cyan-400 animate-pulse uppercase tracking-widest">
-            Forging Reality...
-        </div>
+        <div class="text-3xl font-display font-bold text-cyan-400 animate-pulse tracking-widest uppercase">Initializing F.I.C...</div>
     </div>
 
     <canvas id="bg-canvas"></canvas>
 
-    <nav class="fixed w-full z-50 bg-black/90 border-b border-white/10 backdrop-blur-sm">
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='index.html'">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
                 <i class="fa-solid fa-cube text-cyan-400 text-2xl"></i>
                 <span class="font-display font-bold text-2xl text-white">FIC</span>
             </div>
-            <div class="hidden md:flex gap-8 items-center">
-                <a href="index.html" class="hover:text-cyan-400 uppercase text-sm font-bold tracking-widest">Home</a>
-                <a href="modeling.html" class="text-cyan-400 border border-cyan-400/30 px-3 py-1 rounded text-sm font-bold uppercase tracking-widest">Modeling & Scanning</a>
-                <a href="#gallery" class="hover:text-cyan-400 uppercase text-sm font-bold tracking-widest">Showcase</a>
-                <a href="https://wa.me/27740535875" target="_blank" class="bg-cyan-400 text-black px-4 py-2 font-bold uppercase text-sm">WhatsApp</a>
+            <div class="hidden md:flex gap-8 items-center uppercase text-xs font-bold tracking-widest">
+                <a href="#home" class="hover:text-cyan-400">Home</a>
+                <a href="modeling.html" class="text-cyan-400 border border-cyan-400/30 px-3 py-1 rounded">Modeling & Scanning</a>
+                <a href="#services" class="hover:text-cyan-400">Services</a>
+                <a href="#gallery" class="hover:text-cyan-400">Showcase</a>
+                <a href="https://wa.me/27740535875" target="_blank" class="bg-cyan-400 text-black px-4 py-2">WhatsApp</a>
             </div>
         </div>
     </nav>
 
     <main class="relative z-10">
-        <section class="h-screen flex flex-col items-center justify-center text-center px-4">
-            <h1 class="font-display text-5xl md:text-8xl font-black text-white mb-4">
-                FORGED IN <span class="neon-text text-gray-500">CARBON</span>
-            </h1>
-            <p class="text-xl text-gray-400 max-w-2xl mb-12">
-                Advanced 3D Modeling. Precision Printing. Carbon Fiber Fabrication.
-            </p>
-            <div class="flex flex-wrap justify-center gap-6">
-                <a href="https://www.facebook.com/FIC3d" target="_blank" class="flex items-center gap-2 text-white hover:text-cyan-400 font-bold uppercase tracking-widest">
-                    <i class="fa-brands fa-facebook text-2xl"></i> Facebook
-                </a>
+        <section id="home" class="h-screen flex flex-col items-center justify-center text-center px-4">
+            <h1 class="font-display text-5xl md:text-8xl font-black text-white mb-4 tracking-tighter">FORGED IN <span class="neon-text text-gray-400">CARBON</span></h1>
+            <p class="text-xl text-gray-400 max-w-2xl mb-10">Precision Engineering. Carbon Fiber Fabrication. Durban, SA.</p>
+        </section>
+
+        <section id="services" class="py-24 px-6">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="glass-panel p-8 rounded-xl">
+                    <i class="fa-solid fa-microscope text-cyan-400 text-3xl mb-4"></i>
+                    <h3 class="text-white font-display text-xl mb-4 uppercase">3D Scanning</h3>
+                    <p class="text-gray-400">High-precision digital capture for perfect fitment and replication.</p>
+                </div>
+                <div class="glass-panel p-8 rounded-xl">
+                    <i class="fa-solid fa-layer-group text-cyan-400 text-3xl mb-4"></i>
+                    <h3 class="text-white font-display text-xl mb-4 uppercase">Industrial Printing</h3>
+                    <p class="text-gray-400">Functional parts printed in Carbon-Reinforced materials for maximum strength.</p>
+                </div>
+                <div class="glass-panel p-8 rounded-xl">
+                    <i class="fa-solid fa-gears text-cyan-400 text-3xl mb-4"></i>
+                    <h3 class="text-white font-display text-xl mb-4 uppercase">Engineering</h3>
+                    <p class="text-gray-400">Mechanical design optimized for additive manufacturing and composites.</p>
+                </div>
             </div>
         </section>
 
-        <section id="gallery" class="py-24 bg-black/50 border-t border-white/5">
+        <section id="gallery" class="py-24 bg-black/30 border-t border-white/5">
             <div class="max-w-7xl mx-auto px-6">
-                <h2 class="font-display text-3xl font-bold text-white mb-12 uppercase">Project <span class="text-cyan-400">Showcase</span></h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="aspect-video bg-gray-900 border border-white/10 rounded overflow-hidden flex items-center justify-center">
-                        <span class="text-gray-600 italic">Portfolio Content Loading...</span>
+                <div class="flex justify-between items-end mb-12">
+                    <h2 class="font-display text-3xl font-bold text-white uppercase">Project <span class="text-cyan-400">Showcase</span></h2>
+                    <a href="https://www.facebook.com/FIC3d" target="_blank" class="text-cyan-400 text-xs font-bold uppercase flex items-center gap-2">
+                        <i class="fa-brands fa-facebook"></i> View on Facebook
+                    </a>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="relative aspect-video rounded-lg overflow-hidden border border-white/10">
+                        <video src="car1.mp4" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
+                        <div class="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-black w-full text-xs font-bold text-cyan-400">WIDEBODY DESIGN</div>
                     </div>
-                    <div class="aspect-video bg-gray-900 border border-white/10 rounded overflow-hidden flex items-center justify-center">
-                        <span class="text-gray-600 italic">Portfolio Content Loading...</span>
+                    <div class="relative aspect-video rounded-lg overflow-hidden border border-white/10">
+                        <video src="car2.mp4" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
+                        <div class="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-black w-full text-xs font-bold text-cyan-400">CARBON WING FINISH</div>
                     </div>
-                    <div class="aspect-video bg-gray-900 border border-white/10 rounded overflow-hidden flex items-center justify-center">
-                        <span class="text-gray-600 italic">Portfolio Content Loading...</span>
+                    <div class="relative aspect-video rounded-lg overflow-hidden border border-white/10">
+                        <video src="print1.mp4" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
+                        <div class="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-black w-full text-xs font-bold text-cyan-400">INDUSTRIAL PRINTING</div>
                     </div>
                 </div>
             </div>
@@ -90,37 +113,43 @@
     </main>
 
     <script>
-        // Failsafe Loader: Hides loader even if Three.js fails
-        window.onload = function() {
+        // LOADER HIDE
+        window.onload = () => {
             const loader = document.getElementById('loader');
             loader.style.opacity = '0';
             setTimeout(() => { loader.style.display = 'none'; }, 500);
         };
 
-        // Simplified Three.js Background
-        try {
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            
-            const geometry = new THREE.BufferGeometry();
-            const vertices = [];
-            for (let i = 0; i < 2000; i++) {
-                vertices.push(THREE.MathUtils.randFloatSpread(50), THREE.MathUtils.randFloatSpread(50), THREE.MathUtils.randFloatSpread(50));
-            }
-            geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-            const particles = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0x00f3ff, size: 0.05 }));
-            scene.add(particles);
-            camera.position.z = 10;
+        // THREE.JS WITH MOUSE TRACKING
+        let mouseX = 0, mouseY = 0;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX - window.innerWidth / 2) / 100;
+            mouseY = (e.clientY - window.innerHeight / 2) / 100;
+        });
 
-            function animate() {
-                requestAnimationFrame(animate);
-                particles.rotation.y += 0.001;
-                renderer.render(scene, camera);
-            }
-            animate();
-        } catch (e) { console.error("3D Background failed to load", e); }
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        
+        const geometry = new THREE.BufferGeometry();
+        const vertices = [];
+        for (let i = 0; i < 2000; i++) {
+            vertices.push(THREE.MathUtils.randFloatSpread(50), THREE.MathUtils.randFloatSpread(50), THREE.MathUtils.randFloatSpread(50));
+        }
+        geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+        const particles = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0x00f3ff, size: 0.05 }));
+        scene.add(particles);
+        camera.position.z = 10;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            // This part makes it track your cursor
+            particles.rotation.y += 0.001 + (mouseX * 0.005);
+            particles.rotation.x += (mouseY * 0.005);
+            renderer.render(scene, camera);
+        }
+        animate();
     </script>
 </body>
 </html>
