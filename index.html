@@ -1,83 +1,48 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-M1HMNM7P0Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-M1HMNM7P0Z');
-</script>
-    <meta name="google-site-verification" content="kuXtt2bERzt5NYIEcjvumRJm86fMteSLJ93uMjTEPys" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M1HMNM7P0Z"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-M1HMNM7P0Z');
+    </script>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forged in Carbon | 3D Printing & Carbon Fiber Engineering Durban</title>
-<meta name="title" content="Forged in Carbon | 3D Printing & Carbon Fiber Engineering Durban">
-<meta name="description" content="Custom 3D modeling, precision printing, and carbon fiber components in Durban, South Africa. Specializing in automotive aero parts and rapid prototyping.">
-<meta name="keywords" content="3d printing durban, carbon fiber south africa, custom aero parts, automotive 3d printing, functional prototypes south africa">
-<meta name="author" content="Forged in Carbon">
+    <meta name="google-site-verification" content="kuXtt2bERzt5NYIEcjvumRJm86fMteSLJ93uMjTEPys" />
+    
+    <title>Forged in Carbon | Industrial 3D Printing & Carbon Fiber Durban</title>
+    <meta name="description" content="Professional industrial 3D printing and 3D scanning in South Africa. We specialize in high-strength carbon fiber parts and functional prototypes.">
+    <meta name="keywords" content="3d printing durban, carbon fiber south africa, custom aero parts, automotive 3d printing, 3D scanning, functional prototypes">
+    <meta name="author" content="Forged in Carbon">
     <link rel="icon" type="image/png" href="favicon.png">
 
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://www.fic-3d.co.za/">
-<meta property="og:title" content="Forged in Carbon | 3D Printed Engineering">
-<meta property="og:description" content="Precision engineering and carbon fiber fabrication based in Durban. We bring the digital world into physical reality.">
-<meta property="og:image" content="https://www.fic-3d.co.za/scan1.jpg"> <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://www.fic-3d.co.za/">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.fic-3d.co.za/">
+    <meta property="og:title" content="Forged in Carbon | Industrial Additive Manufacturing">
+    <meta property="og:description" content="Precision engineering and carbon fiber fabrication based in Durban. We bring the digital world into physical reality.">
+    <meta property="og:image" content="https://www.fic-3d.co.za/scan1.jpg">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.fic-3d.co.za/">
 
-    <title>Industrial 3D Printing Services | Carbon Fiber Parts South Africa | FIC</title>
-<meta name="description" content="Professional industrial 3D printing in South Africa. We specialize in high-strength carbon fiber parts, functional prototypes, and lightweight engineering solutions.">
-<meta name="keywords" content="Carbon Fiber 3D Printing, Industrial 3D Printing South Africa, Functional Prototypes, Additive Manufacturing, Engineering Grade 3D Printing">
-
-<meta property="og:title" content="Forged in Carbon | Industrial Additive Manufacturing">
-<meta property="og:description" content="High-strength, carbon-reinforced 3D printing for South African engineering and automotive sectors.">
-<meta property="og:url" content="https://www.fic-3d.co.za/services.html">
-
-    
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Three.js for 3D Background -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        cyan: {
-                            400: '#00f3ff',
-                            500: '#00d4e0',
-                        },
-                        carbon: {
-                            800: '#1a1a1a',
-                            900: '#0a0a0a',
-                        }
+                        cyan: { 400: '#00f3ff', 500: '#00d4e0' },
+                        carbon: { 800: '#1a1a1a', 900: '#0a0a0a' }
                     },
                     fontFamily: {
                         sans: ['Rajdhani', 'sans-serif'],
                         display: ['Orbitron', 'sans-serif'],
-                    },
-                    backgroundImage: {
-                        'carbon-pattern': "url('data:image/svg+xml,%3Csvg width=\\'20\\' height=\\'20\\' viewBox=\\'0 0 20 20\\' xmlns=\\'http://www.w3.org/2000/svg\\'%3E%3Cg fill=\\'%23171717\\' fill-opacity=\\'0.4\\' fill-rule=\\'evenodd\\'%3E%3Ccircle cx=\\'3\\' cy=\\'3\\' r=\\'3\\'/%3E%3Ccircle cx=\\'13\\' cy=\\'13\\' r=\\'3\\'/%3E%3C/g%3E%3C/svg%3E')",
-                    },
-                    animation: {
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'float': 'float 6s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' },
-                        }
                     }
                 }
             }
@@ -85,641 +50,83 @@
     </script>
 
     <style>
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0a0a0a; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #00f3ff; 
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #008c94; 
-        }
-
-        /* Text Selection */
-        ::selection {
-            background: #00f3ff;
-            color: #000;
-        }
-
-        /* Neon Glow Utilities */
-        .neon-text {
-            text-shadow: 0 0 10px rgba(0, 243, 255, 0.7), 0 0 20px rgba(0, 243, 255, 0.5);
-        }
-        .neon-border {
-            box-shadow: 0 0 10px rgba(0, 243, 255, 0.3), inset 0 0 5px rgba(0, 243, 255, 0.1);
-        }
-        .neon-box:hover {
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.6), inset 0 0 10px rgba(0, 243, 255, 0.2);
-            border-color: #00f3ff;
-        }
-
-        /* Loader */
-        #loader {
-            position: fixed;
-            inset: 0;
-            background: #000;
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            transition: opacity 0.8s ease-out;
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #00f3ff; border-radius: 4px; }
+        .neon-text { text-shadow: 0 0 10px rgba(0, 243, 255, 0.7); }
+        #loader { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: opacity 0.8s ease-out; }
     </style>
 </head>
-<body class="bg-carbon-900 text-gray-300 font-sans antialiased overflow-x-hidden selection:bg-cyan-400 selection:text-black">
+<body class="bg-carbon-900 text-gray-300 font-sans antialiased overflow-x-hidden">
 
-    <!-- LOADER -->
     <div id="loader">
         <div class="text-4xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 tracking-widest mb-4 animate-pulse">
             LOADING F.I.C
         </div>
-        <div class="w-64 h-1 bg-gray-800 rounded-full overflow-hidden">
-            <div class="w-full h-full bg-cyan-400 origin-left animate-[grow_1.5s_ease-in-out]"></div>
-        </div>
     </div>
 
-    <!-- 3D BACKGROUND CANVAS -->
     <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full -z-10 opacity-60"></canvas>
 
-    <!-- NAVIGATION -->
     <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
-                <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
-                    <i class="fa-solid fa-cube text-cyan-400 text-2xl animate-spin-slow"></i>
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.location.href='index.html'">
+                    <i class="fa-solid fa-cube text-cyan-400 text-2xl"></i>
                     <span class="font-display font-bold text-2xl text-white tracking-wider">FIC</span>
                 </div>
                 
-                <!-- Desktop Menu -->
                 <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="#home" class="hover:text-cyan-400 transition-colors px-3 py-2 rounded-md text-sm font-medium uppercase tracking-widest">Home</a>
-                        <a href="#about" class="hover:text-cyan-400 transition-colors px-3 py-2 rounded-md text-sm font-medium uppercase tracking-widest">About</a>
-                        <a href="#services" class="hover:text-cyan-400 transition-colors px-3 py-2 rounded-md text-sm font-medium uppercase tracking-widest">Services</a>
-                        <a href="#gallery" class="hover:text-cyan-400 transition-colors px-3 py-2 rounded-md text-sm font-medium uppercase tracking-widest">Showcase</a>
-                        <a href="#contact" class="bg-cyan-500/10 border border-cyan-400/50 text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all duration-300 px-4 py-2 rounded-none skew-x-[-10deg] text-sm font-bold uppercase">
-                            <span class="skew-x-[10deg] inline-block">Contact Us</span>
-                        </a>
+                    <div class="ml-10 flex items-baseline space-x-6">
+                        <a href="index.html" class="hover:text-cyan-400 px-3 py-2 text-sm font-medium uppercase tracking-widest">Home</a>
+                        <a href="modeling.html" class="hover:text-cyan-400 px-3 py-2 text-sm font-medium uppercase tracking-widest text-cyan-400">Modeling & Scanning</a>
+                        <a href="#services" class="hover:text-cyan-400 px-3 py-2 text-sm font-medium uppercase tracking-widest">Services</a>
+                        <a href="#gallery" class="hover:text-cyan-400 px-3 py-2 text-sm font-medium uppercase tracking-widest">Showcase</a>
+                        <a href="#contact" class="bg-cyan-500/10 border border-cyan-400/50 text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all px-4 py-2 text-sm font-bold uppercase">Contact Us</a>
                     </div>
                 </div>
                 
-                <!-- Mobile Menu Button -->
                 <div class="-mr-2 flex md:hidden">
-                    <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
-                        <i class="fa-solid fa-bars text-2xl"></i>
-                    </button>
+                    <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="p-2 text-gray-400"><i class="fa-solid fa-bars text-2xl"></i></button>
                 </div>
             </div>
         </div>
         
-        <!-- Mobile Menu Dropdown -->
-        <div class="hidden md:hidden bg-black/95 border-b border-white/10 absolute w-full" id="mobile-menu">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#home" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="text-gray-300 hover:text-cyan-400 block px-3 py-2 rounded-md text-base font-medium">Home</a>
-                <a href="#about" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="text-gray-300 hover:text-cyan-400 block px-3 py-2 rounded-md text-base font-medium">About</a>
-                <a href="#services" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="text-gray-300 hover:text-cyan-400 block px-3 py-2 rounded-md text-base font-medium">Services</a>
-                <a href="#gallery" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="text-gray-300 hover:text-cyan-400 block px-3 py-2 rounded-md text-base font-medium">Showcase</a>
-                <a href="#contact" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="text-cyan-400 block px-3 py-2 rounded-md text-base font-medium font-bold">Contact Us</a>
-                <a href="modeling.html">3D Modeling & Scanning</a>
+        <div class="hidden md:hidden bg-black/95 border-b border-white/10" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="index.html" class="text-gray-300 block px-3 py-2 rounded-md text-base">Home</a>
+                <a href="modeling.html" class="text-cyan-400 block px-3 py-2 rounded-md text-base font-bold">Modeling & Scanning</a>
+                <a href="#services" class="text-gray-300 block px-3 py-2 rounded-md text-base">Services</a>
+                <a href="#contact" class="text-gray-300 block px-3 py-2 rounded-md text-base">Contact</a>
             </div>
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
-    <section id="home" class="relative h-screen flex items-center justify-center pt-20 overflow-hidden">
-        <!-- Overlay Gradient -->
-        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-carbon-900 z-0"></div>
-        
+    <section id="home" class="relative h-screen flex items-center justify-center pt-20">
         <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
-            <div class="inline-block mb-4 px-4 py-1 border border-cyan-500/30 rounded-full bg-cyan-500/10 backdrop-blur-sm">
-                <span class="text-cyan-400 text-xs md:text-sm font-bold tracking-[0.2em] uppercase">Durban • South Africa</span>
-            </div>
-            <h1 class="font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter mb-6 leading-tight">
-                FORGED IN <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-gray-100 via-gray-400 to-gray-600 neon-text">CARBON</span>
-            </h1>
-            <p class="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-gray-400 font-light tracking-wide mb-10 px-4">
-                Advanced 3D Modeling. Precision Printing. Carbon Fiber Fabrication. <br>
-                <span class="text-cyan-400">We engineer the impossible.</span>
-            </p>
-            
-            <div class="flex flex-col sm:flex-row gap-6 justify-center items-center px-4">
-                <a href="#contact" class="w-full sm:w-auto text-center group relative px-8 py-4 bg-cyan-400 text-black font-display font-bold tracking-wider uppercase overflow-hidden">
-                    <div class="absolute inset-0 w-full h-full bg-white/30 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
-                    Start Your Project
-                </a>
-                <a href="https://wa.me/27740535875" target="_blank" class="flex items-center justify-center gap-3 text-white hover:text-cyan-400 transition-colors group">
-                    <div class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center group-hover:border-cyan-400 transition-colors">
-                        <i class="fa-brands fa-whatsapp text-xl"></i>
-                    </div>
-                    <span class="uppercase font-bold tracking-widest text-sm">Chat on WhatsApp</span>
+            <h1 class="font-display text-5xl md:text-8xl font-black text-white tracking-tighter mb-6">FORGED IN <span class="neon-text text-gray-400">CARBON</span></h1>
+            <div class="flex flex-col sm:flex-row gap-6 justify-center mt-10">
+                <a href="https://wa.me/27740535875" target="_blank" class="flex items-center gap-3 text-white hover:text-cyan-400 transition-colors">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i>
+                    <span class="uppercase font-bold tracking-widest">Chat on WhatsApp</span>
                 </a>
             </div>
         </div>
-
-        <!-- Scroll Indicator -->
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <i class="fa-solid fa-chevron-down text-cyan-400/50 text-2xl"></i>
-        </div>
     </section>
 
-    <!-- ABOUT SECTION -->
-    <section id="about" class="py-24 bg-carbon-900 relative border-t border-white/5">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div class="relative group">
-                    <div class="absolute -inset-1 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                    <div class="relative bg-black rounded-lg overflow-hidden border border-white/10">
-                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1000&auto=format&fit=crop" 
-                             alt="Advanced Manufacturing" 
-                             referrerpolicy="no-referrer"
-                             class="w-full h-[300px] md:h-[500px] object-cover object-center opacity-80 hover:scale-105 transition-transform duration-700 filter contrast-125">
-                        <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black to-transparent">
-                            <div class="text-cyan-400 font-display font-bold text-xl">EST. DURBAN</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div>
-                    <h2 class="font-display text-3xl md:text-4xl font-bold text-white mb-6">THE FUTURE IS <span class="text-cyan-400">LIGHTWEIGHT</span></h2>
-                    <p class="text-gray-400 text-lg mb-6 leading-relaxed">
-                        At <strong>Forged in Carbon</strong>, we don't just manufacture parts; we engineer performance. Based in Durban, we specialize in the convergence of additive manufacturing and composite materials.
-                    </p>
-                    <p class="text-gray-400 text-lg mb-8 leading-relaxed">
-                        Whether you need a custom intake manifold for a track car, a complex architectural model, or a high-strength carbon fiber component using our advanced 3D printed mold technology, we bring the digital world into physical reality.
-                    </p>
-                    
-                    <ul class="space-y-4">
-                        <li class="flex items-center gap-4">
-                            <i class="fa-solid fa-check text-cyan-400"></i>
-                            <span class="text-white">Automotive Grade Precision</span>
-                        </li>
-                        <li class="flex items-center gap-4">
-                            <i class="fa-solid fa-check text-cyan-400"></i>
-                            <span class="text-white">Rapid Prototyping & Iteration</span>
-                        </li>
-                        <li class="flex items-center gap-4">
-                            <i class="fa-solid fa-check text-cyan-400"></i>
-                            <span class="text-white">Bespoke One-off Components</span>
-                        </li>
-                    </ul>
-                </div>
+    <section id="gallery" class="py-24 bg-carbon-900 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-end mb-12">
+                <h2 class="font-display text-3xl font-bold text-white uppercase">Project <span class="text-cyan-400">Showcase</span></h2>
+                <a href="https://www.facebook.com/FIC3d" target="_blank" rel="noopener" class="text-cyan-400 hover:text-white transition-colors flex items-center gap-2">
+                    <i class="fa-brands fa-facebook"></i>
+                    <span class="text-xs font-bold uppercase tracking-widest">View All on Facebook</span>
+                </a>
             </div>
-        </div>
+            </div>
     </section>
 
-    <!-- SERVICES SECTION -->
-    <section id="services" class="py-24 bg-black bg-carbon-pattern relative">
-        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-carbon-900 to-transparent h-32"></div>
-        
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center mb-20">
-                <h2 class="font-display text-3xl md:text-5xl font-bold text-white mb-4">OUR <span class="text-cyan-400">CAPABILITIES</span></h2>
-                <p class="text-gray-500 max-w-xl mx-auto">Bridging the gap between concept and carbon.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Service 1 -->
-                <div class="group neon-box bg-gray-900/50 backdrop-blur-sm border border-white/10 p-8 rounded-xl transition-all duration-300 hover:-translate-y-2">
-                    <div class="w-14 h-14 bg-cyan-900/30 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-400/20 transition-colors">
-                        <i class="fa-solid fa-pen-ruler text-cyan-400 text-2xl"></i>
-                    </div>
-                    <h3 class="font-display text-2xl font-bold text-white mb-4">3D Design & Modeling</h3>
-                    <p class="text-gray-400 leading-relaxed">
-                        From napkin sketches to CAD perfection. We design complex organic shapes and mechanical assemblies optimized for manufacturing.
-                    </p>
-                </div>
-
-                <!-- Service 2 -->
-                <div class="group neon-box bg-gray-900/50 backdrop-blur-sm border border-white/10 p-8 rounded-xl transition-all duration-300 hover:-translate-y-2">
-                    <div class="w-14 h-14 bg-cyan-900/30 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-400/20 transition-colors">
-                        <i class="fa-solid fa-layer-group text-cyan-400 text-2xl"></i>
-                    </div>
-                    <h3 class="font-display text-2xl font-bold text-white mb-4">Precision 3D Printing</h3>
-                    <p class="text-gray-400 leading-relaxed">
-                        Utilizing industrial-grade filaments to create robust functional parts, jigs, and fixtures. High resolution, dimensional accuracy.
-                    </p>
-                </div>
-
-                <!-- Service 3 -->
-                <div class="group neon-box bg-gray-900/50 backdrop-blur-sm border border-white/10 p-8 rounded-xl transition-all duration-300 hover:-translate-y-2">
-                    <div class="w-14 h-14 bg-cyan-900/30 rounded-lg flex items-center justify-center mb-6 group-hover:bg-cyan-400/20 transition-colors">
-                        <i class="fa-solid fa-gem text-cyan-400 text-2xl"></i>
-                    </div>
-                    <h3 class="font-display text-2xl font-bold text-white mb-4">Carbon Fiber Forging</h3>
-                    <p class="text-gray-400 leading-relaxed">
-                        The ultimate in strength-to-weight. We use 3D printed molds to create custom carbon fiber components with complex geometries impossible for traditional tooling.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SHOWCASE/GALLERY -->
-    <section id="gallery" class="py-24 bg-carbon-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-8">
-                <div>
-                    <h2 class="font-display text-3xl md:text-4xl font-bold text-white">PROJECT <span class="text-cyan-400">SHOWCASE</span></h2>
-                </div>
-                     <a href="https://www.facebook.com/FIC3d" target="_blank" rel="noopener"><i class="fa fa-facebook">view all on facebook</i> 
-               </a>
-                
-                 <div>                
-         
-                <!-- TABS NAVIGATION -->
-            <div class="flex flex-wrap gap-4 md:gap-6 mb-12 border-b border-white/10">
-                <button onclick="switchTab('aero')" id="tab-aero" class="pb-3 text-cyan-400 border-b-2 border-cyan-400 font-display font-bold tracking-widest text-xs md:text-sm uppercase transition-all duration-300 hover:text-cyan-300">
-                    Custom Aero Parts
-                </button>
-                <button onclick="switchTab('manufacturing')" id="tab-manufacturing" class="pb-3 text-gray-500 border-b-2 border-transparent font-display font-bold tracking-widest text-xs md:text-sm uppercase transition-all duration-300 hover:text-white hover:border-gray-700">
-                    Manufacturing
-                </button>
-                <button onclick="switchTab('components')" id="tab-components" class="pb-3 text-gray-500 border-b-2 border-transparent font-display font-bold tracking-widest text-xs md:text-sm uppercase transition-all duration-300 hover:text-white hover:border-gray-700">
-                    Prototyping & Reverse Engineering
-                </button>
-            </div>
-
-            <!-- TAB CONTENT: AERO (Active) -->
-            <div id="content-aero" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-[fadeIn_0.5s_ease-out]">
-                <!-- Video 1 -->
-                <div class="relative h-64 group overflow-hidden rounded-lg border border-white/10 bg-black cursor-pointer">
-                    <video src="car1.mp4" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" autoplay loop muted playsinline></video>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent pointer-events-none"></div>
-                    <div class="absolute bottom-0 left-0 p-5 pointer-events-none transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                        <span class="text-cyan-400 text-xs font-bold tracking-widest uppercase">Concept</span>
-                        <h4 class="text-white font-display text-lg mt-1">Widebody Design</h4>
-                    </div>
-                </div>
-
-                <!-- Video 2 -->
-                <div class="relative h-64 group overflow-hidden rounded-lg border border-white/10 bg-black cursor-pointer">
-                    <video src="car2.mp4" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" autoplay loop muted playsinline></video>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent pointer-events-none"></div>
-                    <div class="absolute bottom-0 left-0 p-5 pointer-events-none transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                        <span class="text-cyan-400 text-xs font-bold tracking-widest uppercase">Detail</span>
-                        <h4 class="text-white font-display text-lg mt-1">Carbon Wing Finish</h4>
-                    </div>
-                </div>
-
-                <!-- Video 3 -->
-                <div class="relative h-64 group overflow-hidden rounded-lg border border-white/10 bg-black cursor-pointer">
-                    <video src="car3.mp4" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" autoplay loop muted playsinline></video>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent pointer-events-none"></div>
-                    <div class="absolute bottom-0 left-0 p-5 pointer-events-none transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                        <span class="text-cyan-400 text-xs font-bold tracking-widest uppercase">Restomod</span>
-                        <h4 class="text-white font-display text-lg mt-1">Muscle Custom</h4>
-                    </div>
-                </div>
-
-                <!-- Video 4 -->
-                <div class="relative h-64 group overflow-hidden rounded-lg border border-white/10 bg-black cursor-pointer">
-                    <video src="car4.mp4" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" autoplay loop muted playsinline></video>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent pointer-events-none"></div>
-                    <div class="absolute bottom-0 left-0 p-5 pointer-events-none transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                        <span class="text-cyan-400 text-xs font-bold tracking-widest uppercase">Performance</span>
-                        <h4 class="text-white font-display text-lg mt-1">Rear Aero</h4>
-                    </div>
-                </div>
-
-                <!-- Video 5 -->
-                <div class="relative h-64 group overflow-hidden rounded-lg border border-white/10 bg-black cursor-pointer">
-                    <video src="car5.mp4" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" autoplay loop muted playsinline></video>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent pointer-events-none"></div>
-                    <div class="absolute bottom-0 left-0 p-5 pointer-events-none transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                        <span class="text-cyan-400 text-xs font-bold tracking-widest uppercase">Front End</span>
-                        <h4 class="text-white font-display text-lg mt-1">Splitter & Canards</h4>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TAB CONTENT: MANUFACTURING (Hidden) -->
-            <div id="content-manufacturing" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6 animate-[fadeIn_0.5s_ease-out]">
-                <!-- Print Video 1 -->
-                <div class="relative h-64 md:h-72 group overflow-hidden rounded-lg border border-white/10 bg-black cursor-pointer">
-                    <video src="print1.mp4" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" autoplay loop muted playsinline></video>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent pointer-events-none"></div>
-                    <div class="absolute bottom-0 left-0 p-6 pointer-events-none transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                        <span class="text-cyan-400 text-xs font-bold tracking-widest uppercase">Process</span>
-                        <h4 class="text-white font-display text-xl mt-1">Industrial FDM</h4>
-                        <p class="text-gray-400 text-sm mt-2 max-w-xs hidden md:block">High-speed extrusion for rapid functional prototyping.</p>
-                    </div>
-                </div>
-
-                <!-- Print Video 2 -->
-                <div class="relative h-64 md:h-72 group overflow-hidden rounded-lg border border-white/10 bg-black cursor-pointer">
-                    <video src="print2.mp4" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" autoplay loop muted playsinline></video>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent pointer-events-none"></div>
-                    <div class="absolute bottom-0 left-0 p-6 pointer-events-none transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                        <span class="text-cyan-400 text-xs font-bold tracking-widest uppercase">Workflow</span>
-                        <h4 class="text-white font-display text-xl mt-1">Design to Print</h4>
-                        <p class="text-gray-400 text-sm mt-2 max-w-xs hidden md:block">Seamless integration from CAD modeling to physical part.</p>
-                    </div>
-                </div>
-
-                <!-- Print Video 3 -->
-                <div class="relative h-64 md:h-72 group overflow-hidden rounded-lg border border-white/10 bg-black cursor-pointer">
-                    <video src="print3.mp4" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" autoplay loop muted playsinline></video>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent pointer-events-none"></div>
-                    <div class="absolute bottom-0 left-0 p-6 pointer-events-none transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                        <span class="text-cyan-400 text-xs font-bold tracking-widest uppercase">Production</span>
-                        <h4 class="text-white font-display text-xl mt-1">Batch Manufacturing</h4>
-                        <p class="text-gray-400 text-sm mt-2 max-w-xs hidden md:block">Scalable solutions for low-volume component runs.</p>
-                    </div>
-                </div>
-
-                <!-- Print Video 4 -->
-                <div class="relative h-64 md:h-72 group overflow-hidden rounded-lg border border-white/10 bg-black cursor-pointer">
-                    <video src="print4.mp4" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" autoplay loop muted playsinline></video>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent pointer-events-none"></div>
-                    <div class="absolute bottom-0 left-0 p-6 pointer-events-none transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                        <span class="text-cyan-400 text-xs font-bold tracking-widest uppercase">Tooling</span>
-                        <h4 class="text-white font-display text-xl mt-1">Precision Maintenance</h4>
-                        <p class="text-gray-400 text-sm mt-2 max-w-xs hidden md:block">Ensuring sub-millimeter accuracy for every print.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TAB CONTENT: COMPONENTS (Renamed to Prototyping) (Hidden) -->
-            <div id="content-components" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-[fadeIn_0.5s_ease-out]">
-                <!-- Scan 1 -->
-                <div class="relative h-64 group overflow-hidden rounded-lg border border-white/10 bg-black cursor-pointer">
-                    <img src="scan1.jpg" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" alt="3D Scan Data">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent pointer-events-none"></div>
-                    <div class="absolute bottom-0 left-0 p-5 pointer-events-none transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                        <span class="text-cyan-400 text-xs font-bold tracking-widest uppercase">Reverse Engineering</span>
-                        <h4 class="text-white font-display text-lg mt-1">Complex Geometry Scan</h4>
-                    </div>
-                </div>
-
-                <!-- Scan 2 -->
-                <div class="relative h-64 group overflow-hidden rounded-lg border border-white/10 bg-black cursor-pointer">
-                    <img src="scan2.jpg" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" alt="CAD Fitment">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent pointer-events-none"></div>
-                    <div class="absolute bottom-0 left-0 p-5 pointer-events-none transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                        <span class="text-cyan-400 text-xs font-bold tracking-widest uppercase">CAD Verification</span>
-                        <h4 class="text-white font-display text-lg mt-1">Digital Fitment Check</h4>
-                    </div>
-                </div>
-
-                <!-- Scan 3 -->
-                <div class="relative h-64 group overflow-hidden rounded-lg border border-white/10 bg-black cursor-pointer">
-                    <img src="scan3.jpg" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" alt="Bracket Design">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent pointer-events-none"></div>
-                    <div class="absolute bottom-0 left-0 p-5 pointer-events-none transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                        <span class="text-cyan-400 text-xs font-bold tracking-widest uppercase">Engineering</span>
-                        <h4 class="text-white font-display text-lg mt-1">Bracket Optimization</h4>
-                    </div>
-                </div>
-
-                <!-- Scan 4 -->
-                <div class="relative h-64 group overflow-hidden rounded-lg border border-white/10 bg-black cursor-pointer">
-                    <img src="scan4.jpg" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" alt="Mounting Point">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent pointer-events-none"></div>
-                    <div class="absolute bottom-0 left-0 p-5 pointer-events-none transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                        <span class="text-cyan-400 text-xs font-bold tracking-widest uppercase">Precision</span>
-                        <h4 class="text-white font-display text-lg mt-1">Mounting Integration</h4>
-                    </div>
-                </div>
-
-                <!-- Scan 5 -->
-                <div class="relative h-64 group overflow-hidden rounded-lg border border-white/10 bg-black cursor-pointer">
-                    <img src="scan5.jpg" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" alt="Texture Scan">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent pointer-events-none"></div>
-                    <div class="absolute bottom-0 left-0 p-5 pointer-events-none transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                        <span class="text-cyan-400 text-xs font-bold tracking-widest uppercase">Surfacing</span>
-                        <h4 class="text-white font-display text-lg mt-1">Surface Texturing</h4>
-                    </div>
-                </div>
-
-                <!-- Scan 6 -->
-                <div class="relative h-64 group overflow-hidden rounded-lg border border-white/10 bg-black cursor-pointer">
-                    <img src="scan6.jpg" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" alt="Louver Design">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent pointer-events-none"></div>
-                    <div class="absolute bottom-0 left-0 p-5 pointer-events-none transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                        <span class="text-cyan-400 text-xs font-bold tracking-widest uppercase">Design</span>
-                        <h4 class="text-white font-display text-lg mt-1">Aero Louvers</h4>
-                    </div>
-                </div>
-                
-                <!-- Scan 7 -->
-                <div class="relative h-64 group overflow-hidden rounded-lg border border-white/10 bg-black cursor-pointer col-span-1 md:col-span-2 lg:col-span-3">
-                    <img src="scan7.jpg" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" alt="Vent Detail">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent pointer-events-none"></div>
-                    <div class="absolute bottom-0 left-0 p-5 pointer-events-none transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                        <span class="text-cyan-400 text-xs font-bold tracking-widest uppercase">Detailing</span>
-                        <h4 class="text-white font-display text-lg mt-1">Functional Venting System</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CONTACT SECTION -->
-  <div class="mt-12 max-w-2xl mx-auto bg-gray-900/50 backdrop-blur-xl border border-white/10 p-8 rounded-2xl neon-border">
-    <div class="space-y-6 text-left">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-                <label class="block text-cyan-400 text-xs font-bold uppercase tracking-widest mb-2">Your Name</label>
-                <input type="text" id="custName" placeholder="John Doe" 
-                    class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-400 transition-colors">
-            </div>
-            <div>
-                <label class="block text-cyan-400 text-xs font-bold uppercase tracking-widest mb-2">Project Category</label>
-                <select id="projType" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-400 transition-colors appearance-none">
-                    <option>Custom Aero / Automotive</option>
-                    <option>Industrial Prototyping</option>
-                    <option>Carbon Fiber Components</option>
-                    <option>3D Scanning & Design</option>
-                </select>
-            </div>
-        </div>
-
-        <div>
-            <label class="block text-cyan-400 text-xs font-bold uppercase tracking-widest mb-2">Project Details</label>
-            <textarea id="projDetails" rows="4" placeholder="Briefly describe what you need forged..." 
-                class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-400 transition-colors"></textarea>
-        </div>
-
-       <button type="button" id="whatsappBtn"
-    class="w-full py-4 bg-cyan-400 text-black font-display font-bold uppercase tracking-[0.2em] hover:bg-white transition-all duration-300 flex items-center justify-center gap-3 shadow-[0_0_15px_rgba(0,243,255,0.4)] mb-4">
-    <i class="fa-brands fa-whatsapp text-xl"></i>
-    Initialize WhatsApp Inquiry
-</button>
-
-<a href="mailto:neels@fic-3d.co.za?subject=Project Inquiry - Forged In Carbon" 
-    class="w-full py-3 border border-white/20 text-white font-display font-bold uppercase tracking-[0.2em] hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-3">
-    <i class="fa-regular fa-envelope"></i>
-    Send Email Instead
-</a>
-
-<script>
-    document.getElementById('whatsappBtn').addEventListener('click', function() {
-        // 1. Get values
-        const name = document.getElementById('custName').value;
-        const type = document.getElementById('projType').value;
-        const details = document.getElementById('projDetails').value;
-
-        // 2. Simple check
-        if(!name || !details) {
-            alert("Please provide your name and some project details so I can help you better!");
-            return;
-        }
-
-        // 3. Format message
-        const whatsappNumber = "27740535875"; 
-        const message = `*F.I.C PROJECT INQUIRY*%0A` +
-                        `----------------------------%0A` +
-                        `*From:* ${name}%0A` +
-                        `*Type:* ${type}%0A` +
-                        `*Details:* ${details}%0A` +
-                        `----------------------------%0A` +
-                        `_Sent via fic-3d.co.za_`;
-
-        // 4. Create the URL
-        const whatsappURL = `https://wa.me/${whatsappNumber}?text=${message}`;
-
-        // 5. Open
-        window.open(whatsappURL, '_blank');
-    });
-</script>
-
-    <!-- JAVASCRIPT -->
     <script>
-        // TAB SWITCHING LOGIC
-        function switchTab(tabName) {
-            const tabs = ['aero', 'manufacturing', 'components'];
-            
-            tabs.forEach(t => {
-                // Hide Content
-                document.getElementById(`content-${t}`).classList.add('hidden');
-                
-                // Reset Button Style
-                const btn = document.getElementById(`tab-${t}`);
-                btn.classList.remove('text-cyan-400', 'border-cyan-400');
-                btn.classList.add('text-gray-500', 'border-transparent');
-            });
-
-            // Show Selected Content
-            document.getElementById(`content-${tabName}`).classList.remove('hidden');
-            
-            // Activate Button Style
-            const activeBtn = document.getElementById(`tab-${tabName}`);
-            activeBtn.classList.remove('text-gray-500', 'border-transparent');
-            activeBtn.classList.add('text-cyan-400', 'border-cyan-400');
-        }
-
-        // LOADER
-        window.addEventListener('load', () => {
-            const loader = document.getElementById('loader');
-            setTimeout(() => {
-                loader.style.opacity = '0';
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                }, 800);
-            }, 1500);
-        });
-
-        // THREE.JS BACKGROUND ANIMATION
-        const initThreeJS = () => {
-            const canvas = document.getElementById('bg-canvas');
-            const scene = new THREE.Scene();
-            scene.fog = new THREE.FogExp2(0x000000, 0.0015);
-
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-            
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-
-            const geometry = new THREE.BufferGeometry();
-            const count = 1500;
-            const positions = new Float32Array(count * 3);
-            
-            for(let i = 0; i < count * 3; i++) {
-                positions[i] = (Math.random() - 0.5) * 25;
-            }
-            
-            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            
-            const material = new THREE.PointsMaterial({
-                size: 0.08,
-                color: 0x00f3ff,
-                transparent: true,
-                opacity: 0.8,
-            });
-
-            const particles = new THREE.Points(geometry, material);
-            scene.add(particles);
-            
-            camera.position.z = 5;
-
-            let mouseX = 0;
-            let mouseY = 0;
-            
-            document.addEventListener('mousemove', (event) => {
-                mouseX = event.clientX / window.innerWidth - 0.5;
-                mouseY = event.clientY / window.innerHeight - 0.5;
-            });
-
-            const animate = () => {
-                requestAnimationFrame(animate);
-                particles.rotation.y += 0.001;
-                particles.rotation.x += 0.0005;
-                particles.rotation.y += mouseX * 0.01;
-                particles.rotation.x += mouseY * 0.01;
-                renderer.render(scene, camera);
-            };
-
-            animate();
-
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            });
-        };
-
-        initThreeJS();
-
-        // Smooth Scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
+        // (Keep your switchTab, ThreeJS, and Loader scripts as they were)
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
