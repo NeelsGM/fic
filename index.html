@@ -26,12 +26,12 @@
             }
         }
     </script>
-
     <style>
         .neon-text { text-shadow: 0 0 15px rgba(0, 243, 255, 0.7); }
         canvas#bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         #loader { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease-out; }
-        .glass-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
+        .glass-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); transition: all 0.3s ease; }
+        .glass-panel:hover { border-color: #00f3ff; background: rgba(0, 243, 255, 0.05); }
         .tab-btn { padding-bottom: 0.75rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.1em; transition: all 0.3s; border-bottom: 2px solid transparent; }
         .tab-btn.active { color: #00f3ff; border-color: #00f3ff; }
     </style>
@@ -41,7 +41,6 @@
     <div id="loader">
         <div class="text-2xl font-display font-bold text-cyan-400 animate-pulse uppercase tracking-widest">Forging Reality...</div>
     </div>
-
     <canvas id="bg-canvas"></canvas>
 
     <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
@@ -52,8 +51,8 @@
             </div>
             <div class="hidden md:flex gap-8 items-center uppercase text-xs font-bold tracking-widest">
                 <a href="#home" class="hover:text-cyan-400">Home</a>
-                <a href="modeling.html" class="text-cyan-400 border border-cyan-400/30 px-3 py-1 rounded">Modeling & Scanning</a>
-                <a href="#about" class="hover:text-cyan-400">About</a>
+                <a href="modeling.html" class="hover:text-cyan-400">Modeling & Scanning</a>
+                <a href="#about" class="hover:text-cyan-400">Mission</a>
                 <a href="#gallery" class="hover:text-cyan-400">Showcase</a>
                 <a href="#contact" class="bg-cyan-400 text-black px-4 py-2">Contact</a>
             </div>
@@ -61,8 +60,8 @@
         </div>
         <div id="mobile-menu" class="hidden md:hidden bg-black/95 border-b border-white/10 flex flex-col p-6 gap-4 uppercase text-sm font-bold">
             <a href="#home" onclick="toggleMenu()">Home</a>
-            <a href="modeling.html" class="text-cyan-400">Modeling & Scanning</a>
-            <a href="#about" onclick="toggleMenu()">About</a>
+            <a href="modeling.html">Modeling & Scanning</a>
+            <a href="#about" onclick="toggleMenu()">Mission</a>
             <a href="#gallery" onclick="toggleMenu()">Showcase</a>
             <a href="#contact" onclick="toggleMenu()" class="text-cyan-400">Contact Us</a>
         </div>
@@ -71,49 +70,38 @@
     <main class="relative z-10">
         <section id="home" class="h-screen flex flex-col items-center justify-center text-center px-4">
             <h1 class="font-display text-5xl md:text-8xl font-black text-white mb-4 tracking-tighter uppercase leading-none">FORGED IN <br><span class="neon-text text-gray-400">CARBON</span></h1>
-            <p class="text-xl text-gray-400 max-w-2xl mt-4">Precision Engineering & 3D Fabrication.</p>
+            <p class="text-xl text-gray-400 max-w-2xl mt-4 uppercase tracking-widest text-sm font-bold">Precision Engineering & 3D Fabrication</p>
         </section>
 
         <section id="about" class="py-24 px-6 bg-black/20 text-center">
             <div class="max-w-4xl mx-auto">
-                <h2 class="font-display text-3xl font-bold text-white mb-8 uppercase tracking-widest">The <span class="text-cyan-400">Mission</span></h2>
+                <h2 class="font-display text-3xl font-bold text-white mb-8 uppercase tracking-widest underline decoration-cyan-400 underline-offset-8">The Mission</h2>
                 <p class="text-lg text-gray-400 leading-relaxed mb-6">
-                    At <strong>Forged in Carbon</strong>, we don't just manufacture parts; we engineer performance. Based in Durban, we specialize in the convergence of additive manufacturing and composite materials.
-                </p>
-                <p class="text-lg text-gray-400 leading-relaxed">
-                    Whether you need a custom intake manifold, a complex architectural model, or high-strength carbon fiber components using advanced 3D printed mold technology, we bring the digital world into physical reality.
+                    Based in Westville, Durban, we specialize in high-strength Carbon Fiber 3D printing and precision 3D scanning. We don't just print parts; we engineer solutions for automotive, aerospace, and industrial applications.
                 </p>
             </div>
         </section>
 
         <section id="gallery" class="py-24 px-6 bg-black/40">
             <div class="max-w-7xl mx-auto">
-                <h2 class="font-display text-3xl font-bold text-white mb-10 uppercase">Project <span class="text-cyan-400">Showcase</span></h2>
-                
+                <h2 class="font-display text-3xl font-bold text-white mb-10 uppercase tracking-widest">Showcase</h2>
                 <div class="flex gap-6 mb-12 border-b border-white/10 overflow-x-auto pb-2">
                     <button onclick="switchTab('aero')" id="tab-aero" class="tab-btn active text-xs">Custom Aero</button>
                     <button onclick="switchTab('manufacturing')" id="tab-manufacturing" class="tab-btn text-gray-500 text-xs">Manufacturing</button>
                     <button onclick="switchTab('components')" id="tab-components" class="tab-btn text-gray-500 text-xs">Prototyping</button>
                 </div>
-
                 <div id="content-aero" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div class="aspect-video rounded-lg overflow-hidden border border-white/10 relative">
                         <video src="car1.mp4" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
                         <div class="absolute bottom-0 p-4 bg-black/60 w-full text-xs font-bold text-cyan-400">WIDEBODY DESIGN</div>
                     </div>
-                    <div class="aspect-video rounded-lg overflow-hidden border border-white/10 relative">
-                        <video src="car2.mp4" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
-                        <div class="absolute bottom-0 p-4 bg-black/60 w-full text-xs font-bold text-cyan-400">CARBON WING</div>
-                    </div>
                 </div>
-
                 <div id="content-manufacturing" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="aspect-video rounded-lg overflow-hidden border border-white/10 relative">
                         <video src="print1.mp4" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
                         <div class="absolute bottom-0 p-4 bg-black/60 w-full text-xs font-bold text-cyan-400">INDUSTRIAL FDM</div>
                     </div>
                 </div>
-
                 <div id="content-components" class="hidden grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="aspect-video rounded-lg overflow-hidden border border-white/10 bg-gray-900 flex items-center justify-center">
                         <span class="text-xs text-gray-500 italic">Component Scans Coming Soon</span>
@@ -122,24 +110,26 @@
             </div>
         </section>
 
-        <section id="contact" class="py-24 px-6 text-center">
-            <h2 class="font-display text-3xl font-bold text-white mb-10 uppercase">Contact <span class="text-cyan-400">Us</span></h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-                <a href="https://wa.me/27740535875" target="_blank" class="p-10 glass-panel rounded-xl flex flex-col items-center hover:border-cyan-400">
-                    <i class="fa-brands fa-whatsapp text-4xl text-cyan-400 mb-2"></i>
-                    <span class="font-bold text-white uppercase">WhatsApp Inquiry</span>
+        <section id="contact" class="py-24 px-6 text-center border-t border-white/10">
+            <h2 class="font-display text-3xl font-bold text-white mb-10 uppercase tracking-widest">Contact Us</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto mb-16">
+                <a href="https://wa.me/27740535875" target="_blank" class="p-10 glass-panel rounded-xl flex flex-col items-center">
+                    <i class="fa-brands fa-whatsapp text-5xl text-cyan-400 mb-4"></i>
+                    <span class="font-bold text-white uppercase tracking-widest">WhatsApp Inquiry</span>
                 </a>
-                <a href="mailto:neels@fic-3d.co.za" class="p-10 glass-panel rounded-xl flex flex-col items-center hover:border-cyan-400">
-                    <i class="fa-regular fa-envelope text-4xl text-cyan-400 mb-2"></i>
-                    <span class="font-bold text-white uppercase">Email Neels</span>
+                <a href="mailto:neels@fic-3d.co.za" class="p-10 glass-panel rounded-xl flex flex-col items-center">
+                    <i class="fa-regular fa-envelope text-5xl text-cyan-400 mb-4"></i>
+                    <span class="font-bold text-white uppercase tracking-widest">Email Neels</span>
                 </a>
             </div>
+            <a href="https://www.facebook.com/FIC3d" target="_blank" class="inline-flex items-center gap-3 text-cyan-400 hover:text-white transition-all text-xl font-bold uppercase tracking-tighter">
+                <i class="fa-brands fa-facebook text-3xl"></i> Follow Forged in Carbon
+            </a>
         </section>
     </main>
 
     <script>
         function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
-        
         function switchTab(name) {
             ['aero', 'manufacturing', 'components'].forEach(t => {
                 document.getElementById('content-' + t).classList.add('hidden');
@@ -149,26 +139,20 @@
             document.getElementById('content-' + name).classList.remove('hidden');
             document.getElementById('tab-' + name).classList.add('active', 'text-cyan-400');
         }
-
         window.onload = () => {
             const loader = document.getElementById('loader');
             loader.style.opacity = '0';
             setTimeout(() => { loader.style.display = 'none'; }, 500);
         };
-
-        // --- THE "FIXED TILT" SCRIPT (NO SPINNING) ---
-        let mouseX = 0, mouseY = 0;
+        let mouseX = 0, mouseY = 0, autoRotation = 0;
         document.addEventListener('mousemove', (e) => {
-            // Absolute position relative to center (-0.05 to 0.05 max range)
-            mouseX = (e.clientX - window.innerWidth / 2) / window.innerWidth * 0.1;
-            mouseY = (e.clientY - window.innerHeight / 2) / window.innerHeight * 0.1;
+            mouseX = (e.clientX - window.innerWidth / 2) / window.innerWidth * 0.15;
+            mouseY = (e.clientY - window.innerHeight / 2) / window.innerHeight * 0.15;
         });
-
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        
         const geometry = new THREE.BufferGeometry();
         const vertices = [];
         for (let i = 0; i < 1500; i++) {
@@ -178,12 +162,10 @@
         const particles = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0x00f3ff, size: 0.04 }));
         scene.add(particles);
         camera.position.z = 15;
-
         function animate() {
             requestAnimationFrame(animate);
-            // This is the trick: we SET the rotation, we don't ADD to it.
-            // It can only move a tiny bit and then it hits the "limit".
-            particles.rotation.y = mouseX;
+            autoRotation += 0.0003;
+            particles.rotation.y = autoRotation + mouseX;
             particles.rotation.x = mouseY;
             renderer.render(scene, camera);
         }
