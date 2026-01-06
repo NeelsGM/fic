@@ -82,28 +82,61 @@
             </div>
         </section>
 
-        <section id="gallery" class="py-24 px-6 bg-black/40">
+       <section id="gallery" class="py-24 px-6 bg-black/40">
             <div class="max-w-7xl mx-auto">
-                <h2 class="font-display text-3xl font-bold text-white mb-10 uppercase tracking-widest">Showcase</h2>
+                <h2 class="font-display text-3xl font-bold text-white mb-10 uppercase tracking-widest">Project <span class="text-cyan-400">Showcase</span></h2>
+                
                 <div class="flex gap-6 mb-12 border-b border-white/10 overflow-x-auto pb-2">
                     <button onclick="switchTab('aero')" id="tab-aero" class="tab-btn active text-xs">Custom Aero</button>
                     <button onclick="switchTab('manufacturing')" id="tab-manufacturing" class="tab-btn text-gray-500 text-xs">Manufacturing</button>
                     <button onclick="switchTab('components')" id="tab-components" class="tab-btn text-gray-500 text-xs">Prototyping</button>
                 </div>
-                <div id="content-aero" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="aspect-video rounded-lg overflow-hidden border border-white/10 relative">
-                        <video src="car1.mp4" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
+
+                <div id="content-aero" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="aspect-video rounded-lg overflow-hidden border border-white/10 relative group">
+                        <video src="car2.mp4" autoplay loop muted playsinline class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"></video>
+                        <div class="absolute bottom-0 p-3 bg-black/60 w-full text-[10px] font-bold text-cyan-400">AERO 02</div>
                     </div>
-                <div id="content-manufacturing" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="aspect-video rounded-lg overflow-hidden border border-white/10 relative">
-                        <video src="print1.mp4" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
-                        <div class="absolute bottom-0 p-4 bg-black/60 w-full text-xs font-bold text-cyan-400">INDUSTRIAL FDM</div>
+                    <div class="aspect-video rounded-lg overflow-hidden border border-white/10 relative group">
+                        <video src="car3.mp4" autoplay loop muted playsinline class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"></video>
+                        <div class="absolute bottom-0 p-3 bg-black/60 w-full text-[10px] font-bold text-cyan-400">AERO 03</div>
+                    </div>
+                    <div class="aspect-video rounded-lg overflow-hidden border border-white/10 relative group">
+                        <video src="car4.mp4" autoplay loop muted playsinline class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"></video>
+                        <div class="absolute bottom-0 p-3 bg-black/60 w-full text-[10px] font-bold text-cyan-400">AERO 04</div>
+                    </div>
+                    <div class="aspect-video rounded-lg overflow-hidden border border-white/10 relative group">
+                        <video src="car5.mp4" autoplay loop muted playsinline class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"></video>
+                        <div class="absolute bottom-0 p-3 bg-black/60 w-full text-[10px] font-bold text-cyan-400">AERO 05</div>
                     </div>
                 </div>
-                <div id="content-components" class="hidden grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="aspect-video rounded-lg overflow-hidden border border-white/10 bg-gray-900 flex items-center justify-center">
-                        <span class="text-xs text-gray-500 italic">Component Scans Coming Soon</span>
+
+                <div id="content-manufacturing" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="aspect-video rounded-lg overflow-hidden border border-white/10 relative group">
+                        <video src="print1.mp4" autoplay loop muted playsinline class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"></video>
+                        <div class="absolute bottom-0 p-3 bg-black/60 w-full text-[10px] font-bold text-cyan-400">PROCESS 01</div>
                     </div>
+                    <div class="aspect-video rounded-lg overflow-hidden border border-white/10 relative group">
+                        <video src="print2.mp4" autoplay loop muted playsinline class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"></video>
+                        <div class="absolute bottom-0 p-3 bg-black/60 w-full text-[10px] font-bold text-cyan-400">PROCESS 02</div>
+                    </div>
+                    <div class="aspect-video rounded-lg overflow-hidden border border-white/10 relative group">
+                        <video src="print3.mp4" autoplay loop muted playsinline class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"></video>
+                        <div class="absolute bottom-0 p-3 bg-black/60 w-full text-[10px] font-bold text-cyan-400">PROCESS 03</div>
+                    </div>
+                    <div class="aspect-video rounded-lg overflow-hidden border border-white/10 relative group">
+                        <video src="print4.mp4" autoplay loop muted playsinline class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"></video>
+                        <div class="absolute bottom-0 p-3 bg-black/60 w-full text-[10px] font-bold text-cyan-400">PROCESS 04</div>
+                    </div>
+                </div>
+
+                <div id="content-components" class="hidden grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+                    <img src="pro1.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
+                    <img src="pro2.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
+                    <img src="pro3.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
+                    <img src="pro4.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
+                    <img src="pro5.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
+                    <img src="pro6.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
                 </div>
             </div>
         </section>
@@ -171,6 +204,7 @@
     </script>
 </body>
 </html>
+
 
 
 
