@@ -69,54 +69,84 @@
             <p class="text-lg text-gray-400 max-w-2xl mx-auto uppercase tracking-widest font-bold text-sm">Turning Concepts into Master Files</p>
         </section>
 
-        <section class="px-6 max-w-7xl mx-auto">
-            <div class="flex gap-6 mb-12 border-b border-white/10 overflow-x-auto pb-2">
-                <button onclick="switchTab('scanning')" id="tab-scanning" class="tab-btn active text-xs">3D Scanning</button>
-                <button onclick="switchTab('modeling')" id="tab-modeling" class="tab-btn text-gray-500 text-xs">3D Modeling</button>
-                <button onclick="switchTab('formats')" id="tab-formats" class="tab-btn text-gray-500 text-xs">File Formats</button>
+       <section class="px-6 max-w-7xl mx-auto">
+            <div class="flex flex-wrap justify-center gap-4 mb-16">
+                <button onclick="switchTab('scanning')" id="tab-scanning" 
+                    class="tab-btn active group relative px-8 py-3 border border-cyan-400/30 bg-cyan-400/5 hover:bg-cyan-400/20 transition-all duration-300 rounded-none skew-x-[-12deg]">
+                    <span class="skew-x-[12deg] inline-block font-display font-bold text-xs tracking-[0.2em] uppercase">
+                        Digital Capture
+                    </span>
+                    <div class="absolute -bottom-1 -right-1 w-2 h-2 bg-cyan-400"></div>
+                </button>
+
+                <button onclick="switchTab('modeling')" id="tab-modeling" 
+                    class="tab-btn group relative px-8 py-3 border border-white/10 bg-white/5 hover:border-cyan-400 transition-all duration-300 rounded-none skew-x-[-12deg]">
+                    <span class="skew-x-[12deg] inline-block font-display font-bold text-xs tracking-[0.2em] uppercase">
+                        Virtual Engineering
+                    </span>
+                </button>
+
+                <button onclick="switchTab('formats')" id="tab-formats" 
+                    class="tab-btn group relative px-8 py-3 border border-white/10 bg-white/5 hover:border-cyan-400 transition-all duration-300 rounded-none skew-x-[-12deg]">
+                    <span class="skew-x-[12deg] inline-block font-display font-bold text-xs tracking-[0.2em] uppercase">
+                        Master Deliverables
+                    </span>
+                </button>
             </div>
 
-            <div id="content-scanning" class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="glass-panel p-2 rounded-lg group">
-                    <img src="pro3.png" class="aspect-square object-cover rounded opacity-80 group-hover:opacity-100 transition-opacity" alt="Scan Data 1">
-                    <p class="text-[10px] text-center mt-2 text-gray-500 uppercase tracking-widest">Raw Scan 01</p>
+            <div id="content-scanning" class="grid grid-cols-2 md:grid-cols-4 gap-4 animate-[fadeIn_0.5s_ease-out]">
+                <div class="glass-panel p-2 rounded-lg group overflow-hidden">
+                    <img src="pro3.png" class="aspect-square object-cover rounded opacity-70 group-hover:scale-110 transition-transform duration-700" alt="Scan Data">
+                    <div class="p-2 text-[10px] text-center text-cyan-400 font-bold uppercase tracking-widest">Surface Geometry</div>
                 </div>
-                <div class="glass-panel p-2 rounded-lg group">
-                    <img src="pro6.png" class="aspect-square object-cover rounded opacity-80 group-hover:opacity-100 transition-opacity" alt="Scan Data 2">
-                    <p class="text-[10px] text-center mt-2 text-gray-500 uppercase tracking-widest">Raw Scan 02</p>
+                <div class="glass-panel p-2 rounded-lg group overflow-hidden">
+                    <img src="pro6.png" class="aspect-square object-cover rounded opacity-70 group-hover:scale-110 transition-transform duration-700" alt="Scan Data">
+                    <div class="p-2 text-[10px] text-center text-cyan-400 font-bold uppercase tracking-widest">Precision Mesh</div>
                 </div>
-                <div class="glass-panel p-2 rounded-lg group">
-                    <img src="scan1.png" class="aspect-square object-cover rounded opacity-80 group-hover:opacity-100 transition-opacity" alt="Scan Data 3">
-                    <p class="text-[10px] text-center mt-2 text-gray-500 uppercase tracking-widest">Mesh Capture</p>
+                <div class="glass-panel p-2 rounded-lg group overflow-hidden">
+                    <img src="scan1.png" class="aspect-square object-cover rounded opacity-70 group-hover:scale-110 transition-transform duration-700" alt="Scan Data">
+                    <div class="p-2 text-[10px] text-center text-cyan-400 font-bold uppercase tracking-widest">Optical Capture</div>
                 </div>
-                <div class="glass-panel p-2 rounded-lg group">
-                    <img src="scan5.png" class="aspect-square object-cover rounded opacity-80 group-hover:opacity-100 transition-opacity" alt="Scan Data 4">
-                    <p class="text-[10px] text-center mt-2 text-gray-500 uppercase tracking-widest">Alignment</p>
+                <div class="glass-panel p-2 rounded-lg group overflow-hidden">
+                    <img src="scan5.png" class="aspect-square object-cover rounded opacity-70 group-hover:scale-110 transition-transform duration-700" alt="Scan Data">
+                    <div class="p-2 text-[10px] text-center text-cyan-400 font-bold uppercase tracking-widest">Point Cloud</div>
                 </div>
             </div>
 
-            <div id="content-modeling" class="hidden grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
-                <img src="scan2.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
-                <img src="scan3.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
-                <img src="scan4.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
-                <img src="scan6.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
-                <img src="scan7.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
-                <img src="mod1.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
-                <img src="mod2.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
-                <img src="mod3.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
-                <img src="mod4.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
-                <img src="mod5.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
-                <img src="mod6.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
+            <div id="content-modeling" class="hidden grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 animate-[fadeIn_0.5s_ease-out]">
+                <img src="scan2.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all duration-500 hover:scale-105">
+                <img src="scan3.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all duration-500 hover:scale-105">
+                <img src="scan4.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all duration-500 hover:scale-105">
+                <img src="scan6.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all duration-500 hover:scale-105">
+                <img src="scan7.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all duration-500 hover:scale-105">
+                <img src="mod1.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all duration-500 hover:scale-105">
+                <img src="mod2.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all duration-500 hover:scale-105">
+                <img src="mod3.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all duration-500 hover:scale-105">
+                <img src="mod4.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all duration-500 hover:scale-105">
+                <img src="mod5.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all duration-500 hover:scale-105">
+                <img src="mod6.png" class="aspect-square object-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all duration-500 hover:scale-105">
             </div>
 
             <div id="content-formats" class="hidden">
-                <div class="glass-panel p-10 rounded-2xl text-center">
-                    <h2 class="font-display text-2xl text-white mb-8 uppercase tracking-widest">Deliverables</h2>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-cyan-400 font-bold">
-                        <div class="p-4 border border-white/10 rounded">.STEP</div>
-                        <div class="p-4 border border-white/10 rounded">.STL</div>
-                        <div class="p-4 border border-white/10 rounded">.IGES</div>
-                        <div class="p-4 border border-white/10 rounded">.OBJ</div>
+                <div class="glass-panel p-12 rounded-none border-l-4 border-cyan-400 text-center">
+                    <h2 class="font-display text-2xl text-white mb-8 uppercase tracking-[0.3em]">Technical Ecosystem</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <div class="p-6 bg-black/40 border border-white/5">
+                            <span class="text-cyan-400 font-bold block text-xl">.STEP</span>
+                            <span class="text-[9px] text-gray-500 uppercase tracking-widest mt-2 block">Solid Master</span>
+                        </div>
+                        <div class="p-6 bg-black/40 border border-white/5">
+                            <span class="text-cyan-400 font-bold block text-xl">.STL</span>
+                            <span class="text-[9px] text-gray-500 uppercase tracking-widest mt-2 block">Print Ready</span>
+                        </div>
+                        <div class="p-6 bg-black/40 border border-white/5">
+                            <span class="text-cyan-400 font-bold block text-xl">.IGES</span>
+                            <span class="text-[9px] text-gray-500 uppercase tracking-widest mt-2 block">Surface Model</span>
+                        </div>
+                        <div class="p-6 bg-black/40 border border-white/5">
+                            <span class="text-cyan-400 font-bold block text-xl">.OBJ</span>
+                            <span class="text-[9px] text-gray-500 uppercase tracking-widest mt-2 block">Visual Asset</span>
+                        </div>
                     </div>
                 </div>
             </div>
