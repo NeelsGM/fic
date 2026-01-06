@@ -76,52 +76,47 @@
                 <button onclick="switchTab('formats')" id="tab-formats" class="tab-btn text-gray-500 text-xs">File Formats</button>
             </div>
 
-            <div id="content-scanning" class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="glass-panel p-10 rounded-2xl">
-                    <i class="fa-solid fa-expand text-cyan-400 text-4xl mb-6"></i>
-                    <h2 class="font-display text-2xl text-white mb-4 uppercase">Industrial Scanning</h2>
-                    <p class="text-gray-400">Digitizing physical parts with sub-millimeter precision. We capture every curve and mounting point to ensure your new parts fit perfectly first time.</p>
+            <div id="content-scanning" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="glass-panel p-2 rounded-lg group">
+                    <img src="pro3.png" class="aspect-square object-cover rounded opacity-80 group-hover:opacity-100 transition-opacity" alt="Scan Data 1">
+                    <p class="text-[10px] text-center mt-2 text-gray-500 uppercase tracking-widest">Raw Scan 01</p>
                 </div>
-                <div class="glass-panel p-10 rounded-2xl">
-                    <i class="fa-solid fa-rotate text-cyan-400 text-4xl mb-6"></i>
-                    <h2 class="font-display text-2xl text-white mb-4 uppercase">Reverse Engineering</h2>
-                    <p class="text-gray-400">Converting raw point clouds into clean, parametric CAD models. Ideal for duplicating broken plastic parts or discontinued automotive clips.</p>
+                <div class="glass-panel p-2 rounded-lg group">
+                    <img src="pro6.png" class="aspect-square object-cover rounded opacity-80 group-hover:opacity-100 transition-opacity" alt="Scan Data 2">
+                    <p class="text-[10px] text-center mt-2 text-gray-500 uppercase tracking-widest">Raw Scan 02</p>
+                </div>
+                <div class="glass-panel p-2 rounded-lg group">
+                    <img src="scan1.png" class="aspect-square object-cover rounded opacity-80 group-hover:opacity-100 transition-opacity" alt="Scan Data 3">
+                    <p class="text-[10px] text-center mt-2 text-gray-500 uppercase tracking-widest">Mesh Capture</p>
+                </div>
+                <div class="glass-panel p-2 rounded-lg group">
+                    <img src="scan5.png" class="aspect-square object-cover rounded opacity-80 group-hover:opacity-100 transition-opacity" alt="Scan Data 4">
+                    <p class="text-[10px] text-center mt-2 text-gray-500 uppercase tracking-widest">Alignment</p>
                 </div>
             </div>
 
-            <div id="content-modeling" class="hidden grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="glass-panel p-10 rounded-2xl">
-                    <i class="fa-solid fa-pen-ruler text-cyan-400 text-4xl mb-6"></i>
-                    <h2 class="font-display text-2xl text-white mb-4 uppercase">Component Design</h2>
-                    <p class="text-gray-400">Full mechanical design from sketches or dimensions. We model specifically for 3D printing, optimizing wall thickness and overhangs for strength.</p>
-                </div>
-                <div class="glass-panel p-10 rounded-2xl">
-                    <i class="fa-solid fa-cubes-stacked text-cyan-400 text-4xl mb-6"></i>
-                    <h2 class="font-display text-2xl text-white mb-4 uppercase">Print Optimization</h2>
-                    <p class="text-gray-400">We take your existing 3D models and "harden" them for industrial printing, ensuring watertight meshes and reinforced stress points.</p>
-                </div>
+            <div id="content-modeling" class="hidden grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                <img src="scan2.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
+                <img src="scan3.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
+                <img src="scan4.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
+                <img src="scan6.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
+                <img src="scan7.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
+                <img src="mod1.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
+                <img src="mod2.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
+                <img src="mod3.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
+                <img src="mod4.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
+                <img src="mod5.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
+                <img src="mod6.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all">
             </div>
 
             <div id="content-formats" class="hidden">
                 <div class="glass-panel p-10 rounded-2xl text-center">
-                    <h2 class="font-display text-2xl text-white mb-8 uppercase tracking-widest">Industry Standard Deliverables</h2>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                        <div class="p-4 border border-white/10 rounded">
-                            <span class="text-cyan-400 font-bold block">.STEP</span>
-                            <span class="text-[10px] text-gray-500 uppercase">Master CAD File</span>
-                        </div>
-                        <div class="p-4 border border-white/10 rounded">
-                            <span class="text-cyan-400 font-bold block">.STL</span>
-                            <span class="text-[10px] text-gray-500 uppercase">3D Print Mesh</span>
-                        </div>
-                        <div class="p-4 border border-white/10 rounded">
-                            <span class="text-cyan-400 font-bold block">.IGES</span>
-                            <span class="text-[10px] text-gray-500 uppercase">Engineering Surf.</span>
-                        </div>
-                        <div class="p-4 border border-white/10 rounded">
-                            <span class="text-cyan-400 font-bold block">.OBJ</span>
-                            <span class="text-[10px] text-gray-500 uppercase">High Detail Render</span>
-                        </div>
+                    <h2 class="font-display text-2xl text-white mb-8 uppercase tracking-widest">Deliverables</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-cyan-400 font-bold">
+                        <div class="p-4 border border-white/10 rounded">.STEP</div>
+                        <div class="p-4 border border-white/10 rounded">.STL</div>
+                        <div class="p-4 border border-white/10 rounded">.IGES</div>
+                        <div class="p-4 border border-white/10 rounded">.OBJ</div>
                     </div>
                 </div>
             </div>
