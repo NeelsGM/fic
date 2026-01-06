@@ -32,12 +32,13 @@
         canvas#bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         #loader { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease-out; }
         .glass-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
+        .section-padding { padding: 5rem 1.5rem; }
     </style>
 </head>
 <body class="bg-carbon-900 text-gray-300 font-sans">
 
     <div id="loader">
-        <div class="text-2xl font-display font-bold text-cyan-400 animate-pulse tracking-widest uppercase">Initializing F.I.C...</div>
+        <div class="text-2xl font-display font-bold text-cyan-400 animate-pulse uppercase tracking-widest">Forging Reality...</div>
     </div>
 
     <canvas id="bg-canvas"></canvas>
@@ -51,9 +52,11 @@
             
             <div class="hidden md:flex gap-8 items-center uppercase text-xs font-bold tracking-widest">
                 <a href="#home" class="hover:text-cyan-400">Home</a>
+                <a href="#about" class="hover:text-cyan-400">Mission</a>
                 <a href="modeling.html" class="text-cyan-400 border border-cyan-400/30 px-3 py-1 rounded">Modeling & Scanning</a>
-                <a href="#about" class="hover:text-cyan-400">About</a>
-                <a href="#contact" class="bg-cyan-400 text-black px-4 py-2">Contact Us</a>
+                <a href="#services" class="hover:text-cyan-400">Services</a>
+                <a href="#gallery" class="hover:text-cyan-400">Showcase</a>
+                <a href="#contact" class="bg-cyan-400 text-black px-4 py-2">Contact</a>
             </div>
 
             <button onclick="toggleMenu()" class="md:hidden text-white"><i class="fa-solid fa-bars text-2xl"></i></button>
@@ -62,40 +65,85 @@
         <div id="mobile-menu" class="hidden md:hidden bg-black/95 border-b border-white/10 flex flex-col p-6 gap-4 uppercase text-sm font-bold tracking-widest">
             <a href="#home" onclick="toggleMenu()">Home</a>
             <a href="modeling.html" class="text-cyan-400">Modeling & Scanning</a>
-            <a href="#about" onclick="toggleMenu()">About</a>
+            <a href="#about" onclick="toggleMenu()">Mission</a>
+            <a href="#services" onclick="toggleMenu()">Services</a>
+            <a href="#gallery" onclick="toggleMenu()">Showcase</a>
             <a href="#contact" onclick="toggleMenu()" class="text-cyan-400">Contact Us</a>
         </div>
     </nav>
 
     <main class="relative z-10">
         <section id="home" class="h-screen flex flex-col items-center justify-center text-center px-4">
-            <h1 class="font-display text-5xl md:text-8xl font-black text-white mb-4 tracking-tighter uppercase">Forged in <span class="neon-text text-gray-400">Carbon</span></h1>
-            <p class="text-xl text-gray-400 max-w-2xl mb-10">Precision Engineering. Carbon Fiber Fabrication. Durban, SA.</p>
+            <h1 class="font-display text-5xl md:text-8xl font-black text-white mb-4 tracking-tighter uppercase">FORGED IN <span class="neon-text text-gray-400">CARBON</span></h1>
+            <p class="text-xl text-gray-400 max-w-2xl mb-10 font-light tracking-wide">High-Performance 3D Engineering & Composite Fabrication.</p>
         </section>
 
-        <section id="about" class="py-24 px-6 bg-black/20 text-center">
+        <section id="about" class="section-padding bg-black/20 text-center">
             <div class="max-w-4xl mx-auto">
-                <h2 class="font-display text-3xl font-bold text-white mb-6 uppercase">Our <span class="text-cyan-400">Mission</span></h2>
-                <p class="text-lg leading-relaxed text-gray-400">
-                    Bridging the gap between digital design and industrial reality using high-strength carbon fiber.
+                <h2 class="font-display text-3xl font-bold text-white mb-6 uppercase tracking-widest">Our <span class="text-cyan-400">Mission</span></h2>
+                <p class="text-lg leading-relaxed text-gray-400 italic">
+                    "Bridging the gap between a digital concept and industrial reality."
+                </p>
+                <p class="mt-6 text-gray-400 leading-relaxed">
+                    Based in Westville, Durban, we specialize in high-strength Carbon Fiber 3D printing and precision 3D scanning. We don't just print parts; we engineer solutions for automotive, aerospace, and industrial applications.
                 </p>
             </div>
         </section>
 
-        <section id="contact" class="py-24 px-6 bg-black/40 border-t border-white/5 text-center">
-            <h2 class="font-display text-3xl font-bold text-white mb-10 uppercase">Start Your <span class="text-cyan-400">Project</span></h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-                <a href="https://wa.me/27740535875" target="_blank" class="p-8 glass-panel rounded-xl flex flex-col items-center group">
-                    <i class="fa-brands fa-whatsapp text-4xl text-cyan-400 mb-2"></i>
-                    <span class="text-white font-bold uppercase tracking-widest">WhatsApp</span>
-                </a>
-                <a href="mailto:neels@fic-3d.co.za" class="p-8 glass-panel rounded-xl flex flex-col items-center group">
-                    <i class="fa-regular fa-envelope text-4xl text-cyan-400 mb-2"></i>
-                    <span class="text-white font-bold uppercase tracking-widest">Email</span>
-                </a>
+        <section id="services" class="section-padding">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="glass-panel p-10 rounded-xl">
+                    <i class="fa-solid fa-microscope text-cyan-400 text-4xl mb-6"></i>
+                    <h3 class="text-white font-display text-xl mb-4 uppercase">3D Scanning</h3>
+                    <p class="text-gray-500">Capture complex parts with sub-millimeter precision for perfect digital twins.</p>
+                </div>
+                <div class="glass-panel p-10 rounded-xl">
+                    <i class="fa-solid fa-layer-group text-cyan-400 text-4xl mb-6"></i>
+                    <h3 class="text-white font-display text-xl mb-4 uppercase">Carbon Printing</h3>
+                    <p class="text-gray-500">Functional components printed in aerospace-grade reinforced materials.</p>
+                </div>
+                <div class="glass-panel p-10 rounded-xl">
+                    <i class="fa-solid fa-gears text-cyan-400 text-4xl mb-6"></i>
+                    <h3 class="text-white font-display text-xl mb-4 uppercase">CAD Engineering</h3>
+                    <p class="text-gray-500">Professional modeling optimized specifically for additive manufacturing.</p>
+                </div>
             </div>
-            <div class="mt-12">
-                <a href="https://www.facebook.com/FIC3d" target="_blank" class="text-cyan-400 hover:text-white transition-colors"><i class="fa-brands fa-facebook"></i> Follow FIC</a>
+        </section>
+
+        <section id="gallery" class="section-padding bg-black/40">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+                    <h2 class="font-display text-3xl font-bold text-white uppercase tracking-widest">Project <span class="text-cyan-400">Showcase</span></h2>
+                    <a href="https://www.facebook.com/FIC3d" target="_blank" class="text-cyan-400 text-sm font-bold uppercase hover:text-white transition-colors">
+                        <i class="fa-brands fa-facebook mr-2"></i>View More on Facebook
+                    </a>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="relative aspect-video rounded-lg overflow-hidden border border-white/10">
+                        <video src="car1.mp4" autoplay loop muted playsinline class="w-full h-full object-cover opacity-70"></video>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                    </div>
+                    <div class="relative aspect-video rounded-lg overflow-hidden border border-white/10">
+                        <video src="car2.mp4" autoplay loop muted playsinline class="w-full h-full object-cover opacity-70"></video>
+                    </div>
+                    <div class="relative aspect-video rounded-lg overflow-hidden border border-white/10">
+                        <video src="print1.mp4" autoplay loop muted playsinline class="w-full h-full object-cover opacity-70"></video>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section-padding bg-carbon-900 border-t border-white/5 text-center">
+            <h2 class="font-display text-3xl font-bold text-white mb-10 uppercase tracking-widest">Start the <span class="text-cyan-400">Forge</span></h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+                <a href="https://wa.me/27740535875" target="_blank" class="p-10 glass-panel rounded-xl flex flex-col items-center hover:border-cyan-400 transition-all">
+                    <i class="fa-brands fa-whatsapp text-5xl text-cyan-400 mb-4"></i>
+                    <span class="text-white font-bold uppercase tracking-widest">WhatsApp Inquiry</span>
+                </a>
+                <a href="mailto:neels@fic-3d.co.za" class="p-10 glass-panel rounded-xl flex flex-col items-center hover:border-cyan-400 transition-all">
+                    <i class="fa-regular fa-envelope text-5xl text-cyan-400 mb-4"></i>
+                    <span class="text-white font-bold uppercase tracking-widest">Email Neels</span>
+                </a>
             </div>
         </section>
     </main>
@@ -109,13 +157,12 @@
             setTimeout(() => { loader.style.display = 'none'; }, 500);
         };
 
-        // --- SLOW MOTION SCRIPT ---
-        let targetX = 0, targetY = 0;
-        let currentX = 0, currentY = 0;
-
+        // --- NEW CALM ANIMATION ---
+        let mouseX = 0, mouseY = 0;
         document.addEventListener('mousemove', (e) => {
-            targetX = (e.clientX - window.innerWidth / 2) * 0.0001; // Tiny sensitivity
-            targetY = (e.clientY - window.innerHeight / 2) * 0.0001;
+            // These numbers determine the MAX tilt. 0.1 is very small.
+            mouseX = (e.clientX - window.innerWidth / 2) / window.innerWidth * 0.15;
+            mouseY = (e.clientY - window.innerHeight / 2) / window.innerHeight * 0.15;
         });
 
         const scene = new THREE.Scene();
@@ -131,16 +178,18 @@
         geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
         const particles = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0x00f3ff, size: 0.04 }));
         scene.add(particles);
-        camera.position.z = 12;
+        camera.position.z = 15;
 
         function animate() {
             requestAnimationFrame(animate);
-            // Lerp: Current moves 5% toward Target every frame (Smooth delay)
-            currentX += (targetX - currentX) * 0.05;
-            currentY += (targetY - currentY) * 0.05;
+            // Constant drift (extremely slow)
+            particles.rotation.y += 0.0002;
+            
+            // Mouse tilt - This is "Absolute" not "Cumulative"
+            // It will only tilt as far as your mouse goes, then STOP.
+            particles.rotation.y += (mouseX - (particles.rotation.y - (0.0002 * Date.now() / 16))) * 0.02;
+            particles.rotation.x = mouseY; 
 
-            particles.rotation.y += 0.0003 + currentX; // Very slow base drift
-            particles.rotation.x += currentY;
             renderer.render(scene, camera);
         }
         animate();
