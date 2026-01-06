@@ -13,24 +13,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="kuXtt2bERzt5NYIEcjvumRJm86fMteSLJ93uMjTEPys" />
     
-    <title>Forged in Carbon | Industrial 3D Printing & Carbon Fiber Durban</title>
-    <meta name="description" content="Professional industrial 3D printing and 3D scanning in South Africa. We specialize in high-strength carbon fiber parts and functional prototypes.">
-    <meta name="keywords" content="3d printing durban, carbon fiber south africa, custom aero parts, automotive 3d printing, 3D scanning, functional prototypes">
-    <meta name="author" content="Forged in Carbon">
-    <link rel="icon" type="image/png" href="favicon.png">
-
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.fic-3d.co.za/">
-    <meta property="og:title" content="Forged in Carbon | Industrial Additive Manufacturing">
-    <meta property="og:description" content="Precision engineering and carbon fiber fabrication based in Durban. We bring the digital world into physical reality.">
-    <meta property="og:image" content="https://www.fic-3d.co.za/scan1.jpg">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://www.fic-3d.co.za/">
-
+    <title>Forged in Carbon | Industrial 3D Printing & Engineering Durban</title>
+    <meta name="description" content="Custom 3D modeling, precision printing, and carbon fiber components in Durban.">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -50,11 +39,13 @@
     </script>
 
     <style>
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0a0a0a; }
-        ::-webkit-scrollbar-thumb { background: #00f3ff; border-radius: 4px; }
         .neon-text { text-shadow: 0 0 10px rgba(0, 243, 255, 0.7); }
-        #loader { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: opacity 0.8s ease-out; }
+        #loader { 
+            position: fixed; inset: 0; background: #000; z-index: 9999; 
+            display: flex; justify-content: center; align-items: center; 
+            flex-direction: column; transition: opacity 0.5s ease-out; 
+        }
+        @keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
     </style>
 </head>
 <body class="bg-carbon-900 text-gray-300 font-sans antialiased overflow-x-hidden">
@@ -62,6 +53,9 @@
     <div id="loader">
         <div class="text-4xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 tracking-widest mb-4 animate-pulse">
             LOADING F.I.C
+        </div>
+        <div class="w-64 h-1 bg-gray-800 rounded-full overflow-hidden">
+            <div class="w-full h-full bg-cyan-400 origin-left animate-[grow_1.5s_ease-in-out]"></div>
         </div>
     </div>
 
@@ -76,57 +70,77 @@
                 </div>
                 
                 <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-6">
+                    <div class="ml-10 flex items-baseline space-x-8">
                         <a href="index.html" class="hover:text-cyan-400 px-3 py-2 text-sm font-medium uppercase tracking-widest">Home</a>
-                        <a href="modeling.html" class="hover:text-cyan-400 px-3 py-2 text-sm font-medium uppercase tracking-widest text-cyan-400">Modeling & Scanning</a>
+                        <a href="modeling.html" class="text-cyan-400 border border-cyan-400/30 px-3 py-2 text-sm font-medium uppercase tracking-widest rounded">Modeling & Scanning</a>
                         <a href="#services" class="hover:text-cyan-400 px-3 py-2 text-sm font-medium uppercase tracking-widest">Services</a>
-                        <a href="#gallery" class="hover:text-cyan-400 px-3 py-2 text-sm font-medium uppercase tracking-widest">Showcase</a>
                         <a href="#contact" class="bg-cyan-500/10 border border-cyan-400/50 text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all px-4 py-2 text-sm font-bold uppercase">Contact Us</a>
                     </div>
                 </div>
-                
-                <div class="-mr-2 flex md:hidden">
-                    <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="p-2 text-gray-400"><i class="fa-solid fa-bars text-2xl"></i></button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="hidden md:hidden bg-black/95 border-b border-white/10" id="mobile-menu">
-            <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="index.html" class="text-gray-300 block px-3 py-2 rounded-md text-base">Home</a>
-                <a href="modeling.html" class="text-cyan-400 block px-3 py-2 rounded-md text-base font-bold">Modeling & Scanning</a>
-                <a href="#services" class="text-gray-300 block px-3 py-2 rounded-md text-base">Services</a>
-                <a href="#contact" class="text-gray-300 block px-3 py-2 rounded-md text-base">Contact</a>
             </div>
         </div>
     </nav>
 
     <section id="home" class="relative h-screen flex items-center justify-center pt-20">
         <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
-            <h1 class="font-display text-5xl md:text-8xl font-black text-white tracking-tighter mb-6">FORGED IN <span class="neon-text text-gray-400">CARBON</span></h1>
-            <div class="flex flex-col sm:flex-row gap-6 justify-center mt-10">
+            <h1 class="font-display text-5xl md:text-8xl font-black text-white tracking-tighter mb-6">FORGED IN <span class="neon-text text-gray-400 uppercase">Carbon</span></h1>
+            <div class="flex justify-center gap-6 mt-10">
                 <a href="https://wa.me/27740535875" target="_blank" class="flex items-center gap-3 text-white hover:text-cyan-400 transition-colors">
                     <i class="fa-brands fa-whatsapp text-2xl"></i>
-                    <span class="uppercase font-bold tracking-widest">Chat on WhatsApp</span>
+                    <span class="uppercase font-bold tracking-widest text-sm">WhatsApp Inquiry</span>
                 </a>
             </div>
         </div>
     </section>
 
-    <section id="gallery" class="py-24 bg-carbon-900 border-t border-white/5">
+    <footer class="py-12 bg-black border-t border-white/10 text-center">
         <div class="max-w-7xl mx-auto px-4">
-            <div class="flex justify-between items-end mb-12">
-                <h2 class="font-display text-3xl font-bold text-white uppercase">Project <span class="text-cyan-400">Showcase</span></h2>
-                <a href="https://www.facebook.com/FIC3d" target="_blank" rel="noopener" class="text-cyan-400 hover:text-white transition-colors flex items-center gap-2">
-                    <i class="fa-brands fa-facebook"></i>
-                    <span class="text-xs font-bold uppercase tracking-widest">View All on Facebook</span>
+            <div class="mb-8">
+                <a href="https://www.facebook.com/FIC3d" target="_blank" rel="noopener" class="inline-flex items-center gap-3 text-cyan-400 hover:text-white transition-colors">
+                    <i class="fa-brands fa-facebook text-3xl"></i>
+                    <span class="font-display font-bold tracking-widest uppercase">Follow FIC on Facebook</span>
                 </a>
             </div>
-            </div>
-    </section>
+            <p class="text-gray-500 text-sm">© 2026 Forged in Carbon | Durban, South Africa</p>
+        </div>
+    </footer>
 
     <script>
-        // (Keep your switchTab, ThreeJS, and Loader scripts as they were)
+        // 1. LOADER FIX: This script hides the loading screen
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => { loader.style.display = 'none'; }, 500);
+            }, 1000);
+        });
+
+        // 2. THREE.JS BACKGROUND
+        const initThreeJS = () => {
+            const canvas = document.getElementById('bg-canvas');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            
+            const geometry = new THREE.BufferGeometry();
+            const vertices = [];
+            for (let i = 0; i < 1000; i++) {
+                vertices.push(THREE.MathUtils.randFloatSpread(20), THREE.MathUtils.randFloatSpread(20), THREE.MathUtils.randFloatSpread(20));
+            }
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+            const particles = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0x00f3ff, size: 0.05 }));
+            scene.add(particles);
+            camera.position.z = 5;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                particles.rotation.y += 0.001;
+                renderer.render(scene, camera);
+            }
+            animate();
+        };
+        initThreeJS();
     </script>
 </body>
 </html>
