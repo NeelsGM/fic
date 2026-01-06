@@ -39,7 +39,7 @@
 <body class="bg-carbon-900 text-gray-300 font-sans">
 
     <div id="loader">
-        <div class="text-3xl font-display font-bold text-cyan-400 animate-pulse tracking-widest uppercase">Initializing F.I.C...</div>
+        <div class="text-2xl font-display font-bold text-cyan-400 animate-pulse tracking-widest uppercase">Initializing F.I.C...</div>
     </div>
 
     <canvas id="bg-canvas"></canvas>
@@ -52,10 +52,10 @@
             </div>
             <div class="hidden md:flex gap-8 items-center uppercase text-xs font-bold tracking-widest">
                 <a href="#home" class="hover:text-cyan-400">Home</a>
+                <a href="#about" class="hover:text-cyan-400">About</a>
                 <a href="modeling.html" class="text-cyan-400 border border-cyan-400/30 px-3 py-1 rounded">Modeling & Scanning</a>
                 <a href="#services" class="hover:text-cyan-400">Services</a>
-                <a href="#gallery" class="hover:text-cyan-400">Showcase</a>
-                <a href="https://wa.me/27740535875" target="_blank" class="bg-cyan-400 text-black px-4 py-2">WhatsApp</a>
+                <a href="#contact" class="bg-cyan-400 text-black px-4 py-2">Contact Us</a>
             </div>
         </div>
     </nav>
@@ -66,8 +66,17 @@
             <p class="text-xl text-gray-400 max-w-2xl mb-10">Precision Engineering. Carbon Fiber Fabrication. Durban, SA.</p>
         </section>
 
+        <section id="about" class="py-24 px-6 bg-black/20">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="font-display text-3xl font-bold text-white mb-6 uppercase">Our <span class="text-cyan-400">Mission</span></h2>
+                <p class="text-lg leading-relaxed text-gray-400">
+                    <strong>Forged in Carbon</strong> is a South African specialized additive manufacturing hub. We bridge the gap between digital design and industrial-grade reality by utilizing high-strength carbon fiber reinforced materials. From functional prototypes to end-use mechanical components, we provide the precision and durability that standard 3D printing simply cannot match.
+                </p>
+            </div>
+        </section>
+
         <section id="services" class="py-24 px-6">
-            <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                 <div class="glass-panel p-8 rounded-xl">
                     <i class="fa-solid fa-microscope text-cyan-400 text-3xl mb-4"></i>
                     <h3 class="text-white font-display text-xl mb-4 uppercase">3D Scanning</h3>
@@ -86,45 +95,46 @@
             </div>
         </section>
 
-        <section id="gallery" class="py-24 bg-black/30 border-t border-white/5">
-            <div class="max-w-7xl mx-auto px-6">
-                <div class="flex justify-between items-end mb-12">
-                    <h2 class="font-display text-3xl font-bold text-white uppercase">Project <span class="text-cyan-400">Showcase</span></h2>
-                    <a href="https://www.facebook.com/FIC3d" target="_blank" class="text-cyan-400 text-xs font-bold uppercase flex items-center gap-2">
-                        <i class="fa-brands fa-facebook"></i> View on Facebook
+        <section id="contact" class="py-24 px-6 bg-black/40 border-t border-white/5">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="font-display text-3xl font-bold text-white mb-10 uppercase">Start Your <span class="text-cyan-400">Project</span></h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <a href="https://wa.me/27740535875" target="_blank" class="flex flex-col items-center p-8 glass-panel rounded-xl hover:border-cyan-400 transition-all group">
+                        <i class="fa-brands fa-whatsapp text-4xl text-cyan-400 mb-4 group-hover:scale-110 transition-transform"></i>
+                        <span class="text-white font-bold uppercase tracking-widest">WhatsApp Us</span>
+                        <p class="text-xs text-gray-500 mt-2">Immediate technical feedback</p>
+                    </a>
+                    
+                    <a href="mailto:neels@fic-3d.co.za" class="flex flex-col items-center p-8 glass-panel rounded-xl hover:border-cyan-400 transition-all group">
+                        <i class="fa-regular fa-envelope text-4xl text-cyan-400 mb-4 group-hover:scale-110 transition-transform"></i>
+                        <span class="text-white font-bold uppercase tracking-widest">Email Inquiry</span>
+                        <p class="text-xs text-gray-500 mt-2">neels@fic-3d.co.za</p>
                     </a>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="relative aspect-video rounded-lg overflow-hidden border border-white/10">
-                        <video src="car1.mp4" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
-                        <div class="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-black w-full text-xs font-bold text-cyan-400">WIDEBODY DESIGN</div>
-                    </div>
-                    <div class="relative aspect-video rounded-lg overflow-hidden border border-white/10">
-                        <video src="car2.mp4" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
-                        <div class="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-black w-full text-xs font-bold text-cyan-400">CARBON WING FINISH</div>
-                    </div>
-                    <div class="relative aspect-video rounded-lg overflow-hidden border border-white/10">
-                        <video src="print1.mp4" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
-                        <div class="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-black w-full text-xs font-bold text-cyan-400">INDUSTRIAL PRINTING</div>
-                    </div>
+
+                <div class="mt-12">
+                    <a href="https://www.facebook.com/FIC3d" target="_blank" class="inline-flex items-center gap-2 text-cyan-400 hover:text-white transition-colors">
+                        <i class="fa-brands fa-facebook"></i> Follow FIC on Facebook
+                    </a>
                 </div>
             </div>
         </section>
     </main>
 
     <script>
-        // LOADER HIDE
         window.onload = () => {
             const loader = document.getElementById('loader');
             loader.style.opacity = '0';
             setTimeout(() => { loader.style.display = 'none'; }, 500);
         };
 
-        // THREE.JS WITH MOUSE TRACKING
+        // THREE.JS WITH SLOW MOUSE TRACKING
         let mouseX = 0, mouseY = 0;
         document.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX - window.innerWidth / 2) / 100;
-            mouseY = (e.clientY - window.innerHeight / 2) / 100;
+            // DRASTICALLY REDUCED SENSITIVITY TO PREVENT DIZZINESS
+            mouseX = (e.clientX - window.innerWidth / 2) / 1500; 
+            mouseY = (e.clientY - window.innerHeight / 2) / 1500;
         });
 
         const scene = new THREE.Scene();
@@ -134,19 +144,19 @@
         
         const geometry = new THREE.BufferGeometry();
         const vertices = [];
-        for (let i = 0; i < 2000; i++) {
+        for (let i = 0; i < 1500; i++) {
             vertices.push(THREE.MathUtils.randFloatSpread(50), THREE.MathUtils.randFloatSpread(50), THREE.MathUtils.randFloatSpread(50));
         }
         geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-        const particles = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0x00f3ff, size: 0.05 }));
+        const particles = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0x00f3ff, size: 0.04 }));
         scene.add(particles);
-        camera.position.z = 10;
+        camera.position.z = 12;
 
         function animate() {
             requestAnimationFrame(animate);
-            // This part makes it track your cursor
-            particles.rotation.y += 0.001 + (mouseX * 0.005);
-            particles.rotation.x += (mouseY * 0.005);
+            // SLOW DRIFT
+            particles.rotation.y += 0.0004 + (mouseX);
+            particles.rotation.x += (mouseY);
             renderer.render(scene, camera);
         }
         animate();
