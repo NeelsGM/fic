@@ -26,7 +26,6 @@
             }
         }
     </script>
-
     <style>
         .neon-text { text-shadow: 0 0 15px rgba(0, 243, 255, 0.7); }
         canvas#bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
@@ -40,7 +39,6 @@
     <div id="loader">
         <div class="text-2xl font-display font-bold text-cyan-400 animate-pulse uppercase tracking-widest">Accessing CAD Data...</div>
     </div>
-
     <canvas id="bg-canvas"></canvas>
 
     <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
@@ -49,17 +47,13 @@
                 <i class="fa-solid fa-cube text-cyan-400 text-2xl"></i>
                 <span class="font-display font-bold text-2xl text-white">FIC</span>
             </div>
-            
             <div class="hidden md:flex gap-8 items-center uppercase text-xs font-bold tracking-widest">
                 <a href="index.html" class="hover:text-cyan-400">Home</a>
                 <a href="modeling.html" class="text-cyan-400 border border-cyan-400/50 px-3 py-1 rounded bg-cyan-400/10">Modeling & Scanning</a>
-                <a href="index.html#gallery" class="hover:text-cyan-400">Showcase</a>
-                <a href="https://wa.me/27740535875" target="_blank" class="bg-cyan-400 text-black px-4 py-2">Get Quote</a>
+                <a href="#contact" class="bg-cyan-400 text-black px-4 py-2">Get Quote</a>
             </div>
-
             <button onclick="toggleMenu()" class="md:hidden text-white"><i class="fa-solid fa-bars text-2xl"></i></button>
         </div>
-        
         <div id="mobile-menu" class="hidden md:hidden bg-black/95 border-b border-white/10 flex flex-col p-6 gap-4 uppercase text-sm font-bold">
             <a href="index.html">Home</a>
             <a href="modeling.html" class="text-cyan-400">Modeling & Scanning</a>
@@ -69,59 +63,57 @@
 
     <main class="relative z-10 pt-32 pb-20">
         <section class="px-6 text-center mb-20">
-            <h1 class="font-display text-4xl md:text-6xl font-black text-white mb-4 tracking-tighter uppercase">3D Modeling & <span class="neon-text text-gray-400">Scanning</span></h1>
-            <p class="text-xl text-gray-400 max-w-2xl mx-auto font-light">Bridging the physical and digital gap in Westville, Durban.</p>
+            <h1 class="font-display text-4xl md:text-6xl font-black text-white mb-4 tracking-tighter uppercase leading-none">3D Modeling & <br><span class="neon-text text-gray-400">Scanning</span></h1>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto uppercase tracking-widest font-bold">Physical to Digital Solutions</p>
         </section>
 
         <section class="px-6 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
             <div class="glass-panel p-10 rounded-2xl">
                 <i class="fa-solid fa-expand text-cyan-400 text-4xl mb-6"></i>
                 <h2 class="font-display text-2xl text-white mb-4 uppercase">High-Precision Scanning</h2>
-                <p class="text-gray-400 leading-relaxed">
-                    Using advanced industrial sensors, we digitize physical components with sub-millimeter accuracy. Perfect for creating digital twins of automotive parts, antique hardware, or complex organic shapes.
-                </p>
+                <p class="text-gray-400 leading-relaxed">Sub-millimeter accurate digitizing for perfect digital twins of automotive and industrial parts.</p>
             </div>
-
             <div class="glass-panel p-10 rounded-2xl">
                 <i class="fa-solid fa-vial-circle-check text-cyan-400 text-4xl mb-6"></i>
                 <h2 class="font-display text-2xl text-white mb-4 uppercase">Reverse Engineering</h2>
-                <p class="text-gray-400 leading-relaxed">
-                    We turn raw scan data into clean, functional CAD models (STEP/IGES). Whether it’s fixing a broken bracket or optimizing a discontinued part for Carbon Fiber printing, we reconstruct it better than the original.
-                </p>
+                <p class="text-gray-400 leading-relaxed">Professional reconstruction of broken or discontinued parts into master CAD files (STEP/IGES).</p>
             </div>
         </section>
 
-        <section class="mt-20 px-6 text-center">
-            <div class="max-w-3xl mx-auto glass-panel p-8 border-cyan-400/20">
-                <h3 class="font-display text-white text-xl uppercase mb-6 tracking-widest">Professional File Outputs</h3>
-                <div class="flex flex-wrap justify-center gap-8 text-cyan-400 font-bold">
-                    <span>.STEP</span> <span>.STL</span> <span>.IGES</span> <span>.OBJ</span>
-                </div>
+        <section id="contact" class="py-24 px-6 text-center mt-20 border-t border-white/10">
+            <h2 class="font-display text-3xl font-bold text-white mb-10 uppercase tracking-widest">Start Your Quote</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto mb-16">
+                <a href="https://wa.me/27740535875" target="_blank" class="p-10 glass-panel rounded-xl flex flex-col items-center">
+                    <i class="fa-brands fa-whatsapp text-5xl text-cyan-400 mb-4"></i>
+                    <span class="font-bold text-white uppercase tracking-widest">WhatsApp Inquiry</span>
+                </a>
+                <a href="mailto:neels@fic-3d.co.za" class="p-10 glass-panel rounded-xl flex flex-col items-center">
+                    <i class="fa-regular fa-envelope text-5xl text-cyan-400 mb-4"></i>
+                    <span class="font-bold text-white uppercase tracking-widest">Email Neels</span>
+                </a>
             </div>
+            <a href="https://www.facebook.com/FIC3d" target="_blank" class="inline-flex items-center gap-3 text-cyan-400 hover:text-white transition-all text-xl font-bold uppercase tracking-tighter">
+                <i class="fa-brands fa-facebook text-3xl"></i> Follow Forged in Carbon
+            </a>
         </section>
     </main>
 
     <script>
         function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
-
         window.onload = () => {
             const loader = document.getElementById('loader');
             loader.style.opacity = '0';
             setTimeout(() => { loader.style.display = 'none'; }, 500);
         };
-
-        // --- THE "PERFECT DRIFT" SCRIPT ---
-        let mouseX = 0, mouseY = 0;
+        let mouseX = 0, mouseY = 0, autoRotation = 0;
         document.addEventListener('mousemove', (e) => {
             mouseX = (e.clientX - window.innerWidth / 2) / window.innerWidth * 0.15;
             mouseY = (e.clientY - window.innerHeight / 2) / window.innerHeight * 0.15;
         });
-
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        
         const geometry = new THREE.BufferGeometry();
         const vertices = [];
         for (let i = 0; i < 1500; i++) {
@@ -131,12 +123,9 @@
         const particles = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0x00f3ff, size: 0.04 }));
         scene.add(particles);
         camera.position.z = 15;
-
-        let autoRotation = 0;
         function animate() {
             requestAnimationFrame(animate);
-            autoRotation += 0.0003; // This is the slow "Perfect Drift"
-            
+            autoRotation += 0.0003;
             particles.rotation.y = autoRotation + mouseX;
             particles.rotation.x = mouseY;
             renderer.render(scene, camera);
