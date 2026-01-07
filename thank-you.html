@@ -1,1 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submission Received | Forged in Carbon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { cyan: { 400: '#00f3ff' }, carbon: { 900: '#0a0a0a' } },
+                    fontFamily: { sans: ['Rajdhani', 'sans-serif'], display: ['Orbitron', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        canvas#bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        .glass-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
+    </style>
+</head>
+<body class="bg-carbon-900 text-gray-300 font-sans flex items-center justify-center min-h-screen overflow-hidden">
+
+    <canvas id="bg-canvas"></canvas>
+
+    <main class="relative z-10 px-6 w-full max-w-2xl text-center">
+        <div class="glass-panel p-12 border-t-4 border-cyan-400">
+            <i class="fa-solid fa-circle-check text-cyan-400 text-6xl mb-6"></i>
+            <h1 class="font-display text-3xl md:text-4xl text-white mb-4 uppercase tracking-tighter">Transmission Received</h1>
+            <p class="text-gray-400 text-lg mb-8 leading-relaxed uppercase tracking-widest text-xs font-bold">
+                Your technical data has been logged. <br>Neels will review the project and contact you shortly.
+            </p>
+            
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <a href="index.html" class="bg-white/5 border border-white/10 px-8 py-3 font-display font-bold text-xs uppercase tracking-widest hover:bg-cyan-400 hover:text-black transition-all">
+                    Return Home
+                </a>
+                <a href="https://www.facebook.com/FIC3d" target="_blank" class="bg-cyan-400 text-black px-8 py-3 font-display font-bold text-xs uppercase tracking-widest hover:bg-white transition-all">
+                    View Latest Forgings
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Matching the "Perfect Drift" background from your other pages
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        const geometry = new THREE.BufferGeometry();
+        const vertices = [];
+        for (let i = 0; i < 1500; i++) {
+            vertices.push(THREE.MathUtils.randFloatSpread(50), THREE.MathUtils.randFloatSpread(50), THREE.MathUtils.randFloatSpread(50));
+        }
+        geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+        const particles = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0x00f3ff, size: 0.04 }));
+        scene.add(particles);
+        camera.position.z = 15;
+        let autoRotation = 0;
+        function animate() {
+            requestAnimationFrame(animate);
+            autoRotation += 0.0005; // Slightly faster drift for the "Success" screen
+            particles.rotation.y = autoRotation;
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
+</html>
