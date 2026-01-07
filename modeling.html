@@ -110,38 +110,40 @@
             </div>
         </section>
 
-       <section id="inquiry" class="py-20 px-6 max-w-4xl mx-auto">
-            <div class="glass-panel p-8 rounded-none border-t-2 border-cyan-400">
-                <h2 class="font-display text-2xl text-white mb-6 uppercase tracking-widest">Submit Technical Inquiry</h2>
-                
-               <form action="https://formspree.io/f/mrebnpga" method="POST" class="space-y-4">    
-    <input type="hidden" name="_next" value="https://www.fic-3d.co.za/thank-you.html">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input type="text" name="name" placeholder="YOUR NAME" required 
-                            class="bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
-                        <input type="email" name="email" placeholder="YOUR EMAIL" required 
-                            class="bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
-                    </div>
-                    
-                    <select name="service" class="w-full bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
-                        <option>3D SCANNING / REPLICATION</option>
-                        <option>VIRTUAL ENGINEERING / CAD</option>
-                        <option>CARBON REINFORCED PRINTING</option>
-                    </select>
+      <section id="inquiry" class="py-20 px-6 max-w-4xl mx-auto">
+    <div class="glass-panel p-8 rounded-none border-t-2 border-cyan-400">
+        <h2 class="font-display text-2xl text-white mb-6 uppercase tracking-widest">Submit Technical Inquiry</h2>
+        
+        <form action="https://formspree.io/f/mrebnpga" method="POST" class="space-y-4">
+            <input type="hidden" name="_next" value="https://www.fic-3d.co.za/thank-you.html">
+            <input type="hidden" name="_subject" value="New FIC Modeling Inquiry">
 
-                    <textarea name="message" rows="4" placeholder="DESCRIBE THE PART OR PROBLEM (Approx. dimensions, material needs, etc)..." required
-                        class="w-full bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest"></textarea>
-
-                    <button type="submit" class="w-full bg-cyan-400 text-black py-4 font-display font-bold uppercase tracking-[0.3em] hover:bg-white transition-colors">
-                        Initialize Submission
-                    </button>
-                    
-                    <p class="text-[10px] text-center text-gray-600 uppercase tracking-tighter mt-4">
-                        *Note: Photos can be sent via WhatsApp or Email after initial data submission.
-                    </p>
-                </form>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="text" name="name" placeholder="YOUR NAME" required 
+                    class="bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
+                <input type="email" name="email" placeholder="YOUR EMAIL" required 
+                    class="bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
             </div>
-        </section>
+            
+            <select name="service" class="w-full bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
+                <option value="Scanning">3D SCANNING / REPLICATION</option>
+                <option value="Modeling">VIRTUAL ENGINEERING / CAD</option>
+                <option value="Printing">CARBON REINFORCED PRINTING</option>
+            </select>
+
+            <textarea name="message" rows="4" placeholder="DESCRIBE THE PART OR PROBLEM..." required
+                class="w-full bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest"></textarea>
+
+            <button type="submit" class="w-full bg-cyan-400 text-black py-4 font-display font-bold uppercase tracking-[0.3em] hover:bg-white transition-colors cursor-pointer">
+                Initialize Submission
+            </button>
+            
+            <p class="text-[10px] text-center text-gray-600 uppercase tracking-tighter mt-4">
+                *Note: Photos can be sent via WhatsApp or Email after initial data submission.
+            </p>
+        </form>
+    </div>
+</section>
     </main>
 
     <script>
