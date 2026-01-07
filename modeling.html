@@ -110,35 +110,36 @@
             </div>
         </section>
 
-        <section id="inquiry" class="py-20 px-6 max-w-4xl mx-auto">
+       <section id="inquiry" class="py-20 px-6 max-w-4xl mx-auto">
             <div class="glass-panel p-8 rounded-none border-t-2 border-cyan-400">
                 <h2 class="font-display text-2xl text-white mb-6 uppercase tracking-widest">Submit Technical Inquiry</h2>
-                <form action="https://formspree.io/f/mrebnpga" method="POST" enctype="multipart/form-data" class="space-y-4">
+                
+                <form action="https://formspree.io/f/your_form_id" method="POST" class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input type="text" name="name" placeholder="YOUR NAME" required class="bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
-                        <input type="email" name="email" placeholder="YOUR EMAIL" required class="bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
+                        <input type="text" name="name" placeholder="YOUR NAME" required 
+                            class="bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
+                        <input type="email" name="email" placeholder="YOUR EMAIL" required 
+                            class="bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
                     </div>
+                    
                     <select name="service" class="w-full bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
                         <option>3D SCANNING / REPLICATION</option>
                         <option>VIRTUAL ENGINEERING / CAD</option>
                         <option>CARBON REINFORCED PRINTING</option>
                     </select>
-                    <textarea name="message" rows="4" placeholder="DESCRIBE THE PART OR PROBLEM..." required class="w-full bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest"></textarea>
-                    <div class="border-2 border-dashed border-white/10 p-4 text-center hover:border-cyan-400 transition-colors">
-                        <p class="text-[10px] text-gray-500 uppercase font-bold mb-2">Upload Photo of Part</p>
-                        <input type="file" name="upload" class="text-xs text-gray-400">
-                    </div>
-                    <button type="submit" class="w-full bg-cyan-400 text-black py-4 font-display font-bold uppercase tracking-[0.3em] hover:bg-white transition-colors">Initialize Submission</button>
+
+                    <textarea name="message" rows="4" placeholder="DESCRIBE THE PART OR PROBLEM (Approx. dimensions, material needs, etc)..." required
+                        class="w-full bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest"></textarea>
+
+                    <button type="submit" class="w-full bg-cyan-400 text-black py-4 font-display font-bold uppercase tracking-[0.3em] hover:bg-white transition-colors">
+                        Initialize Submission
+                    </button>
+                    
+                    <p class="text-[10px] text-center text-gray-600 uppercase tracking-tighter mt-4">
+                        *Note: Photos can be sent via WhatsApp or Email after initial data submission.
+                    </p>
                 </form>
             </div>
-        </section>
-
-        <section class="py-24 px-6 text-center border-t border-white/10">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto mb-16">
-                <a href="https://wa.me/27740535875" target="_blank" class="p-10 glass-panel rounded-xl flex flex-col items-center"><i class="fa-brands fa-whatsapp text-5xl text-cyan-400 mb-4"></i><span class="font-bold text-white uppercase tracking-widest">WhatsApp</span></a>
-                <a href="mailto:neels@fic-3d.co.za" class="p-10 glass-panel rounded-xl flex flex-col items-center"><i class="fa-regular fa-envelope text-5xl text-cyan-400 mb-4"></i><span class="font-bold text-white uppercase tracking-widest">Email</span></a>
-            </div>
-            <a href="https://www.facebook.com/FIC3d" target="_blank" class="inline-flex items-center gap-3 text-cyan-400 hover:text-white transition-all text-xl font-bold uppercase tracking-tighter"><i class="fa-brands fa-facebook text-3xl"></i> Follow FIC</a>
         </section>
     </main>
 
