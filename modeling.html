@@ -10,6 +10,9 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="canonical" href="https://www.fic-3d.co.za/modeling.html">
+    
     <title>3D Modeling & Scanning | Forged in Carbon</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -30,9 +33,8 @@
         .neon-text { text-shadow: 0 0 15px rgba(0, 243, 255, 0.7); }
         canvas#bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         #loader { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease-out; }
-        .glass-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); transition: all 0.3s ease; }
-        .tab-btn { padding-bottom: 0.75rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.1em; transition: all 0.3s; border-bottom: 2px solid transparent; }
-        .tab-btn.active { color: #00f3ff; border-color: #00f3ff; }
+        .glass-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
+        .tab-btn.active { border-color: #00f3ff; background: rgba(0, 243, 255, 0.1); color: #00f3ff; }
     </style>
 </head>
 <body class="bg-carbon-900 text-gray-300 font-sans">
@@ -51,15 +53,14 @@
             <div class="hidden md:flex gap-8 items-center uppercase text-xs font-bold tracking-widest">
                 <a href="index.html" class="hover:text-cyan-400">Home</a>
                 <a href="modeling.html" class="text-cyan-400 border border-cyan-400/50 px-3 py-1 rounded bg-cyan-400/10">Modeling & Scanning</a>
-                <a href="index.html#gallery" class="hover:text-cyan-400">Showcase</a>
-                <a href="#contact" class="bg-cyan-400 text-black px-4 py-2">Get Quote</a>
+                <a href="#inquiry" class="bg-cyan-400 text-black px-4 py-2">Get Quote</a>
             </div>
             <button onclick="toggleMenu()" class="md:hidden text-white"><i class="fa-solid fa-bars text-2xl"></i></button>
         </div>
         <div id="mobile-menu" class="hidden md:hidden bg-black/95 border-b border-white/10 flex flex-col p-6 gap-4 uppercase text-sm font-bold">
             <a href="index.html">Home</a>
             <a href="modeling.html" class="text-cyan-400">Modeling & Scanning</a>
-            <a href="#contact" onclick="toggleMenu()">Contact Us</a>
+            <a href="#inquiry" onclick="toggleMenu()">Contact Us</a>
         </div>
     </nav>
 
@@ -69,159 +70,93 @@
             <p class="text-lg text-gray-400 max-w-2xl mx-auto uppercase tracking-widest font-bold text-sm">Turning Concepts into Master Files</p>
         </section>
 
-       <section class="px-6 max-w-7xl mx-auto">
+        <section class="px-6 max-w-7xl mx-auto">
             <div class="flex flex-wrap justify-center gap-4 mb-16">
-                <button onclick="switchTab('scanning')" id="tab-scanning" 
-                    class="tab-btn active group relative px-8 py-3 border border-cyan-400/30 bg-cyan-400/5 hover:bg-cyan-400/20 transition-all duration-300 rounded-none skew-x-[-12deg]">
-                    <span class="skew-x-[12deg] inline-block font-display font-bold text-xs tracking-[0.2em] uppercase">
-                        Digital Capture
-                    </span>
-                    <div class="absolute -bottom-1 -right-1 w-2 h-2 bg-cyan-400"></div>
-                </button>
-
-                <button onclick="switchTab('modeling')" id="tab-modeling" 
-                    class="tab-btn group relative px-8 py-3 border border-white/10 bg-white/5 hover:border-cyan-400 transition-all duration-300 rounded-none skew-x-[-12deg]">
-                    <span class="skew-x-[12deg] inline-block font-display font-bold text-xs tracking-[0.2em] uppercase">
-                        Virtual Engineering
-                    </span>
-                </button>
-
-                <button onclick="switchTab('formats')" id="tab-formats" 
-                    class="tab-btn group relative px-8 py-3 border border-white/10 bg-white/5 hover:border-cyan-400 transition-all duration-300 rounded-none skew-x-[-12deg]">
-                    <span class="skew-x-[12deg] inline-block font-display font-bold text-xs tracking-[0.2em] uppercase">
-                        Master Deliverables
-                    </span>
-                </button>
+                <button onclick="switchTab('scanning')" id="tab-scanning" class="tab-btn active px-8 py-3 border border-white/10 transition-all skew-x-[-12deg] font-display font-bold text-xs uppercase">Digital Capture</button>
+                <button onclick="switchTab('modeling')" id="tab-modeling" class="tab-btn px-8 py-3 border border-white/10 transition-all skew-x-[-12deg] font-display font-bold text-xs uppercase">Virtual Engineering</button>
+                <button onclick="switchTab('formats')" id="tab-formats" class="tab-btn px-8 py-3 border border-white/10 transition-all skew-x-[-12deg] font-display font-bold text-xs uppercase">Master Deliverables</button>
             </div>
 
-            <div id="content-scanning" class="grid grid-cols-2 md:grid-cols-4 gap-4 animate-[fadeIn_0.5s_ease-out]">
-                <div class="glass-panel p-2 rounded-lg group overflow-hidden">
-                    <img src="pro3.png" class="aspect-square object-cover rounded opacity-70 group-hover:scale-110 transition-transform duration-700" alt="Scan Data">
-                    <div class="p-2 text-[10px] text-center text-cyan-400 font-bold uppercase tracking-widest">Surface Geometry</div>
-                </div>
-                <div class="glass-panel p-2 rounded-lg group overflow-hidden">
-                    <img src="pro6.png" class="aspect-square object-cover rounded opacity-70 group-hover:scale-110 transition-transform duration-700" alt="Scan Data">
-                    <div class="p-2 text-[10px] text-center text-cyan-400 font-bold uppercase tracking-widest">Precision Mesh</div>
-                </div>
-                <div class="glass-panel p-2 rounded-lg group overflow-hidden">
-                    <img src="scan1.png" class="aspect-square object-cover rounded opacity-70 group-hover:scale-110 transition-transform duration-700" alt="Scan Data">
-                    <div class="p-2 text-[10px] text-center text-cyan-400 font-bold uppercase tracking-widest">Optical Capture</div>
-                </div>
-                <div class="glass-panel p-2 rounded-lg group overflow-hidden">
-                    <img src="scan5.png" class="aspect-square object-cover rounded opacity-70 group-hover:scale-110 transition-transform duration-700" alt="Scan Data">
-                    <div class="p-2 text-[10px] text-center text-cyan-400 font-bold uppercase tracking-widest">Point Cloud</div>
-                </div>
+            <div id="content-scanning" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <img src="pro3.png" class="aspect-square object-cover rounded border border-white/10">
+                <img src="pro6.png" class="aspect-square object-cover rounded border border-white/10">
+                <img src="scan1.png" class="aspect-square object-cover rounded border border-white/10">
+                <img src="scan5.png" class="aspect-square object-cover rounded border border-white/10">
             </div>
 
-            <div id="content-modeling" class="hidden grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 animate-[fadeIn_0.5s_ease-out]">
-                <img src="scan2.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all duration-500 hover:scale-105">
-                <img src="scan3.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all duration-500 hover:scale-105">
-                <img src="scan4.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all duration-500 hover:scale-105">
-                <img src="scan6.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all duration-500 hover:scale-105">
-                <img src="scan7.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all duration-500 hover:scale-105">
-                <img src="mod1.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all duration-500 hover:scale-105">
-                <img src="mod2.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all duration-500 hover:scale-105">
-                <img src="mod3.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all duration-500 hover:scale-105">
-                <img src="mod4.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all duration-500 hover:scale-105">
-                <img src="mod5.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all duration-500 hover:scale-105">
-                <img src="mod6.png" class="aspect-square object-square object-cover rounded border border-white/10 hover:border-cyan-400 transition-all duration-500 hover:scale-105">
+            <div id="content-modeling" class="hidden grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                <img src="scan2.png" class="aspect-square object-cover rounded border border-white/10">
+                <img src="scan3.png" class="aspect-square object-cover rounded border border-white/10">
+                <img src="scan4.png" class="aspect-square object-cover rounded border border-white/10">
+                <img src="scan6.png" class="aspect-square object-cover rounded border border-white/10">
+                <img src="scan7.png" class="aspect-square object-cover rounded border border-white/10">
+                <img src="mod1.png" class="aspect-square object-cover rounded border border-white/10">
+                <img src="mod2.png" class="aspect-square object-cover rounded border border-white/10">
+                <img src="mod3.png" class="aspect-square object-cover rounded border border-white/10">
+                <img src="mod4.png" class="aspect-square object-cover rounded border border-white/10">
+                <img src="mod5.png" class="aspect-square object-cover rounded border border-white/10">
+                <img src="mod6.png" class="aspect-square object-cover rounded border border-white/10">
             </div>
 
             <div id="content-formats" class="hidden">
-                <div class="glass-panel p-12 rounded-none border-l-4 border-cyan-400 text-center">
-                    <h2 class="font-display text-2xl text-white mb-8 uppercase tracking-[0.3em]">Technical Ecosystem</h2>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                        <div class="p-6 bg-black/40 border border-white/5">
-                            <span class="text-cyan-400 font-bold block text-xl">.STEP</span>
-                            <span class="text-[9px] text-gray-500 uppercase tracking-widest mt-2 block">Solid Master</span>
-                        </div>
-                        <div class="p-6 bg-black/40 border border-white/5">
-                            <span class="text-cyan-400 font-bold block text-xl">.STL</span>
-                            <span class="text-[9px] text-gray-500 uppercase tracking-widest mt-2 block">Print Ready</span>
-                        </div>
-                        <div class="p-6 bg-black/40 border border-white/5">
-                            <span class="text-cyan-400 font-bold block text-xl">.IGES</span>
-                            <span class="text-[9px] text-gray-500 uppercase tracking-widest mt-2 block">Surface Model</span>
-                        </div>
-                        <div class="p-6 bg-black/40 border border-white/5">
-                            <span class="text-cyan-400 font-bold block text-xl">.OBJ</span>
-                            <span class="text-[9px] text-gray-500 uppercase tracking-widest mt-2 block">Visual Asset</span>
-                        </div>
+                <div class="glass-panel p-12 text-center">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 font-bold text-cyan-400">
+                        <div class="p-4 border border-white/10 rounded">.STEP</div>
+                        <div class="p-4 border border-white/10 rounded">.STL</div>
+                        <div class="p-4 border border-white/10 rounded">.IGES</div>
+                        <div class="p-4 border border-white/10 rounded">.OBJ</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="contact" class="py-24 px-6 text-center mt-20 border-t border-white/10">
-            <h2 class="font-display text-3xl font-bold text-white mb-10 uppercase tracking-widest">Start Your Quote</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto mb-16">
-                <a href="https://wa.me/27740535875" target="_blank" class="p-10 glass-panel rounded-xl flex flex-col items-center">
-                    <i class="fa-brands fa-whatsapp text-5xl text-cyan-400 mb-4"></i>
-                    <span class="font-bold text-white uppercase tracking-widest">WhatsApp Inquiry</span>
-                </a>
-                <a href="mailto:neels@fic-3d.co.za" class="p-10 glass-panel rounded-xl flex flex-col items-center">
-                    <i class="fa-regular fa-envelope text-5xl text-cyan-400 mb-4"></i>
-                    <span class="font-bold text-white uppercase tracking-widest">Email Neels</span>
-                </a>
+        <section id="inquiry" class="py-20 px-6 max-w-4xl mx-auto">
+            <div class="glass-panel p-8 rounded-none border-t-2 border-cyan-400">
+                <h2 class="font-display text-2xl text-white mb-6 uppercase tracking-widest">Submit Technical Inquiry</h2>
+                <form action="https://formspree.io/f/mrebnpga" method="POST" enctype="multipart/form-data" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="text" name="name" placeholder="YOUR NAME" required class="bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
+                        <input type="email" name="email" placeholder="YOUR EMAIL" required class="bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
+                    </div>
+                    <select name="service" class="w-full bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
+                        <option>3D SCANNING / REPLICATION</option>
+                        <option>VIRTUAL ENGINEERING / CAD</option>
+                        <option>CARBON REINFORCED PRINTING</option>
+                    </select>
+                    <textarea name="message" rows="4" placeholder="DESCRIBE THE PART OR PROBLEM..." required class="w-full bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest"></textarea>
+                    <div class="border-2 border-dashed border-white/10 p-4 text-center hover:border-cyan-400 transition-colors">
+                        <p class="text-[10px] text-gray-500 uppercase font-bold mb-2">Upload Photo of Part</p>
+                        <input type="file" name="upload" class="text-xs text-gray-400">
+                    </div>
+                    <button type="submit" class="w-full bg-cyan-400 text-black py-4 font-display font-bold uppercase tracking-[0.3em] hover:bg-white transition-colors">Initialize Submission</button>
+                </form>
             </div>
-            <a href="https://www.facebook.com/FIC3d" target="_blank" class="inline-flex items-center gap-3 text-cyan-400 hover:text-white transition-all text-xl font-bold uppercase tracking-tighter">
-                <i class="fa-brands fa-facebook text-3xl"></i> Follow Forged in Carbon
-            </a>
+        </section>
+
+        <section class="py-24 px-6 text-center border-t border-white/10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto mb-16">
+                <a href="https://wa.me/27740535875" target="_blank" class="p-10 glass-panel rounded-xl flex flex-col items-center"><i class="fa-brands fa-whatsapp text-5xl text-cyan-400 mb-4"></i><span class="font-bold text-white uppercase tracking-widest">WhatsApp</span></a>
+                <a href="mailto:neels@fic-3d.co.za" class="p-10 glass-panel rounded-xl flex flex-col items-center"><i class="fa-regular fa-envelope text-5xl text-cyan-400 mb-4"></i><span class="font-bold text-white uppercase tracking-widest">Email</span></a>
+            </div>
+            <a href="https://www.facebook.com/FIC3d" target="_blank" class="inline-flex items-center gap-3 text-cyan-400 hover:text-white transition-all text-xl font-bold uppercase tracking-tighter"><i class="fa-brands fa-facebook text-3xl"></i> Follow FIC</a>
         </section>
     </main>
-    <section id="inquiry" class="py-20 px-6 max-w-4xl mx-auto">
-    <div class="glass-panel p-8 rounded-none border-t-2 border-cyan-400">
-        <h2 class="font-display text-2xl text-white mb-6 uppercase tracking-widest">Submit Technical Inquiry</h2>
-        
-        <form action="https://formspree.io/f/your_form_id" method="POST" enctype="multipart/form-data" class="space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input type="text" name="name" placeholder="YOUR NAME" required 
-                    class="bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
-                <input type="email" name="email" placeholder="YOUR EMAIL" required 
-                    class="bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
-            </div>
-            
-            <select name="service" class="w-full bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
-                <option>3D SCANNING / REPLICATION</option>
-                <option>VIRTUAL ENGINEERING / CAD</option>
-                <option>CARBON REINFORCED PRINTING</option>
-            </select>
-
-            <textarea name="message" rows="4" placeholder="DESCRIBE THE PART OR PROBLEM..." required
-                class="w-full bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest"></textarea>
-
-            <div class="border-2 border-dashed border-white/10 p-4 text-center hover:border-cyan-400 transition-colors relative">
-                <p class="text-[10px] text-gray-500 uppercase font-bold mb-2">Upload Photo of Part (For Quoting)</p>
-                <input type="file" name="upload" class="text-xs text-gray-400 file:bg-cyan-400 file:border-none file:px-4 file:py-1 file:mr-4 file:font-bold file:uppercase">
-            </div>
-
-            <button type="submit" class="w-full bg-cyan-400 text-black py-4 font-display font-bold uppercase tracking-[0.3em] hover:bg-white transition-colors">
-                Initialize Data Submission
-            </button>
-        </form>
-    </div>
-</section>
 
     <script>
         function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
-        
         function switchTab(name) {
             ['scanning', 'modeling', 'formats'].forEach(t => {
                 document.getElementById('content-' + t).classList.add('hidden');
-                document.getElementById('tab-' + t).classList.remove('active', 'text-cyan-400');
-                document.getElementById('tab-' + t).classList.add('text-gray-500');
+                document.getElementById('tab-' + t).classList.remove('active');
             });
             document.getElementById('content-' + name).classList.remove('hidden');
-            document.getElementById('tab-' + name).classList.add('active', 'text-cyan-400');
+            document.getElementById('tab-' + name).classList.add('active');
         }
-
         window.onload = () => {
             const loader = document.getElementById('loader');
             loader.style.opacity = '0';
             setTimeout(() => { loader.style.display = 'none'; }, 500);
         };
-
-        // --- THE "PERFECT DRIFT" SCRIPT ---
         let mouseX = 0, mouseY = 0, autoRotation = 0;
         document.addEventListener('mousemove', (e) => {
             mouseX = (e.clientX - window.innerWidth / 2) / window.innerWidth * 0.15;
