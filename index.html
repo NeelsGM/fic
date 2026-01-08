@@ -30,28 +30,29 @@
     <style>
         .neon-text { text-shadow: 0 0 15px rgba(0, 243, 255, 0.7); }
         canvas#bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-        .glass-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
+        .glass-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); transition: all 0.3s ease; }
         #loader { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease-out; }
+        .eco-tab.active { border-color: #00f3ff; background: rgba(0, 243, 255, 0.08); transform: translateY(-5px); }
+        .eco-tab.active i { color: #fff; text-shadow: 0 0 10px #00f3ff; }
     </style>
 </head>
 <body class="bg-carbon-900 text-gray-300 font-sans">
 
     <div id="loader">
-        <div class="text-2xl font-display font-bold text-cyan-400 animate-pulse uppercase tracking-widest leading-none">LOADING F.I.C</div>
+        <div class="text-2xl font-display font-bold text-cyan-400 animate-pulse uppercase tracking-widest">LOADING F.I.C</div>
     </div>
-
     <canvas id="bg-canvas"></canvas>
 
     <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <div class="flex items-center gap-2 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
                 <i class="fa-solid fa-cube text-cyan-400 text-2xl"></i>
-                <span class="font-display font-bold text-2xl text-white">FIC</span>
+                <span class="font-display font-bold text-2xl text-white uppercase">FIC</span>
             </div>
-            <div class="hidden md:flex gap-8 items-center uppercase text-xs font-bold tracking-widest">
+            <div class="hidden md:flex gap-8 items-center uppercase text-xs font-bold tracking-[0.2em]">
                 <a href="index.html" class="text-cyan-400">Home</a>
-                <a href="modeling.html" class="hover:text-cyan-400">Modeling & Scanning</a>
-                <a href="#contact" class="bg-cyan-400 text-black px-4 py-2 hover:bg-white transition-colors">Start Project</a>
+                <a href="modeling.html" class="hover:text-cyan-400 transition-colors">Modeling & Scanning</a>
+                <a href="#contact" class="bg-cyan-400 text-black px-5 py-2 hover:bg-white transition-colors">Start Project</a>
             </div>
             <button onclick="toggleMenu()" class="md:hidden text-white"><i class="fa-solid fa-bars text-2xl"></i></button>
         </div>
@@ -63,144 +64,135 @@
     </nav>
 
     <main class="relative z-10 pt-32">
-        <section class="min-h-[80vh] flex flex-col items-center justify-center px-6 text-center">
+        <section class="min-h-[70vh] flex flex-col items-center justify-center px-6 text-center">
             <div class="mb-4 inline-block border border-cyan-400/30 px-4 py-1 rounded-full bg-cyan-400/5 text-cyan-400 text-[10px] font-bold uppercase tracking-[0.3em]">
                 Durban • South Africa
             </div>
-            <h1 class="font-display text-6xl md:text-8xl font-black text-white mb-6 tracking-tighter uppercase leading-none">
-                FORGED IN <span class="neon-text block md:inline text-gray-400">CARBON</span>
+            <h1 class="font-display text-5xl md:text-8xl font-black text-white mb-6 tracking-tighter uppercase leading-none">
+                FORGED IN <span class="neon-text text-gray-400">CARBON</span>
             </h1>
-            <p class="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto mb-12 uppercase font-bold tracking-[0.15em] leading-tight">
-                Advanced 3D Modeling. Precision Printing. Carbon Fiber Fabrication.
+            <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 uppercase font-bold tracking-[0.2em]">
+                3D Scanning • Virtual Engineering • Additive Manufacturing
             </p>
-            <div class="flex flex-col sm:flex-row gap-6">
-                <a href="#contact" class="bg-cyan-400 text-black px-10 py-4 font-display font-bold uppercase tracking-[0.2em] hover:bg-white transition-all transform skew-x-[-12deg]">
-                    Start Your Project
+            <div class="flex flex-col sm:flex-row gap-4">
+                <a href="#contact" class="bg-cyan-400 text-black px-10 py-4 font-display font-bold uppercase tracking-[0.2em] hover:bg-white transition-all transform skew-x-[-10deg]">
+                    Start Project
                 </a>
-                <a href="https://wa.me/27740535875" class="border border-white/20 px-10 py-4 font-display font-bold uppercase tracking-[0.2em] hover:border-cyan-400 hover:text-cyan-400 transition-all transform skew-x-[-12deg]">
-                    Chat on WhatsApp
+                <a href="modeling.html" class="border border-white/20 px-10 py-4 font-display font-bold uppercase tracking-[0.2em] hover:border-cyan-400 transition-all transform skew-x-[-10deg]">
+                    Explore Tech
                 </a>
             </div>
         </section>
 
         <section class="py-24 px-6 max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="font-display text-3xl text-white mb-4 uppercase tracking-widest">Select Domain</h2>
+                <p class="text-xs text-cyan-400 uppercase font-bold tracking-[0.4em]">Click to View Showcase</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                <div onclick="switchEco('design')" id="tab-design" class="eco-tab glass-panel p-8 cursor-pointer active">
+                    <i class="fa-solid fa-compass-drafting text-3xl text-cyan-400 mb-4 transition-all"></i>
+                    <h3 class="font-display text-lg text-white mb-2 uppercase tracking-widest">Engineering</h3>
+                    <p class="text-gray-500 text-xs leading-relaxed uppercase tracking-tighter">CAD Design & Optimization</p>
+                </div>
+                <div onclick="switchEco('printing')" id="tab-printing" class="eco-tab glass-panel p-8 cursor-pointer">
+                    <i class="fa-solid fa-microchip text-3xl text-cyan-400 mb-4 transition-all"></i>
+                    <h3 class="font-display text-lg text-white mb-2 uppercase tracking-widest">Fabrication</h3>
+                    <p class="text-gray-500 text-xs leading-relaxed uppercase tracking-tighter">Industrial 3D Printing (PA12-CF)</p>
+                </div>
+                <div onclick="switchEco('scanning')" id="tab-scanning" class="eco-tab glass-panel p-8 cursor-pointer">
+                    <i class="fa-solid fa-qrcode text-3xl text-cyan-400 mb-4 transition-all"></i>
+                    <h3 class="font-display text-lg text-white mb-2 uppercase tracking-widest">Scanning</h3>
+                    <p class="text-gray-500 text-xs leading-relaxed uppercase tracking-tighter">Reverse Engineering & Replication</p>
+                </div>
+            </div>
+
+            <div id="gal-design" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <img src="mod1.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+                <img src="mod2.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+                <img src="mod4.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+                <img src="mod5.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+            </div>
+
+            <div id="gal-printing" class="hidden grid grid-cols-2 md:grid-cols-4 gap-4">
+                <img src="pro1.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+                <img src="pro2.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+                <img src="pro4.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+                <img src="pro5.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+            </div>
+
+            <div id="gal-scanning" class="hidden grid grid-cols-2 md:grid-cols-4 gap-4">
+                <img src="scan1.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+                <img src="scan2.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+                <img src="scan5.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+                <img src="scan7.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+            </div>
+        </section>
+
+        <section class="py-24 px-6 max-w-7xl mx-auto border-t border-white/5">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <div class="glass-panel p-10 border-l-4 border-cyan-400">
                     <h2 class="font-display text-3xl text-white mb-6 uppercase tracking-widest">Why Forged Carbon?</h2>
-                    <p class="text-gray-400 leading-relaxed mb-6">
-                        Traditional "Woven" carbon fiber is restricted by the direction of the weave. While strong, it struggles with complex 3D geometries and sharp internal corners.
+                    <p class="text-gray-400 leading-relaxed mb-6 font-bold uppercase text-sm tracking-widest">
+                        Traditional "Woven" carbon is limited by the fabric's direction. We forge complex shapes that were previously impossible.
                     </p>
-                    <div class="space-y-4 font-bold text-sm tracking-widest uppercase">
-                        <div class="flex items-center gap-3"><i class="fa-solid fa-bolt text-cyan-400"></i> Isotropic Strength: Strength in all directions, not just the weave path.</div>
-                        <div class="flex items-center gap-3"><i class="fa-solid fa-cube text-cyan-400"></i> Complex Geometry: Ideal for intake manifolds, brackets, and aero-fins.</div>
-                        <div class="flex items-center gap-3"><i class="fa-solid fa-gem text-cyan-400"></i> Unique Aesthetic: A marbled, high-tech finish unique to every part.</div>
+                    <div class="space-y-4 font-bold text-xs tracking-[0.2em] uppercase">
+                        <div class="flex items-center gap-3"><i class="fa-solid fa-check text-cyan-400"></i> Isotropic Strength in all directions</div>
+                        <div class="flex items-center gap-3"><i class="fa-solid fa-check text-cyan-400"></i> Extreme Internal Complexity</div>
+                        <div class="flex items-center gap-3"><i class="fa-solid fa-check text-cyan-400"></i> Unique Stealth-Marbled Finish</div>
                     </div>
                 </div>
-                <div>
-                    <h3 class="font-display text-2xl text-white mb-4 uppercase tracking-widest">The Manufacturing Edge</h3>
-                    <p class="text-gray-400 leading-relaxed">
-                        By utilizing 3D printed sacrificial tooling and compression molding, we produce parts that bridge the gap between expensive aerospace composites and heavy metal components. This is the <strong>Moon Shot</strong> of local manufacturing: aerospace materials, produced with rapid-iteration speed.
-                    </p>
+                <div class="text-gray-400 uppercase text-xs tracking-widest leading-loose font-bold">
+                    By combining 3D Printed sacrificial tooling with compression molding, we produce aerospace-grade components with rapid-iteration speed. This is the new standard for Durban's performance automotive and industrial sectors.
                 </div>
-            </div>
-        </section>
-
-        <section class="py-24 px-6 bg-black/40">
-            <div class="max-w-7xl mx-auto">
-                <div class="text-center mb-16">
-                    <h2 class="font-display text-4xl text-white mb-4 uppercase tracking-widest">Our Ecosystem</h2>
-                    <div class="h-1 w-24 bg-cyan-400 mx-auto"></div>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="glass-panel p-8 group hover:border-cyan-400 transition-all">
-                        <i class="fa-solid fa-compass-drafting text-4xl text-cyan-400 mb-6"></i>
-                        <h3 class="font-display text-xl text-white mb-4 uppercase">Virtual Engineering</h3>
-                        <p class="text-gray-500 text-sm leading-relaxed">
-                            We use advanced CAD software to design parts optimized for additive manufacturing. This includes generative design, weight reduction, and ensuring sub-millimeter fitment for automotive applications.
-                        </p>
-                    </div>
-
-                    <div class="glass-panel p-8 group hover:border-cyan-400 transition-all">
-                        <i class="fa-solid fa-microchip text-4xl text-cyan-400 mb-6"></i>
-                        <h3 class="font-display text-xl text-white mb-4 uppercase">Industrial Printing</h3>
-                        <p class="text-gray-500 text-sm leading-relaxed">
-                            Utilizing high-temp polymers and carbon-infused filaments (PA12-CF), we print functional parts that can withstand heat, chemicals, and mechanical stress. These aren't prototypes; they are end-use components.
-                        </p>
-                    </div>
-
-                    <div class="glass-panel p-8 group hover:border-cyan-400 transition-all">
-                        <i class="fa-solid fa-qrcode text-4xl text-cyan-400 mb-6"></i>
-                        <h3 class="font-display text-xl text-white mb-4 uppercase">Precision Scanning</h3>
-                        <p class="text-gray-500 text-sm leading-relaxed">
-                            Have a broken or discontinued part? We scan physical objects to create digital "Master Files." This allows for perfect replication or reverse engineering of complex mechanical assemblies.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="py-24 px-6 max-w-7xl mx-auto">
-            <div class="flex justify-between items-end mb-12">
-                <div>
-                    <h2 class="font-display text-3xl text-white uppercase tracking-widest">Recent Forgings</h2>
-                    <p class="text-cyan-400 text-xs font-bold uppercase tracking-widest mt-2">Durban's Custom Aero Hub</p>
-                </div>
-                <a href="https://www.facebook.com/FIC3d" target="_blank" class="text-xs font-bold uppercase tracking-widest hover:text-cyan-400 transition-colors">View Facebook <i class="fa-solid fa-arrow-right ml-2"></i></a>
-            </div>
-            
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <img src="pro1.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all cursor-pointer">
-                <img src="pro2.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all cursor-pointer">
-                <img src="pro4.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all cursor-pointer">
-                <img src="pro5.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all cursor-pointer">
             </div>
         </section>
 
         <section id="contact" class="py-24 px-6 max-w-4xl mx-auto">
             <div class="glass-panel p-8 rounded-none border-t-2 border-cyan-400">
-                <h2 class="font-display text-2xl text-white mb-6 uppercase tracking-widest text-center">Initialize Project Submission</h2>
+                <h2 class="font-display text-2xl text-white mb-6 uppercase tracking-widest text-center">Technical Inquiry</h2>
                 <form action="https://formspree.io/f/mqkvzpkj" method="POST" class="space-y-4">
                     <input type="hidden" name="_next" value="https://www.fic-3d.co.za/thank-you.html">
-                    <input type="hidden" name="_subject" value="New FIC Project Inquiry">
-
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input type="text" name="name" placeholder="YOUR NAME" required 
-                            class="bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
-                        <input type="email" name="email" placeholder="YOUR EMAIL" required 
-                            class="bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
+                        <input type="text" name="name" placeholder="YOUR NAME" required class="bg-black/50 border border-white/10 p-4 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
+                        <input type="email" name="email" placeholder="YOUR EMAIL" required class="bg-black/50 border border-white/10 p-4 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
                     </div>
-                    
-                    <select name="service" class="w-full bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
-                        <option value="General">GENERAL FABRICATION</option>
-                        <option value="Aero">CUSTOM AERO / AUTOMOTIVE</option>
-                        <option value="Scanning">3D SCANNING & MODELING</option>
-                        <option value="Carbon">FORGED CARBON COMPONENTS</option>
+                    <select name="service" class="w-full bg-black/50 border border-white/10 p-4 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
+                        <option>AERO / AUTOMOTIVE</option>
+                        <option>REVERSE ENGINEERING</option>
+                        <option>CARBON FABRICATION</option>
                     </select>
-
-                    <textarea name="message" rows="4" placeholder="DESCRIBE THE PROJECT GOAL..." required
-                        class="w-full bg-black/50 border border-white/10 p-3 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest"></textarea>
-
-                    <button type="submit" class="w-full bg-cyan-400 text-black py-4 font-display font-bold uppercase tracking-[0.3em] hover:bg-white transition-colors cursor-pointer">
-                        Initialize Transmission
-                    </button>
+                    <textarea name="message" rows="4" placeholder="PROJECT DETAILS..." required class="w-full bg-black/50 border border-white/10 p-4 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest"></textarea>
+                    <button type="submit" class="w-full bg-cyan-400 text-black py-4 font-display font-bold uppercase tracking-[0.3em] hover:bg-white transition-colors">Initialize Submission</button>
                 </form>
             </div>
         </section>
 
-        <footer class="py-12 border-t border-white/10 px-6 text-center">
-            <div class="flex justify-center gap-8 mb-8 text-xl">
-                <a href="https://wa.me/27740535875" class="hover:text-cyan-400 transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
-                <a href="https://www.facebook.com/FIC3d" class="hover:text-cyan-400 transition-colors"><i class="fa-brands fa-facebook"></i></a>
+        <footer class="py-16 border-t border-white/10 px-6 text-center">
+            <div class="flex justify-center gap-10 mb-10 text-2xl">
+                <a href="https://wa.me/27740535875" target="_blank" class="hover:text-cyan-400 transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="https://www.facebook.com/FIC3d" target="_blank" class="hover:text-cyan-400 transition-colors"><i class="fa-brands fa-facebook"></i></a>
                 <a href="mailto:neels@fic-3d.co.za" class="hover:text-cyan-400 transition-colors"><i class="fa-regular fa-envelope"></i></a>
             </div>
-            <p class="text-[10px] uppercase tracking-[0.4em] text-gray-600 font-bold">&copy; 2025 Forged in Carbon | Durban, SA</p>
+            <p class="text-[10px] uppercase tracking-[0.5em] text-gray-600 font-bold">&copy; 2026 FORGED IN CARBON | DURBAN, SA</p>
         </footer>
     </main>
 
     <script>
         function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
         
+        function switchEco(name) {
+            // Hide all galleries & reset tabs
+            ['design', 'printing', 'scanning'].forEach(id => {
+                document.getElementById('gal-' + id).classList.add('hidden');
+                document.getElementById('tab-' + id).classList.remove('active');
+            });
+            // Show selected
+            document.getElementById('gal-' + name).classList.remove('hidden');
+            document.getElementById('tab-' + name).classList.add('active');
+        }
+
         window.onload = () => {
             const loader = document.getElementById('loader');
             loader.style.opacity = '0';
@@ -231,8 +223,9 @@
 
         function animate() {
             requestAnimationFrame(animate);
-            particles.rotation.y += 0.0003 + mouseX;
-            particles.rotation.x += mouseY;
+            // FIXED DRIFT SPEED:
+            particles.rotation.y += 0.0003; 
+            particles.rotation.x += (mouseY * 0.05); // Subtle interaction
             renderer.render(scene, camera);
         }
         animate();
