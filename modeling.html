@@ -38,7 +38,7 @@
 <body class="bg-carbon-900 text-gray-300 font-sans">
 
     <div id="loader">
-        <div class="text-2xl font-display font-bold text-cyan-400 animate-pulse uppercase tracking-widest">LOADING DATA...</div>
+        <div class="text-2xl font-display font-bold text-cyan-400 animate-pulse uppercase tracking-widest leading-none">LOADING DATA...</div>
     </div>
     <canvas id="bg-canvas"></canvas>
 
@@ -67,7 +67,7 @@
             <h1 class="font-display text-4xl md:text-6xl font-black text-white mb-4 tracking-tighter uppercase leading-none">
                 Design & <span class="neon-text text-gray-400">Digitalization</span>
             </h1>
-            <p class="text-lg text-gray-400 max-w-2xl mx-auto uppercase tracking-widest font-bold text-sm">
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto uppercase tracking-widest font-bold text-sm leading-tight">
                 Turning Physical Concepts into Master Engineering Files
             </p>
         </section>
@@ -77,13 +77,14 @@
                 <button onclick="switchTab('scanning')" id="tab-scanning" class="tab-btn active px-8 py-3 border border-white/10 transition-all skew-x-[-12deg] font-display font-bold text-xs uppercase tracking-widest">Digital Capture</button>
                 <button onclick="switchTab('modeling')" id="tab-modeling" class="tab-btn px-8 py-3 border border-white/10 transition-all skew-x-[-12deg] font-display font-bold text-xs uppercase tracking-widest">Virtual Engineering</button>
                 <button onclick="switchTab('formats')" id="tab-formats" class="tab-btn px-8 py-3 border border-white/10 transition-all skew-x-[-12deg] font-display font-bold text-xs uppercase tracking-widest">Master Deliverables</button>
+                <button onclick="switchTab('pricing')" id="tab-pricing" class="tab-btn px-8 py-3 border border-white/10 transition-all skew-x-[-12deg] font-display font-bold text-xs uppercase tracking-widest text-cyan-400">Project Estimates</button>
             </div>
 
             <div id="content-scanning" class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <img src="pro3.png" class="aspect-square object-cover rounded border border-white/10">
-                <img src="pro6.png" class="aspect-square object-cover rounded border border-white/10">
-                <img src="scan1.png" class="aspect-square object-cover rounded border border-white/10">
-                <img src="scan5.png" class="aspect-square object-cover rounded border border-white/10">
+                <img src="pro3.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+                <img src="pro6.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+                <img src="scan1.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+                <img src="scan5.png" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
             </div>
 
             <div id="content-modeling" class="hidden grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
@@ -110,6 +111,41 @@
                     </div>
                 </div>
             </div>
+
+            <div id="content-pricing" class="hidden">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="glass-panel p-8 border-b-2 border-white/10 hover:border-cyan-400 transition-all">
+                        <h3 class="font-display text-white text-xl mb-2 uppercase">Basic Scan</h3>
+                        <p class="text-cyan-400 font-bold mb-4 italic text-sm">Starting R850</p>
+                        <ul class="text-xs text-gray-500 space-y-2 uppercase font-bold tracking-tighter">
+                            <li><i class="fa-solid fa-check mr-2"></i>Simple Geometry (Mirror Caps, Spoilers)</li>
+                            <li><i class="fa-solid fa-check mr-2"></i>Raw Mesh File Output (.STL)</li>
+                            <li><i class="fa-solid fa-check mr-2"></i>Dimensional Verification</li>
+                        </ul>
+                    </div>
+                    <div class="glass-panel p-8 border-b-2 border-cyan-400 bg-cyan-400/5">
+                        <h3 class="font-display text-white text-xl mb-2 uppercase text-cyan-400">Reverse Engineering</h3>
+                        <p class="text-white font-bold mb-4 italic text-sm">Starting R1,800</p>
+                        <ul class="text-xs text-gray-400 space-y-2 uppercase font-bold tracking-tighter">
+                            <li><i class="fa-solid fa-check mr-2 text-cyan-400"></i>Broken/NLA Part Reconstruction</li>
+                            <li><i class="fa-solid fa-check mr-2 text-cyan-400"></i>Full Parametric CAD (.STEP)</li>
+                            <li><i class="fa-solid fa-check mr-2 text-cyan-400"></i>Optimized for Carbon Forge</li>
+                        </ul>
+                    </div>
+                    <div class="glass-panel p-8 border-b-2 border-white/10 hover:border-cyan-400 transition-all">
+                        <h3 class="font-display text-white text-xl mb-2 uppercase">Full Development</h3>
+                        <p class="text-cyan-400 font-bold mb-4 italic text-sm">Custom Quote</p>
+                        <ul class="text-xs text-gray-500 space-y-2 uppercase font-bold tracking-tighter">
+                            <li><i class="fa-solid fa-check mr-2"></i>Ground-up Prototype Design</li>
+                            <li><i class="fa-solid fa-check mr-2 text-cyan-400"></i>Complex Mechanical Assemblies</li>
+                            <li><i class="fa-solid fa-check mr-2"></i>Stress Simulation Analysis</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="text-center text-[10px] text-gray-600 mt-8 uppercase tracking-[0.2em] font-bold">
+                    *Final pricing depends on surface complexity and processing requirements.
+                </p>
+            </div>
         </section>
 
         <section id="contact" class="py-24 px-6 max-w-4xl mx-auto">
@@ -127,7 +163,7 @@
                         <option>CARBON REINFORCED PRINTING</option>
                     </select>
                     <textarea name="message" rows="4" placeholder="PROJECT DETAILS..." required class="w-full bg-black/50 border border-white/10 p-4 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest"></textarea>
-                    <button type="submit" class="w-full bg-cyan-400 text-black py-4 font-display font-bold uppercase tracking-[0.3em] hover:bg-white transition-colors">Initialize Submission</button>
+                    <button type="submit" class="w-full bg-cyan-400 text-black py-4 font-display font-bold uppercase tracking-[0.3em] hover:bg-white transition-colors cursor-pointer">Initialize Submission</button>
                 </form>
             </div>
         </section>
@@ -144,8 +180,9 @@
 
     <script>
         function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
+        
         function switchTab(name) {
-            ['scanning', 'modeling', 'formats'].forEach(t => {
+            ['scanning', 'modeling', 'formats', 'pricing'].forEach(t => {
                 document.getElementById('content-' + t).classList.add('hidden');
                 document.getElementById('tab-' + t).classList.remove('active');
             });
@@ -172,24 +209,18 @@
         geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
         const particles = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0x00f3ff, size: 0.04 }));
         scene.add(particles);
-
         camera.position.z = 15;
-        let mouseX = 0, mouseY = 0;
-
+        let mouseY = 0;
         document.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX - window.innerWidth / 2) / window.innerWidth * 0.15;
             mouseY = (e.clientY - window.innerHeight / 2) / window.innerHeight * 0.15;
         });
-
         function animate() {
             requestAnimationFrame(animate);
-            // MATCHING HOMEPAGE DRIFT SPEED:
             particles.rotation.y += 0.0003; 
             particles.rotation.x += (mouseY * 0.05); 
             renderer.render(scene, camera);
         }
         animate();
-
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
