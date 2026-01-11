@@ -13,27 +13,8 @@
     <link rel="canonical" href="https://www.fic-3d.co.za/modeling.html">
     
     <title>3D Scanning & Virtual Engineering | FIC-3D Durban</title>
-    <meta name="description" content="Industrial 3D scanning, reverse engineering, and CAD modeling in Durban. We replicate NLA parts and design custom automotive components in Westville.">
+    <meta name="description" content="Industrial 3D scanning and CAD modeling in Westville, Durban. NLA part replication and engineering deliverables.">
     <meta name="referrer" content="origin">
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Service",
-      "serviceType": "3D Scanning & Reverse Engineering",
-      "provider": {
-        "@type": "LocalBusiness",
-        "name": "Forged in Carbon (FIC-3D)",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Westville",
-          "addressRegion": "Durban",
-          "addressCountry": "ZA"
-        }
-      },
-      "areaServed": "KwaZulu-Natal"
-    }
-    </script>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -55,12 +36,14 @@
         canvas#bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         .glass-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); transition: all 0.3s ease; }
         #loader { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease-out; }
+        .eco-tab.active { border-color: #00f3ff; background: rgba(0, 243, 255, 0.08); transform: translateY(-5px); }
+        .eco-tab.active i { color: #fff; text-shadow: 0 0 10px #00f3ff; }
     </style>
 </head>
 <body class="bg-carbon-900 text-gray-300 font-sans">
 
     <div id="loader">
-        <div class="text-2xl font-display font-bold text-cyan-400 animate-pulse uppercase tracking-widest">LOADING TECH</div>
+        <div class="text-2xl font-display font-bold text-cyan-400 animate-pulse uppercase tracking-widest leading-none">LOADING TECH</div>
     </div>
     <canvas id="bg-canvas"></canvas>
 
@@ -73,87 +56,170 @@
             <div class="hidden md:flex gap-8 items-center uppercase text-xs font-bold tracking-[0.2em]">
                 <a href="index.html" class="hover:text-cyan-400">Home</a>
                 <a href="modeling.html" class="text-cyan-400">Modeling & Scanning</a>
-                <a href="index.html#contact" class="bg-cyan-400 text-black px-5 py-2 hover:bg-white transition-colors">Get Quote</a>
+                <a href="index.html#contact" class="bg-cyan-400 text-black px-5 py-2 hover:bg-white transition-colors">Start Project</a>
             </div>
         </div>
     </nav>
 
-    <main class="relative z-10 pt-32 px-6">
-        <section class="max-w-7xl mx-auto py-12">
+    <main class="relative z-10 pt-32">
+        <section class="py-12 px-6 max-w-7xl mx-auto text-center">
             <div class="mb-4 inline-block border border-cyan-400/30 px-4 py-1 rounded-full bg-cyan-400/5 text-cyan-400 text-[10px] font-bold uppercase tracking-[0.3em]">
-                Precision Engineering • KZN
+                Advanced Metrology • Westville
             </div>
-            <h1 class="font-display text-4xl md:text-6xl font-black text-white mb-8 tracking-tighter uppercase">
-                3D SCANNING & <span class="neon-text text-gray-400">REVERSE ENGINEERING</span>
+            <h1 class="font-display text-4xl md:text-7xl font-black text-white mb-6 uppercase tracking-tighter leading-none">
+                VIRTUAL <span class="neon-text text-gray-400">ENGINEERING</span>
             </h1>
+            <p class="text-gray-400 max-w-2xl mx-auto uppercase font-bold tracking-widest text-sm mb-16">
+                From Physical Scans to Production-Ready CAD Data
+            </p>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                <div class="space-y-6">
-                    <p class="text-xl text-gray-400 uppercase font-bold tracking-wider leading-relaxed">
-                        We specialize in converting physical objects into high-precision digital data for the <span class="text-cyan-400">Durban</span> industrial sector.
-                    </p>
-                    <div class="glass-panel p-8 space-y-4">
-                        <h3 class="font-display text-white uppercase text-lg">Our Technical Capabilities:</h3>
-                        <ul class="space-y-3 text-sm uppercase tracking-widest font-bold">
-                            <li class="flex gap-3"><i class="fa-solid fa-microchip text-cyan-400"></i> High-Resolution 3D Scanning (Metrology Grade)</li>
-                            <li class="flex gap-3"><i class="fa-solid fa-gear text-cyan-400"></i> NLA (No Longer Available) Part Replication</li>
-                            <li class="flex gap-3"><i class="fa-solid fa-object-group text-cyan-400"></i> Parametric CAD Modeling (.STEP / .IGES)</li>
-                            <li class="flex gap-3"><i class="fa-solid fa-vial text-cyan-400"></i> Stress Analysis & Topographical Optimization</li>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+                <div onclick="switchEco('design')" id="tab-design" class="eco-tab glass-panel p-6 cursor-pointer active">
+                    <i class="fa-solid fa-compass-drafting text-2xl text-cyan-400 mb-3 transition-all"></i>
+                    <h3 class="font-display text-sm text-white uppercase tracking-widest">Engineering</h3>
+                </div>
+                <div onclick="switchEco('scanning')" id="tab-scanning" class="eco-tab glass-panel p-6 cursor-pointer">
+                    <i class="fa-solid fa-qrcode text-2xl text-cyan-400 mb-3 transition-all"></i>
+                    <h3 class="font-display text-sm text-white uppercase tracking-widest">Scanning</h3>
+                </div>
+                <div onclick="switchEco('deliver')" id="tab-deliver" class="eco-tab glass-panel p-6 cursor-pointer">
+                    <i class="fa-solid fa-box-open text-2xl text-cyan-400 mb-3 transition-all"></i>
+                    <h3 class="font-display text-sm text-white uppercase tracking-widest">Deliverables</h3>
+                </div>
+                <div onclick="switchEco('pricing')" id="tab-pricing" class="eco-tab glass-panel p-6 cursor-pointer">
+                    <i class="fa-solid fa-tags text-2xl text-cyan-400 mb-3 transition-all"></i>
+                    <h3 class="font-display text-sm text-white uppercase tracking-widest">Pricing</h3>
+                </div>
+            </div>
+
+            <div class="glass-panel p-8 md:p-12 text-left min-h-[400px]">
+                <div id="gal-design" class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="font-display text-2xl text-white mb-6 uppercase">CAD Modeling & Optimization</h2>
+                        <p class="text-gray-400 leading-relaxed mb-6 font-bold uppercase text-xs tracking-widest">
+                            We specialize in parametric modeling and generative design, ensuring parts are optimized for weight, strength, and manufacturability.
+                        </p>
+                        <ul class="space-y-3 text-[10px] font-bold uppercase tracking-widest">
+                            <li><i class="fa-solid fa-check text-cyan-400 mr-2"></i> Mechanical Design for Automotive</li>
+                            <li><i class="fa-solid fa-check text-cyan-400 mr-2"></i> Generative Design Optimization</li>
+                            <li><i class="fa-solid fa-check text-cyan-400 mr-2"></i> Assemblies & Tolerancing</li>
                         </ul>
                     </div>
+                    <img src="mod1.png" class="rounded border border-white/10" alt="CAD Design Durban">
                 </div>
-                
-                <div class="grid grid-cols-2 gap-4">
-                    <img src="mod1.png" alt="3D Scan Durban" class="rounded border border-white/10 hover:border-cyan-400 transition-all">
-                    <img src="mod2.png" alt="Reverse Engineering KZN" class="rounded border border-white/10 hover:border-cyan-400 transition-all">
-                    <img src="mod4.png" alt="CAD Design Westville" class="rounded border border-white/10 hover:border-cyan-400 transition-all">
-                    <img src="mod5.png" alt="Engineering Prototyping South Africa" class="rounded border border-white/10 hover:border-cyan-400 transition-all">
+
+                <div id="gal-scanning" class="hidden grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="font-display text-2xl text-white mb-6 uppercase">Industrial 3D Scanning</h2>
+                        <p class="text-gray-400 leading-relaxed mb-6 font-bold uppercase text-xs tracking-widest">
+                            Our high-resolution scanners capture sub-millimeter detail from existing components, allowing for perfect replication or modifications.
+                        </p>
+                        <ul class="space-y-3 text-[10px] font-bold uppercase tracking-widest">
+                            <li><i class="fa-solid fa-check text-cyan-400 mr-2"></i> Metrology-Grade Scanning</li>
+                            <li><i class="fa-solid fa-check text-cyan-400 mr-2"></i> NLA Part Reverse Engineering</li>
+                            <li><i class="fa-solid fa-check text-cyan-400 mr-2"></i> On-site Scanning (Durban/KZN)</li>
+                        </ul>
+                    </div>
+                    <img src="mod2.png" class="rounded border border-white/10" alt="3D Scanning KZN">
+                </div>
+
+                <div id="gal-deliver" class="hidden grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="font-display text-2xl text-white mb-6 uppercase">Project Deliverables</h2>
+                        <p class="text-gray-400 leading-relaxed mb-6 font-bold uppercase text-xs tracking-widest">
+                            Receive industry-standard file formats ready for CNC, Injection Molding, or 3D Printing.
+                        </p>
+                        <ul class="space-y-3 text-[10px] font-bold uppercase tracking-widest">
+                            <li><i class="fa-solid fa-file-export text-cyan-400 mr-2"></i> Parametric .STEP / .IGES</li>
+                            <li><i class="fa-solid fa-file-export text-cyan-400 mr-2"></i> Mesh Data (.STL / .OBJ)</li>
+                            <li><i class="fa-solid fa-file-export text-cyan-400 mr-2"></i> Technical Drawing Packages</li>
+                        </ul>
+                    </div>
+                    <img src="mod4.png" class="rounded border border-white/10" alt="Engineering Deliverables">
+                </div>
+
+                <div id="gal-pricing" class="hidden grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="font-display text-2xl text-white mb-6 uppercase">Service Rates</h2>
+                        <p class="text-gray-400 leading-relaxed mb-6 font-bold uppercase text-xs tracking-widest">
+                            Transparent local pricing for South African engineering projects.
+                        </p>
+                        <div class="space-y-4">
+                            <div class="border-b border-white/10 pb-2 flex justify-between uppercase text-xs font-bold tracking-widest">
+                                <span>Basic 3D Scanning</span> <span class="text-cyan-400">R1,800+</span>
+                            </div>
+                            <div class="border-b border-white/10 pb-2 flex justify-between uppercase text-xs font-bold tracking-widest">
+                                <span>Reverse Engineering</span> <span class="text-cyan-400">R3,500+</span>
+                            </div>
+                            <div class="border-b border-white/10 pb-2 flex justify-between uppercase text-xs font-bold tracking-widest">
+                                <span>CAD Design (Hourly)</span> <span class="text-cyan-400">R850 / Hr</span>
+                            </div>
+                        </div>
+                    </div>
+                    <img src="mod5.png" class="rounded border border-white/10" alt="Pricing Estimates">
                 </div>
             </div>
         </section>
 
-        <section class="max-w-4xl mx-auto py-20 text-center">
-            <div class="glass-panel p-12 border-t-2 border-cyan-400">
-                <h2 class="font-display text-2xl text-white mb-6 uppercase">Need a Part Scanned in Durban?</h2>
-                <p class="mb-8 uppercase tracking-widest text-sm font-bold">Bring your components to our Westville workshop for a high-precision digital audit.</p>
-                <a href="index.html#contact" class="inline-block bg-cyan-400 text-black px-12 py-4 font-display font-bold uppercase tracking-widest hover:bg-white transition-all skew-x-[-10deg]">
-                    Request Technical Quote
-                </a>
-            </div>
-        </section>
+        <footer class="py-16 border-t border-white/10 px-6 text-center">
+            <a href="index.html#contact" class="inline-block bg-cyan-400 text-black px-12 py-4 font-display font-bold uppercase tracking-widest mb-10 hover:bg-white transition-all skew-x-[-10deg]">
+                Initialize New Inquiry
+            </a>
+            <p class="text-[10px] uppercase tracking-[0.5em] text-gray-600 font-bold">&copy; 2026 FORGED IN CARBON | DURBAN, SA</p>
+        </footer>
     </main>
 
-    <footer class="py-16 border-t border-white/10 px-6 text-center">
-        <p class="text-[10px] uppercase tracking-[0.5em] text-gray-600 font-bold">&copy; 2026 FORGED IN CARBON | DURBAN ENGINEERING</p>
-    </footer>
-
     <script>
+        function switchEco(name) {
+            ['design', 'scanning', 'deliver', 'pricing'].forEach(id => {
+                document.getElementById('gal-' + id).classList.add('hidden');
+                document.getElementById('tab-' + id).classList.remove('active');
+            });
+            document.getElementById('gal-' + name).classList.remove('hidden');
+            document.getElementById('tab-' + name).classList.add('active');
+        }
+
         window.onload = () => {
             const loader = document.getElementById('loader');
             loader.style.opacity = '0';
             setTimeout(() => { loader.style.display = 'none'; }, 500);
         };
 
-        // Standard Three.js background script (same as index)
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
+
         const geometry = new THREE.BufferGeometry();
         const vertices = [];
-        for (let i = 0; i < 1000; i++) {
+        for (let i = 0; i < 1500; i++) {
             vertices.push(THREE.MathUtils.randFloatSpread(50), THREE.MathUtils.randFloatSpread(50), THREE.MathUtils.randFloatSpread(50));
         }
         geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-        const particles = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0x00f3ff, size: 0.05 }));
+        const particles = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0x00f3ff, size: 0.04 }));
         scene.add(particles);
-        camera.position.z = 20;
+
+        camera.position.z = 15;
+        let mouseX = 0, mouseY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX - window.innerWidth / 2) / window.innerWidth * 0.15;
+            mouseY = (e.clientY - window.innerHeight / 2) / window.innerHeight * 0.15;
+        });
+
         function animate() {
             requestAnimationFrame(animate);
-            particles.rotation.y += 0.001;
+            particles.rotation.y += 0.0003; 
+            particles.rotation.x += (mouseY * 0.05); 
             renderer.render(scene, camera);
         }
         animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
     </script>
 </body>
 </html>
