@@ -56,7 +56,7 @@
             <div class="hidden md:flex gap-8 items-center uppercase text-xs font-bold tracking-[0.2em]">
                 <a href="index.html" class="hover:text-cyan-400">Home</a>
                 <a href="modeling.html" class="text-cyan-400">Modeling & Scanning</a>
-                <a href="index.html#contact" class="bg-cyan-400 text-black px-5 py-2 hover:bg-white transition-colors">Start Project</a>
+                <a href="#contact" class="bg-cyan-400 text-black px-5 py-2 hover:bg-white transition-colors">Start Project</a>
             </div>
         </div>
     </nav>
@@ -181,10 +181,31 @@
             </div>
         </section>
 
+        <section id="contact" class="py-24 px-6 max-w-4xl mx-auto">
+            <div class="glass-panel p-8 rounded-none border-t-2 border-cyan-400">
+                <h2 class="font-display text-2xl text-white mb-6 uppercase tracking-widest text-center">Technical Inquiry - Durban</h2>
+                <form action="https://formspree.io/f/mrebnpga" method="POST" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="text" name="name" placeholder="YOUR NAME" required class="bg-black/50 border border-white/10 p-4 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
+                        <input type="email" name="email" placeholder="YOUR EMAIL" required class="bg-black/50 border border-white/10 p-4 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
+                    </div>
+                    <select name="service" class="w-full bg-black/50 border border-white/10 p-4 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
+                        <option>3D PRINTING / PROTOTYPING</option>
+                        <option>REVERSE ENGINEERING / SCANNING</option>
+                        <option>FORGED CARBON FABRICATION</option>
+                    </select>
+                    <textarea name="message" rows="4" placeholder="PROJECT DETAILS (E.G. AUTOMOTIVE PART, PROTOTYPE)..." required class="w-full bg-black/50 border border-white/10 p-4 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest"></textarea>
+                    <button type="submit" class="w-full bg-cyan-400 text-black py-4 font-display font-bold uppercase tracking-[0.3em] hover:bg-white transition-colors cursor-pointer">Initialize Submission</button>
+                </form>
+            </div>
+        </section>
+
         <footer class="py-16 border-t border-white/10 px-6 text-center">
-            <a href="index.html#contact" class="inline-block bg-cyan-400 text-black px-12 py-4 font-display font-bold uppercase tracking-widest mb-10 hover:bg-white transition-all skew-x-[-10deg]">
-                Initialize Technical Inquiry
-            </a>
+            <div class="flex justify-center gap-10 mb-10 text-2xl">
+                <a href="https://wa.me/27740535875" target="_blank" class="hover:text-cyan-400 transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="https://www.facebook.com/FIC3d" target="_blank" class="hover:text-cyan-400 transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                <a href="mailto:neels@fic-3d.co.za" class="hover:text-cyan-400 transition-colors"><i class="fa-regular fa-envelope"></i></a>
+            </div>
             <p class="text-[10px] uppercase tracking-[0.5em] text-gray-600 font-bold">&copy; 2026 FORGED IN CARBON | WESTVILLE, DURBAN, SA</p>
         </footer>
     </main>
