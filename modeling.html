@@ -36,7 +36,7 @@
         canvas#bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         .glass-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); transition: all 0.3s ease; }
         #loader { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease-out; }
-        .eco-tab.active { border-color: #00f3ff; background: rgba(0, 243, 255, 0.08); transform: translateY(-5px); }
+        .eco-tab.active { border-color: #00f3ff; background: rgba(0, 243, 255, 0.15); transform: translateY(-5px); }
         .eco-tab.active i { color: #fff; text-shadow: 0 0 10px #00f3ff; }
     </style>
 </head>
@@ -63,109 +63,129 @@
 
     <main class="relative z-10 pt-32">
         <section class="py-12 px-6 max-w-7xl mx-auto text-center">
-            <div class="mb-4 inline-block border border-cyan-400/30 px-4 py-1 rounded-full bg-cyan-400/5 text-cyan-400 text-[10px] font-bold uppercase tracking-[0.3em]">
+            <div class="mb-4 inline-block border border-cyan-400/30 px-6 py-2 rounded-full bg-cyan-400/5 text-cyan-400 text-xs font-bold uppercase tracking-[0.3em]">
                 Advanced Metrology • Westville
             </div>
-            <h1 class="font-display text-4xl md:text-7xl font-black text-white mb-6 uppercase tracking-tighter leading-none">
+            <h1 class="font-display text-5xl md:text-8xl font-black text-white mb-6 uppercase tracking-tighter leading-none">
                 VIRTUAL <span class="neon-text text-gray-400">ENGINEERING</span>
             </h1>
-            <p class="text-gray-400 max-w-2xl mx-auto uppercase font-bold tracking-widest text-sm mb-16">
+            <p class="text-gray-400 max-w-2xl mx-auto uppercase font-bold tracking-widest text-lg mb-16">
                 From Physical Scans to Production-Ready CAD Data
             </p>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-                <div onclick="switchEco('design')" id="tab-design" class="eco-tab glass-panel p-6 cursor-pointer active">
-                    <i class="fa-solid fa-compass-drafting text-2xl text-cyan-400 mb-3 transition-all"></i>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+                <div onclick="switchEco('design')" id="tab-design" class="eco-tab glass-panel p-8 cursor-pointer active">
+                    <i class="fa-solid fa-compass-drafting text-3xl text-cyan-400 mb-4 transition-all"></i>
                     <h3 class="font-display text-sm text-white uppercase tracking-widest">Engineering</h3>
                 </div>
-                <div onclick="switchEco('scanning')" id="tab-scanning" class="eco-tab glass-panel p-6 cursor-pointer">
-                    <i class="fa-solid fa-qrcode text-2xl text-cyan-400 mb-3 transition-all"></i>
+                <div onclick="switchEco('scanning')" id="tab-scanning" class="eco-tab glass-panel p-8 cursor-pointer">
+                    <i class="fa-solid fa-qrcode text-3xl text-cyan-400 mb-4 transition-all"></i>
                     <h3 class="font-display text-sm text-white uppercase tracking-widest">Scanning</h3>
                 </div>
-                <div onclick="switchEco('deliver')" id="tab-deliver" class="eco-tab glass-panel p-6 cursor-pointer">
-                    <i class="fa-solid fa-box-open text-2xl text-cyan-400 mb-3 transition-all"></i>
+                <div onclick="switchEco('deliver')" id="tab-deliver" class="eco-tab glass-panel p-8 cursor-pointer">
+                    <i class="fa-solid fa-box-open text-3xl text-cyan-400 mb-4 transition-all"></i>
                     <h3 class="font-display text-sm text-white uppercase tracking-widest">Deliverables</h3>
                 </div>
-                <div onclick="switchEco('pricing')" id="tab-pricing" class="eco-tab glass-panel p-6 cursor-pointer">
-                    <i class="fa-solid fa-tags text-2xl text-cyan-400 mb-3 transition-all"></i>
-                    <h3 class="font-display text-sm text-white uppercase tracking-widest">Pricing</h3>
+                <div onclick="switchEco('pricing')" id="tab-pricing" class="eco-tab glass-panel p-8 cursor-pointer">
+                    <i class="fa-solid fa-chart-line text-3xl text-cyan-400 mb-4 transition-all"></i>
+                    <h3 class="font-display text-sm text-white uppercase tracking-widest">Estimates</h3>
                 </div>
             </div>
 
-            <div class="glass-panel p-8 md:p-12 text-left min-h-[400px]">
-                <div id="gal-design" class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="glass-panel p-10 md:p-16 text-left min-h-[500px]">
+                
+                <div id="gal-design" class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <div>
-                        <h2 class="font-display text-2xl text-white mb-6 uppercase">CAD Modeling & Optimization</h2>
-                        <p class="text-gray-400 leading-relaxed mb-6 font-bold uppercase text-xs tracking-widest">
-                            We specialize in parametric modeling and generative design, ensuring parts are optimized for weight, strength, and manufacturability.
+                        <h2 class="font-display text-4xl text-white mb-8 uppercase text-cyan-400">CAD Design & Optimization</h2>
+                        <p class="text-xl text-gray-300 leading-relaxed mb-8 font-bold uppercase tracking-wider">
+                            Parametric modeling and generative design optimized for high-performance manufacturing.
                         </p>
-                        <ul class="space-y-3 text-[10px] font-bold uppercase tracking-widest">
-                            <li><i class="fa-solid fa-check text-cyan-400 mr-2"></i> Mechanical Design for Automotive</li>
-                            <li><i class="fa-solid fa-check text-cyan-400 mr-2"></i> Generative Design Optimization</li>
-                            <li><i class="fa-solid fa-check text-cyan-400 mr-2"></i> Assemblies & Tolerancing</li>
+                        <ul class="space-y-4 text-sm font-bold uppercase tracking-widest text-white">
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-cyan-400"></i> Mechanical Design for Automotive</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-cyan-400"></i> Generative Design Optimization</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-cyan-400"></i> Assemblies & Tolerancing</li>
                         </ul>
                     </div>
-                    <img src="mod1.png" class="rounded border border-white/10" alt="CAD Design Durban">
+                    <div class="grid grid-cols-2 gap-4">
+                        <img src="mod1.png" class="rounded border border-white/10 hover:border-cyan-400 transition-all aspect-square object-cover" alt="Eng 1">
+                        <img src="mod2.png" class="rounded border border-white/10 hover:border-cyan-400 transition-all aspect-square object-cover" alt="Eng 2">
+                        <img src="mod3.png" class="rounded border border-white/10 hover:border-cyan-400 transition-all aspect-square object-cover" alt="Eng 3">
+                        <img src="mod4.png" class="rounded border border-white/10 hover:border-cyan-400 transition-all aspect-square object-cover" alt="Eng 4">
+                    </div>
                 </div>
 
-                <div id="gal-scanning" class="hidden grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div id="gal-scanning" class="hidden grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <div>
-                        <h2 class="font-display text-2xl text-white mb-6 uppercase">Industrial 3D Scanning</h2>
-                        <p class="text-gray-400 leading-relaxed mb-6 font-bold uppercase text-xs tracking-widest">
-                            Our high-resolution scanners capture sub-millimeter detail from existing components, allowing for perfect replication or modifications.
+                        <h2 class="font-display text-4xl text-white mb-8 uppercase text-cyan-400">Industrial 3D Scanning</h2>
+                        <p class="text-xl text-gray-300 leading-relaxed mb-8 font-bold uppercase tracking-wider">
+                            High-resolution metrology capturing sub-millimeter detail for replication or modification.
                         </p>
-                        <ul class="space-y-3 text-[10px] font-bold uppercase tracking-widest">
-                            <li><i class="fa-solid fa-check text-cyan-400 mr-2"></i> Metrology-Grade Scanning</li>
-                            <li><i class="fa-solid fa-check text-cyan-400 mr-2"></i> NLA Part Reverse Engineering</li>
-                            <li><i class="fa-solid fa-check text-cyan-400 mr-2"></i> On-site Scanning (Durban/KZN)</li>
+                        <ul class="space-y-4 text-sm font-bold uppercase tracking-widest text-white">
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-cyan-400"></i> NLA Part Reverse Engineering</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-cyan-400"></i> On-site Scanning (Durban/KZN)</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-cyan-400"></i> Inspection & Quality Reports</li>
                         </ul>
                     </div>
-                    <img src="mod2.png" class="rounded border border-white/10" alt="3D Scanning KZN">
-                </div>
-
-                <div id="gal-deliver" class="hidden grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                    <div>
-                        <h2 class="font-display text-2xl text-white mb-6 uppercase">Project Deliverables</h2>
-                        <p class="text-gray-400 leading-relaxed mb-6 font-bold uppercase text-xs tracking-widest">
-                            Receive industry-standard file formats ready for CNC, Injection Molding, or 3D Printing.
-                        </p>
-                        <ul class="space-y-3 text-[10px] font-bold uppercase tracking-widest">
-                            <li><i class="fa-solid fa-file-export text-cyan-400 mr-2"></i> Parametric .STEP / .IGES</li>
-                            <li><i class="fa-solid fa-file-export text-cyan-400 mr-2"></i> Mesh Data (.STL / .OBJ)</li>
-                            <li><i class="fa-solid fa-file-export text-cyan-400 mr-2"></i> Technical Drawing Packages</li>
-                        </ul>
+                    <div class="grid grid-cols-2 gap-4">
+                        <img src="scan1.png" class="rounded border border-white/10 hover:border-cyan-400 transition-all aspect-square object-cover" alt="Scan 1">
+                        <img src="scan5.png" class="rounded border border-white/10 hover:border-cyan-400 transition-all aspect-square object-cover" alt="Scan 5">
+                        <img src="scan10.png" class="rounded border border-white/10 hover:border-cyan-400 transition-all aspect-square object-cover" alt="Scan 10">
+                        <img src="scan12.png" class="rounded border border-white/10 hover:border-cyan-400 transition-all aspect-square object-cover" alt="Scan 12">
                     </div>
-                    <img src="mod4.png" class="rounded border border-white/10" alt="Engineering Deliverables">
                 </div>
 
-                <div id="gal-pricing" class="hidden grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                    <div>
-                        <h2 class="font-display text-2xl text-white mb-6 uppercase">Service Rates</h2>
-                        <p class="text-gray-400 leading-relaxed mb-6 font-bold uppercase text-xs tracking-widest">
-                            Transparent local pricing for South African engineering projects.
-                        </p>
-                        <div class="space-y-4">
-                            <div class="border-b border-white/10 pb-2 flex justify-between uppercase text-xs font-bold tracking-widest">
-                                <span>Basic 3D Scanning</span> <span class="text-cyan-400">R1,800+</span>
-                            </div>
-                            <div class="border-b border-white/10 pb-2 flex justify-between uppercase text-xs font-bold tracking-widest">
-                                <span>Reverse Engineering</span> <span class="text-cyan-400">R3,500+</span>
-                            </div>
-                            <div class="border-b border-white/10 pb-2 flex justify-between uppercase text-xs font-bold tracking-widest">
-                                <span>CAD Design (Hourly)</span> <span class="text-cyan-400">R850 / Hr</span>
-                            </div>
+                <div id="gal-deliver" class="hidden flex flex-col items-center justify-center text-center py-10">
+                    <h2 class="font-display text-5xl text-white mb-12 uppercase text-cyan-400">Engineering Deliverables</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-12 text-5xl md:text-7xl font-display font-black text-white italic tracking-tighter">
+                        <div class="flex flex-col gap-4"><span class="neon-text">.STL</span><span class="text-xs tracking-widest text-gray-500 italic">MESH</span></div>
+                        <div class="flex flex-col gap-4"><span class="neon-text">.OBJ</span><span class="text-xs tracking-widest text-gray-500 italic">VISUAL</span></div>
+                        <div class="flex flex-col gap-4"><span class="neon-text">.STEP</span><span class="text-xs tracking-widest text-gray-500 italic">CAD</span></div>
+                        <div class="flex flex-col gap-4"><span class="neon-text">.3MF</span><span class="text-xs tracking-widest text-gray-500 italic">PRINT</span></div>
+                    </div>
+                    <p class="mt-16 text-gray-400 uppercase font-bold tracking-[0.3em] max-w-2xl">Industry standard files ready for CNC, Injection Molding, or 3D Printing.</p>
+                </div>
+
+                <div id="gal-pricing" class="hidden">
+                    <h2 class="font-display text-4xl text-white mb-12 uppercase text-center text-cyan-400">Project Estimates</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="glass-panel p-10 border-b-4 border-white/10 hover:border-cyan-400 transition-all">
+                            <h3 class="font-display text-white text-2xl mb-2 uppercase tracking-tight">3D Scanning</h3>
+                            <p class="text-cyan-400 font-bold mb-6 italic text-lg tracking-widest">Starting R1,800</p>
+                            <ul class="text-xs text-gray-300 space-y-4 uppercase font-bold tracking-wider">
+                                <li><i class="fa-solid fa-check text-cyan-400 mr-2"></i> High Resolution Capture</li>
+                                <li><i class="fa-solid fa-check text-cyan-400 mr-2"></i> Mesh Repair Included</li>
+                                <li><i class="fa-solid fa-check text-cyan-400 mr-2"></i> Durban Local Service</li>
+                            </ul>
+                        </div>
+                        <div class="glass-panel p-10 border-b-4 border-cyan-400 bg-cyan-400/10">
+                            <h3 class="font-display text-white text-2xl mb-2 uppercase tracking-tight text-cyan-400">Reverse Eng</h3>
+                            <p class="text-white font-bold mb-6 italic text-lg tracking-widest">Starting R3,500</p>
+                            <ul class="text-xs text-gray-100 space-y-4 uppercase font-bold tracking-wider">
+                                <li><i class="fa-solid fa-check text-cyan-400 mr-2"></i> Scan-to-CAD Workflow</li>
+                                <li><i class="fa-solid fa-check text-cyan-400 mr-2"></i> Parametric .STEP Delivery</li>
+                                <li><i class="fa-solid fa-check text-cyan-400 mr-2"></i> Fitment Guarantee</li>
+                            </ul>
+                        </div>
+                        <div class="glass-panel p-10 border-b-4 border-white/10 hover:border-cyan-400 transition-all">
+                            <h3 class="font-display text-white text-2xl mb-2 uppercase tracking-tight">CAD Design</h3>
+                            <p class="text-cyan-400 font-bold mb-6 italic text-lg tracking-widest">R850 / Hour</p>
+                            <ul class="text-xs text-gray-300 space-y-4 uppercase font-bold tracking-wider">
+                                <li><i class="fa-solid fa-check text-cyan-400 mr-2"></i> Custom Part Development</li>
+                                <li><i class="fa-solid fa-check text-cyan-400 mr-2"></i> Technical Consulting</li>
+                                <li><i class="fa-solid fa-check text-cyan-400 mr-2"></i> Prototype Prep</li>
+                            </ul>
                         </div>
                     </div>
-                    <img src="mod5.png" class="rounded border border-white/10" alt="Pricing Estimates">
                 </div>
+
             </div>
         </section>
 
         <footer class="py-16 border-t border-white/10 px-6 text-center">
             <a href="index.html#contact" class="inline-block bg-cyan-400 text-black px-12 py-4 font-display font-bold uppercase tracking-widest mb-10 hover:bg-white transition-all skew-x-[-10deg]">
-                Initialize New Inquiry
+                Initialize Technical Inquiry
             </a>
-            <p class="text-[10px] uppercase tracking-[0.5em] text-gray-600 font-bold">&copy; 2026 FORGED IN CARBON | DURBAN, SA</p>
+            <p class="text-[10px] uppercase tracking-[0.5em] text-gray-600 font-bold">&copy; 2026 FORGED IN CARBON | WESTVILLE, DURBAN, SA</p>
         </footer>
     </main>
 
