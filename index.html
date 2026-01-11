@@ -12,50 +12,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="canonical" href="https://www.fic-3d.co.za/">
     
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <title>Forged in Carbon | 3D Printing & Carbon Fiber Engineering Durban</title>
     <meta name="description" content="Professional 3D printing & forged carbon fiber parts in Durban. Custom modeling starting from R450. Fast local prototyping in Westville, KZN.">
-    <meta name="keywords" content="3D Printing Durban, Carbon Fiber South Africa, Forged Carbon, 3D Scanning KZN, Prototyping Durban">
     <meta name="referrer" content="origin">
 
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "Forged in Carbon (FIC-3D)",
-      "image": "https://www.fic-3d.co.za/mod1.png",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Westville",
-        "addressRegion": "Durban",
-        "addressCountry": "ZA"
-      },
-      "url": "https://www.fic-3d.co.za",
-      "priceRange": "R450 - R50000"
-    }
-    </script>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
 
+    <script src="https://cdn.tailwindcss.com" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { cyan: { 400: '#00f3ff' }, carbon: { 900: '#0a0a0a' } },
-                    fontFamily: { sans: ['Rajdhani', 'sans-serif'], display: ['Orbitron', 'sans-serif'] }
+        // Inline config to prevent flash of unstyled content
+        window.addEventListener('DOMContentLoaded', () => {
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: { cyan: { 400: '#00f3ff' }, carbon: { 900: '#0a0a0a' } },
+                        fontFamily: { sans: ['Rajdhani', 'sans-serif'], display: ['Orbitron', 'sans-serif'] }
+                    }
                 }
             }
-        }
+        });
     </script>
     <style>
         .neon-text { text-shadow: 0 0 15px rgba(0, 243, 255, 0.7); }
         canvas#bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         .glass-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); transition: all 0.3s ease; }
         #loader { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease-out; }
-        .eco-tab.active { border-color: #00f3ff; background: rgba(0, 243, 255, 0.08); transform: translateY(-5px); }
-        .eco-tab.active i { color: #fff; text-shadow: 0 0 10px #00f3ff; }
     </style>
 </head>
 <body class="bg-carbon-900 text-gray-300 font-sans">
@@ -151,24 +139,24 @@
             </div>
 
             <div id="gal-design" class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <img src="mod1.png" alt="3D Modeling Durban" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
-                <img src="mod2.png" alt="Virtual Engineering Westville" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
-                <img src="mod4.png" alt="CAD Design South Africa" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
-                <img src="mod5.png" alt="Engineering Prototyping Durban" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+                <img src="mod1.webp" alt="3D Modeling Durban" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+                <img src="mod2.webp" alt="Virtual Engineering Westville" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+                <img src="mod4.webp" alt="CAD Design South Africa" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+                <img src="mod5.webp" alt="Engineering Prototyping Durban" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
             </div>
 
             <div id="gal-printing" class="hidden grid grid-cols-2 md:grid-cols-4 gap-4">
-                <img src="3dprint1.png" alt="3D Printing Service Durban" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
-                <img src="3dprint2.png" alt="PA12 Carbon Fiber Print" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
-                <img src="3dprint5.jpg" alt="Functional 3D Prints" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
-                <img src="3dprint6.jpg" alt="Industrial Prototyping KZN" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+                <img src="3dprint1.webp" alt="3D Printing Service Durban" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+                <img src="3dprint2.webp" alt="PA12 Carbon Fiber Print" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+                <img src="3dprint5.webp" alt="Functional 3D Prints" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+                <img src="3dprint6.webp" alt="Industrial Prototyping KZN" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
             </div>
 
             <div id="gal-scanning" class="hidden grid grid-cols-2 md:grid-cols-4 gap-4">
-                <img src="component9.jpeg" alt="Forged Carbon Durban" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
-                <img src="component10.jpeg" alt="Carbon Fiber Components South Africa" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
-                <img src="component11.jpeg" alt="Reverse Engineering Parts" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
-                <img src="component14.jpeg" alt="Automotive Carbon Fiber" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+                <img src="component9.webp" alt="Forged Carbon Durban" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+                <img src="component10.webp" alt="Carbon Fiber Components South Africa" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+                <img src="component11.webp" alt="Reverse Engineering Parts" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
+                <img src="component14.webp" alt="Automotive Carbon Fiber" class="aspect-square object-cover rounded border border-white/10 hover:border-cyan-400/50 transition-all">
             </div>
         </section>
 
@@ -296,3 +284,4 @@
     </script>
 </body>
 </html>
+
