@@ -228,60 +228,78 @@
         </footer>
     </main>
 
-    <script>
-        function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
-        
-        function switchEco(name) {
-            ['design', 'printing', 'scanning'].forEach(id => {
-                document.getElementById('gal-' + id).classList.add('hidden');
-                document.getElementById('tab-' + id).classList.remove('active');
-            });
-            document.getElementById('gal-' + name).classList.remove('hidden');
-            document.getElementById('tab-' + name).classList.add('active');
-        }
+   <script>
+    // 1. Mobile Menu Toggle
+    function toggleMenu() { 
+        const menu = document.getElementById('mobile-menu');
+        if(menu) menu.classList.toggle('hidden'); 
+    }
 
-        window.onload = () => {
-            const loader = document.getElementById('loader');
+    // 2. Tab Switcher (For Modeling Page - Safe to keep on both)
+    function switchEco(name) {
+        const tabs = ['design', 'scanning', 'deliver', 'pricing'];
+        tabs.forEach(id => {
+            const gal = document.getElementById('gal-' + id);
+            const tab = document.getElementById('tab-' + id);
+            if(gal) gal.classList.add('hidden');
+            if(tab) tab.classList.remove('active');
+        });
+        const activeGal = document.getElementById('gal-' + name);
+        const activeTab = document.getElementById('tab-' + name);
+        if(activeGal) activeGal.classList.remove('hidden');
+        if(activeTab) activeTab.classList.add('active');
+    }
+
+    // 3. THE ANIMATION FIX: Wait for Three.js to load
+    window.addEventListener('load', () => {
+        // Hide Loader
+        const loader = document.getElementById('loader');
+        if(loader) {
             loader.style.opacity = '0';
             setTimeout(() => { loader.style.display = 'none'; }, 500);
-        };
-
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-
-        const geometry = new THREE.BufferGeometry();
-        const vertices = [];
-        for (let i = 0; i < 1500; i++) {
-            vertices.push(THREE.MathUtils.randFloatSpread(50), THREE.MathUtils.randFloatSpread(50), THREE.MathUtils.randFloatSpread(50));
         }
-        geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-        const particles = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0x00f3ff, size: 0.04 }));
-        scene.add(particles);
 
-        camera.position.z = 15;
-        let mouseX = 0, mouseY = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX - window.innerWidth / 2) / window.innerWidth * 0.15;
-            mouseY = (e.clientY - window.innerHeight / 2) / window.innerHeight * 0.15;
-        });
-
-        function animate() {
-            requestAnimationFrame(animate);
-            particles.rotation.y += 0.0003; 
-            particles.rotation.x += (mouseY * 0.05); 
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
+        // Initialize Three.js Animation
+        if (typeof THREE !== 'undefined') {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-    </script>
+
+            const geometry = new THREE.BufferGeometry();
+            const vertices = [];
+            for (let i = 0; i < 1500; i++) {
+                vertices.push(THREE.MathUtils.randFloatSpread(50), THREE.MathUtils.randFloatSpread(50), THREE.MathUtils.randFloatSpread(50));
+            }
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+            const particles = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0x00f3ff, size: 0.04 }));
+            scene.add(particles);
+
+            camera.position.z = 15;
+            let mouseX = 0, mouseY = 0;
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX - window.innerWidth / 2) / window.innerWidth * 0.15;
+                mouseY = (e.clientY - window.innerHeight / 2) / window.innerHeight * 0.15;
+            });
+
+            function animate() {
+                requestAnimationFrame(animate);
+                particles.rotation.y += 0.0003; 
+                particles.rotation.x += (mouseY * 0.05); 
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+    });
+</script>
 </body>
 </html>
+
 
