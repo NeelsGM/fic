@@ -4,7 +4,7 @@ import os
 
 # --- STEP 1: Setup the AI Brain ---
 # Get your key from https://aistudio.google.com/
-genai.configure(api_key="YOUR_GEMINI_API_KEY")
+genai.configure(api_key="AIzaSyCtzmSmzYvFBmDCRhm5ErJ-9-LSlGVts6Q")
 model = genai.GenerativeModel('gemini-1.5-pro')
 
 def process_scan_to_step(input_scan):
