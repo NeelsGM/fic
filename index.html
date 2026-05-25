@@ -61,13 +61,14 @@
 
     <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='index.html'">
                 <i class="fa-solid fa-cube text-cyan-400 text-2xl"></i>
                 <span class="font-display font-bold text-2xl text-white uppercase">FIC</span>
             </div>
             <div class="hidden md:flex gap-8 items-center uppercase text-xs font-bold tracking-[0.2em]">
                 <a href="index.html" class="text-cyan-400">Home</a>
                 <a href="modeling.html" class="hover:text-cyan-400 transition-colors">Modeling & Scanning</a>
+                <a href="drone-flights.html" class="hover:text-cyan-400 transition-colors">Drone Flights & Photogrammetry</a>
                 <a href="#contact" class="bg-cyan-400 text-black px-5 py-2 hover:bg-white transition-colors">Start Project</a>
             </div>
             <button onclick="toggleMenu()" class="md:hidden text-white"><i class="fa-solid fa-bars text-2xl"></i></button>
@@ -75,6 +76,7 @@
         <div id="mobile-menu" class="hidden md:hidden bg-black/95 border-b border-white/10 flex flex-col p-6 gap-4 uppercase text-sm font-bold tracking-widest">
             <a href="index.html" class="text-cyan-400">Home</a>
             <a href="modeling.html">Modeling & Scanning</a>
+            <a href="drone-flights.html">Drone Flights & Photogrammetry</a>
             <a href="#contact" onclick="toggleMenu()">Contact Us</a>
         </div>
     </nav>
@@ -252,7 +254,7 @@
         const activeGal = document.getElementById('gal-' + name);
         const activeTab = document.getElementById('tab-' + name);
         if(activeGal) activeGal.classList.remove('hidden');
-        if(activeTab) activeTab.classList.add('active');
+        if(activeTab) activeTab.add('active');
     }
 
     window.addEventListener('load', () => {
