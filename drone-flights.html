@@ -48,7 +48,6 @@
         canvas#bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         .glass-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); transition: all 0.3s ease; }
         #loader { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease-out; }
-        .showcase-btn.active { border-color: #00f3ff; background: rgba(0, 243, 255, 0.1); color: #fff; text-shadow: 0 0 10px #00f3ff; }
     </style>
 </head>
 <body class="bg-carbon-900 text-gray-300 font-sans">
@@ -81,7 +80,7 @@
     </nav>
 
     <main class="relative z-10 pt-32">
-        <section class="min-h-[60vh] flex flex-col items-center justify-center px-6 text-center">
+        <section class="min-h-[50vh] flex flex-col items-center justify-center px-6 text-center">
             <div class="mb-4 inline-block border border-cyan-400/30 px-4 py-1 rounded-full bg-cyan-400/5 text-cyan-400 text-[10px] font-bold uppercase tracking-[0.3em]">
                 UAV Mapping • Spatial Intelligence • KZN
             </div>
@@ -94,37 +93,36 @@
         </section>
 
         <section class="py-12 px-6 max-w-7xl mx-auto border-t border-white/5">
-            <div class="flex flex-col sm:flex-row justify-center gap-4 mb-12">
-                <button onclick="switchView('flights')" id="btn-flights" class="showcase-btn active border border-white/20 px-8 py-4 font-display font-bold uppercase tracking-[0.2em] transition-all transform skew-x-[-10deg] flex items-center justify-center gap-3">
-                    <i class="fa-solid fa-drone text-cyan-400"></i> Drone Flights
-                </button>
-                <button onclick="switchView('photogrammetry')" id="btn-photogrammetry" class="showcase-btn border border-white/20 px-8 py-4 font-display font-bold uppercase tracking-[0.2em] transition-all transform skew-x-[-10deg] flex items-center justify-center gap-3">
-                    <i class="fa-solid fa-cloud text-cyan-400"></i> Photogrammetry
-                </button>
-            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <div class="space-y-4">
+                    <div class="glass-panel p-8 border-l-2 border-cyan-400 min-h-[160px] flex flex-col justify-center">
+                        <h3 class="font-display text-xl text-white mb-3 uppercase tracking-widest flex items-center gap-3">
+                            <i class="fa-solid fa-drone text-cyan-400"></i> Drone Flights
+                        </h3>
+                        <p class="text-gray-400 text-xs tracking-wide leading-relaxed uppercase">
+                            Our commercial grade systems follow optimized flight grids to lock in repeatable terrain arrays. Perfect for structural monitoring, development assets, and topographical baseline capture across the greater Durban area.
+                        </p>
+                    </div>
+                    <div class="glass-panel min-h-[300px] flex items-center justify-center border border-dashed border-white/20 rounded relative overflow-hidden group">
+                        <span class="text-xs uppercase font-bold tracking-[0.3em] text-gray-600 group-hover:text-cyan-400 transition-colors">[ UAV Operations Log Viewport ]</span>
+                    </div>
+                </div>
 
-            <div id="content-flights" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="glass-panel p-8 flex flex-col justify-center border-l-2 border-cyan-400">
-                    <h3 class="font-display text-xl text-white mb-4 uppercase tracking-widest">Autonomous Mission Parameters</h3>
-                    <p class="text-gray-400 text-sm tracking-wide leading-relaxed uppercase">
-                        Our commercial grade systems follow optimized flight grids to lock in repeatable terrain arrays. Perfect for structural monitoring, development assets, and topographical baseline capture across the greater Durban area.
-                    </p>
+                <div class="space-y-4">
+                    <div class="glass-panel p-8 border-l-2 border-cyan-400 min-h-[160px] flex flex-col justify-center">
+                        <h3 class="font-display text-xl text-white mb-3 uppercase tracking-widest flex items-center gap-3">
+                            <i class="fa-solid fa-cloud text-cyan-400"></i> Photogrammetry
+                        </h3>
+                        <p class="text-gray-400 text-xs tracking-wide leading-relaxed uppercase">
+                            Transforming overlapping photograph arrays into spatial coordinates. We compute point data arrays to compile high-density structural models, delivering scalable formats ready for integration with CAD, Blender, or Unity layout engines.
+                        </p>
+                    </div>
+                    <div class="glass-panel min-h-[300px] flex items-center justify-center border border-dashed border-white/20 rounded relative overflow-hidden group">
+                        <span class="text-xs uppercase font-bold tracking-[0.3em] text-gray-600 group-hover:text-cyan-400 transition-colors">[ 3D Mesh Reconstruction Engine ]</span>
+                    </div>
                 </div>
-                <div class="glass-panel min-h-[250px] flex items-center justify-center border border-dashed border-white/20 rounded relative overflow-hidden group">
-                    <span class="text-xs uppercase font-bold tracking-[0.3em] text-gray-600 group-hover:text-cyan-400 transition-colors">[ UAV Operations Log Viewport ]</span>
-                </div>
-            </div>
 
-            <div id="content-photogrammetry" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="glass-panel p-8 flex flex-col justify-center border-l-2 border-cyan-400">
-                    <h3 class="font-display text-xl text-white mb-4 uppercase tracking-widest">Dense Point Cloud Engineering</h3>
-                    <p class="text-gray-400 text-sm tracking-wide leading-relaxed uppercase">
-                        Transforming overlapping photograph arrays into spatial coordinates. We compute point data arrays to compile high-density structural models, delivering scalable formats ready for integration with CAD, Blender, or Unity layout engines.
-                    </p>
-                </div>
-                <div class="glass-panel min-h-[250px] flex items-center justify-center border border-dashed border-white/20 rounded relative overflow-hidden group">
-                    <span class="text-xs uppercase font-bold tracking-[0.3em] text-gray-600 group-hover:text-cyan-400 transition-colors">[ 3D Mesh Reconstruction Engine ]</span>
-                </div>
             </div>
         </section>
 
@@ -181,25 +179,6 @@
     function toggleMenu() { 
         const menu = document.getElementById('mobile-menu');
         if(menu) menu.classList.toggle('hidden'); 
-    }
-
-    function switchView(type) {
-        const flightsBlock = document.getElementById('content-flights');
-        const photogrammetryBlock = document.getElementById('content-photogrammetry');
-        const btnFlights = document.getElementById('btn-flights');
-        const btnPhotogrammetry = document.getElementById('btn-photogrammetry');
-
-        if(type === 'flights') {
-            flightsBlock.classList.remove('hidden');
-            photogrammetryBlock.classList.add('hidden');
-            btnFlights.classList.add('active');
-            btnPhotogrammetry.classList.remove('active');
-        } else {
-            flightsBlock.classList.add('hidden');
-            photogrammetryBlock.classList.remove('hidden');
-            btnFlights.classList.remove('active');
-            btnPhotogrammetry.classList.add('active');
-        }
     }
 
     window.addEventListener('load', () => {
