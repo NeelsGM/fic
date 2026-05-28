@@ -244,7 +244,7 @@
     }
 
     function switchEco(name) {
-        const tabs = ['design', 'printing', 'scanning', 'deliver', 'pricing'];
+        const tabs = ['design', 'printing', 'scanning'];
         tabs.forEach(id => {
             const gal = document.getElementById('gal-' + id);
             const tab = document.getElementById('tab-' + id);
@@ -254,7 +254,7 @@
         const activeGal = document.getElementById('gal-' + name);
         const activeTab = document.getElementById('tab-' + name);
         if(activeGal) activeGal.classList.remove('hidden');
-        if(activeTab) activeTab.add('active');
+        if(activeTab) activeTab.classList.add('active');
     }
 
     window.addEventListener('load', () => {
