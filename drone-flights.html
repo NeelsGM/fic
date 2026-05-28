@@ -96,11 +96,11 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
                 
                 <div class="space-y-4">
-                    <div class="glass-panel p-8 md:p-10 border-l-2 border-cyan-400 min-h-[220px] flex flex-col justify-center">
-                        <h3 class="font-display text-2xl text-white mb-4 uppercase tracking-widest flex items-center gap-3">
+                    <div class="glass-panel p-8 border-l-2 border-cyan-400 min-h-[160px] flex flex-col justify-center">
+                        <h3 class="font-display text-xl text-white mb-3 uppercase tracking-widest flex items-center gap-3">
                             <i class="fa-solid fa-drone text-cyan-400"></i> Drone Flights
                         </h3>
-                        <p class="text-gray-300 text-sm md:text-base tracking-wider leading-relaxed uppercase font-bold">
+                        <p class="text-gray-400 text-xs tracking-wide leading-relaxed uppercase">
                             Drone flights for construction and road works provide critical aerial data, revolutionizing how sites are surveyed, monitored, and managed.
                             <br><br>
                             <span class="text-cyan-400">Progress Tracking:</span> Regular flights produce photos and videos to catch deviations and schedule bottlenecks early.
@@ -112,11 +112,11 @@
                 </div>
 
                 <div class="space-y-4">
-                    <div class="glass-panel p-8 md:p-10 border-l-2 border-cyan-400 min-h-[220px] flex flex-col justify-center">
-                        <h3 class="font-display text-2xl text-white mb-4 uppercase tracking-widest flex items-center gap-3">
+                    <div class="glass-panel p-8 border-l-2 border-cyan-400 min-h-[160px] flex flex-col justify-center">
+                        <h3 class="font-display text-xl text-white mb-3 uppercase tracking-widest flex items-center gap-3">
                             <i class="fa-solid fa-cloud text-cyan-400"></i> Photogrammetry
                         </h3>
-                        <p class="text-gray-300 text-sm md:text-base tracking-wider leading-relaxed uppercase font-bold">
+                        <p class="text-gray-400 text-xs tracking-wide leading-relaxed uppercase">
                             Drone photogrammetry is the process of capturing hundreds of overlapping 2D photographs with a drone, and using specialized software to stitch them together.
                             <br><br>
                             This technique translates raw images into highly accurate 3D models for surveying, construction, and agriculture.
@@ -197,4 +197,26 @@
             camera.position.z = 15;
             let mouseX = 0, mouseY = 0;
 
-            document.addEventListener('mousemove', (e
+            document.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX - window.innerWidth / 2) / window.innerWidth * 0.15;
+                mouseY = (e.clientY - window.innerHeight / 2) / window.innerHeight * 0.15;
+            });
+
+            function animate() {
+                requestAnimationFrame(animate);
+                particles.rotation.y += 0.0003; 
+                particles.rotation.x += (mouseY * 0.05); 
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+    });
+</script>
+</body>
+</html>
