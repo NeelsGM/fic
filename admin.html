@@ -140,7 +140,7 @@
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1px;
-            transition: all 0.2s ease;
+ transition: all 0.2s ease;
             margin-top: 10px;
         }
 
@@ -208,8 +208,8 @@
 
             <div class="section-title">Scan Tuning Matrix</div>
             <div class="form-group">
-                <label>Focal Density Scale: <span id="val-size">0.25</span></label>
-                <input type="range" id="scale-size" min="0.02" max="0.80" step="0.01" value="0.25">
+                <label>Focal Density Scale: <span id="val-size">0.40</span></label>
+                <input type="range" id="scale-size" min="0.05" max="2.00" step="0.05" value="0.40">
             </div>
             <div class="form-group">
                 <label>Core Opacity: <span id="val-opacity">0.95</span></label>
@@ -288,7 +288,6 @@
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
 
-        // Visual target anchor tracking pin
         const testBox = new THREE.Mesh(
             new THREE.BoxGeometry(0.6, 0.6, 0.6),
             new THREE.MeshBasicMaterial({ color: 0x00f0ff, wireframe: true })
@@ -296,7 +295,6 @@
         testBox.position.set(0, 0.3, 0);
         scene.add(testBox);
 
-        // Ground Plane Workspace Grid
         const gridHelper = new THREE.GridHelper(80, 80, 0x00f0ff, 0x1e293b);
         scene.add(gridHelper);
 
@@ -308,14 +306,12 @@
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
 
-        // Native Binary Array Reader Pipeline 
         const fileInput = document.getElementById('splat-file-input');
         const systemStatus = document.getElementById('system-status');
         
         let currentSplatParticles = null;
         let splatMaterial = null;
 
-        // Tie into DOM Tuning Input Nodes
         const sliderSize = document.getElementById('scale-size');
         const sliderOpacity = document.getElementById('scale-opacity');
         const sliderHeight = document.getElementById('scale-height');
@@ -324,7 +320,6 @@
         const labelOpacity = document.getElementById('val-opacity');
         const labelHeight = document.getElementById('val-height');
 
-        // Real-Time Control Hook Interceptors
         sliderSize.addEventListener('input', () => {
             const val = parseFloat(sliderSize.value);
             labelSize.innerText = val.toFixed(2);
@@ -343,7 +338,6 @@
             if (currentSplatParticles) currentSplatParticles.position.y = val;
         });
 
-        // Generate a high-contrast radial blur particle texture programmatically
         function generateSplattedTexture() {
             const size = 64;
             const canvas = document.createElement('canvas');
@@ -360,8 +354,7 @@
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, size, size);
 
-            const texture = new THREE.CanvasTexture(canvas);
-            return texture;
+            return new THREE.CanvasTexture(canvas);
         }
 
         fileInput.addEventListener('change', function(event) {
@@ -404,7 +397,6 @@
                     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
                     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 4));
 
-                    // CUSTOM SHADER MATERIAL: Replaces coarse square pixels with soft focused Gaussian particle discs
                     splatMaterial = new THREE.PointsMaterial({
                         vertexColors: true,
                         map: generateSplattedTexture(),
@@ -414,7 +406,6 @@
                         sizeAttenuation: true
                     });
 
-                    // Wrap parameters inside real-time update hooks
                     splatMaterial.onBeforeCompile = function(shader) {
                         shader.uniforms.uSize = { value: parseFloat(sliderSize.value) };
                         shader.uniforms.uOpacity = { value: parseFloat(sliderOpacity.value) };
@@ -423,9 +414,11 @@
                             'uniform float size;',
                             'uniform float size;\nuniform float uSize;'
                         );
+                        
+                        // UPDATED: Advanced perspective division logic forces particles to scale down cleanly on tight zooms
                         shader.vertexShader = shader.vertexShader.replace(
                             'gl_PointSize = size;',
-                            'gl_PointSize = uSize * ( 300.0 / -mvPosition.z );'
+                            'gl_PointSize = uSize * ( 180.0 / -mvPosition.z ); gl_PointSize = clamp(gl_PointSize, 1.0, 32.0);'
                         );
 
                         shader.fragmentShader = shader.fragmentShader.replace(
@@ -460,7 +453,6 @@
             };
         });
 
-        // Click interaction interface loop
         container.addEventListener('click', (event) => {
             const rect = renderer.domElement.getBoundingClientRect();
             mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -490,7 +482,6 @@
             renderer.setSize(container.clientWidth, container.clientHeight);
         });
 
-        // Form Storage Logic Array
         let spatialConfigData = { entrances: {}, shops: {} };
         const addBtn = document.getElementById('add-btn');
         const exportBtn = document.getElementById('export-btn');
