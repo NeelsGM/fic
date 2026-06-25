@@ -106,11 +106,6 @@
             font-size: 0.9rem;
         }
 
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: var(--accent-cyan);
-        }
-
         .file-upload-btn {
             background-color: rgba(0, 240, 255, 0.1);
             border: 1px dashed var(--accent-cyan);
@@ -148,6 +143,13 @@
             flex: 1;
             position: relative;
             background-color: #000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #viewport-canvas {
+            flex: 1;
+            width: 100%;
         }
 
         #canvas-overlay {
@@ -160,9 +162,24 @@
             pointer-events: none;
             font-size: 0.8rem;
             z-index: 5;
-            border-radius: 0 4px 4px 0;
             line-height: 1.4;
         }
+
+        /* NEW: Live Debugger Console Style */
+        .debug-console {
+            height: 120px;
+            background-color: #050a0e;
+            border-top: 1px solid var(--border-color);
+            padding: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.75rem;
+            color: #38bdf8;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+
+        .debug-err { color: #ef4444; }
+        .debug-success { color: #4ade80; }
 
         .output-bar {
             height: 70px;
@@ -212,7 +229,7 @@
 
             <div class="section-title">2. Descriptive Data</div>
             <div class="form-group">
-                <label for="node-id">Unique Key ID (No spaces)</label>
+                <label for="node-id">Unique Key ID</label>
                 <input type="text" id="node-id" placeholder="Stall_101">
             </div>
             <div class="form-group">
@@ -220,18 +237,18 @@
                 <input type="text" id="node-name" placeholder="Tech Hub Expo Space">
             </div>
             <div class="form-group">
-                <label for="node-msg">Welcome Message / Pop-up Banner</label>
-                <textarea id="node-msg" rows="3" placeholder="Welcome to our kiosk! Here is a 10% voucher code..."></textarea>
+                <label for="node-msg">Welcome Message</label>
+                <textarea id="node-msg" rows="3" placeholder="Welcome text..."></textarea>
             </div>
 
             <div class="section-title">3. Spatial Coordinates</div>
             <div style="display: flex; gap: 10px;">
                 <div class="form-group" style="width: 50%;">
-                    <label>X-Axis (Lateral)</label>
+                    <label>X-Axis</label>
                     <input type="text" id="coord-x" readonly value="0.00">
                 </div>
                 <div class="form-group" style="width: 50%;">
-                    <label>Z-Axis (Depth)</label>
+                    <label>Z-Axis</label>
                     <input type="text" id="coord-z" readonly value="0.00">
                 </div>
             </div>
@@ -239,19 +256,22 @@
             <button class="action-btn" id="add-btn">Capture Node Location</button>
         </div>
 
-        <div class="viewport-container" id="viewport">
+        <div class="viewport-container">
             <div id="canvas-overlay">
                 <strong>FIC CONTROLS:</strong><br>
                 • <strong>Left Click + Drag:</strong> Rotate Look Angle<br>
-                • <strong>Right Click + Drag:</strong> Pan Across Room<br>
-                • <strong>Scroll Wheel:</strong> Zoom In/Out<br>
-                • <strong style="color: var(--accent-cyan);">Single Click on Floor:</strong> Capture Spatial Coordinates
+                • <strong>Single Click on Floor:</strong> Capture Coordinates
+            </div>
+            <div id="viewport-canvas"></div>
+            
+            <div class="debug-console" id="debug-log">
+                [SYSTEM LOG initialized] Awaiting click action on 'Select File'...
             </div>
         </div>
     </div>
 
     <div class="output-bar">
-        <div class="json-preview" id="json-string-view">Current Config Session Output: Empty database config matrix.</div>
+        <div class="json-preview" id="json-string-view">Current Config Session Output: Empty database matrix.</div>
         <button class="action-btn" id="export-btn" style="margin: 0;">Copy Data Stack</button>
     </div>
 
@@ -260,21 +280,36 @@
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
         import * as GaussianSplats3D from 'gaussian-splats-3d';
 
-        const container = document.getElementById('viewport');
+        const canvasContainer = document.getElementById('viewport-canvas');
+        const debugLog = document.getElementById('debug-log');
+
+        function logMessage(text, type = '') {
+            const time = new Date().toLocaleTimeString();
+            let cssClass = '';
+            if (type === 'error') cssClass = 'class="debug-err"';
+            if (type === 'success') cssClass = 'class="debug-success"';
+            debugLog.innerHTML += `<br><span ${cssClass}>[${time}] ${text}</span>`;
+            debugLog.scrollTop = debugLog.scrollHeight;
+        }
+
+        // Handle structural errors globally to catch library setup glitches
+        window.onerror = function(message, source, lineno, colno, error) {
+            logMessage(`CRITICAL SCRIPT ERROR: ${message} (Line ${lineno})`, 'error');
+            return false;
+        };
+
         const scene = new THREE.Scene();
-        
-        const camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 1000);
+        const camera = new THREE.PerspectiveCamera(60, canvasContainer.clientWidth / canvasContainer.clientHeight, 0.1, 1000);
         camera.position.set(0, 5, 10);
 
         const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(container.clientWidth, container.clientHeight);
-        container.appendChild(renderer.domElement);
+        renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
+        canvasContainer.appendChild(renderer.domElement);
 
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
 
-        // Persistent Blue Workspace Wireframes
         const testBox = new THREE.Mesh(
             new THREE.BoxGeometry(0.5, 0.5, 0.5),
             new THREE.MeshBasicMaterial({ color: 0x00f0ff, wireframe: true })
@@ -293,51 +328,57 @@
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
 
-        // Local Splat Asset Injection Handler via decoupled drop-in class
         const fileInput = document.getElementById('splat-file-input');
         const systemStatus = document.getElementById('system-status');
         let activeDropInSplat = null;
 
         fileInput.addEventListener('change', (event) => {
             const file = event.target.files[0];
-            if (!file) return;
+            if (!file) {
+                logMessage("File input triggered, but no file chosen.", 'error');
+                return;
+            }
 
+            logMessage(`File selected: ${file.name} (${(file.size / (1024*1024)).toFixed(2)} MB)`);
             systemStatus.innerText = "PARSING ASSET STREAM...";
             systemStatus.style.color = "#ffaa00";
 
             if (activeDropInSplat) {
                 scene.remove(activeDropInSplat);
-                activeDropInSplat.dispose();
+                logMessage("Removed previous splat object from scene.");
             }
 
+            logMessage("Generating local blob URL object...");
             const fileURL = URL.createObjectURL(file);
 
-            // Use independent drop-in layer object configuration
             try {
+                logMessage("Initializing GaussianSplats3D DropInViewer parser layer...");
                 activeDropInSplat = new GaussianSplats3D.DropInViewer({
                     'splatAlphaRemovalThreshold': 5
                 });
                 
+                logMessage("Loading file data into memory array, please wait...");
                 activeDropInSplat.addSplatScene(fileURL, {
                     'progressiveLoad': false
                 }).then(() => {
                     scene.add(activeDropInSplat);
                     systemStatus.innerText = `ACTIVE ASSET: ${file.name.toUpperCase()}`;
                     systemStatus.style.color = "var(--accent-cyan)";
+                    logMessage(`SUCCESS: '${file.name}' added to 3D workspace rendering queue.`, 'success');
                 }).catch((e) => {
                     systemStatus.innerText = "PARSING RUNTIME CRASH";
                     systemStatus.style.color = "#ff3333";
-                    console.error(e);
+                    logMessage(`LOAD FAILURE: ${e.message}`, 'error');
                 });
 
             } catch (err) {
                 systemStatus.innerText = "MODULE INITIALIZATION ERROR";
                 systemStatus.style.color = "#ff3333";
-                console.error(err);
+                logMessage(`SETUP ERROR: ${err.message}`, 'error');
             }
         });
 
-        container.addEventListener('click', (event) => {
+        canvasContainer.addEventListener('click', (event) => {
             const rect = renderer.domElement.getBoundingClientRect();
             mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
             mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
@@ -356,23 +397,20 @@
         function animate() {
             requestAnimationFrame(animate);
             controls.update();
-            
-            // Decoupled manual update call to prevent animation frame thread hijacking
             if (activeDropInSplat) {
                 activeDropInSplat.update();
             }
-            
             renderer.render(scene, camera);
         }
         animate();
 
         window.addEventListener('resize', () => {
-            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
             camera.updateProjectionMatrix();
-            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
         });
 
-        // Form Storage Logic
+        // Data Storage Array Logic
         let spatialConfigData = { entrances: {}, shops: {} };
         const addBtn = document.getElementById('add-btn');
         const exportBtn = document.getElementById('export-btn');
@@ -392,9 +430,7 @@
             }
 
             document.getElementById('json-string-view').innerText = JSON.stringify(spatialConfigData);
-            document.getElementById('node-id').value = '';
-            document.getElementById('node-name').value = '';
-            document.getElementById('node-msg').value = '';
+            logMessage(`Captured tracking entry configuration for ID: ${id}`, 'success');
         });
 
         exportBtn.addEventListener('click', () => {
