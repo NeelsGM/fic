@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>FIC-3D // AR Navigation Matrix</title>
+    <style>
+        :root {
+            --bg-dark: rgba(10, 15, 20, 0.85);
+            --accent-cyan: #00f0ff;
+            --text-main: #e0e6ed;
+            --border-glow: 1px solid rgba(0, 240, 255, 0.3);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #000;
+            color: var(--text-main);
+        }
+
+        #viewport-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        /* Phase 2 UI: Heads-Up Display Overlay */
+        #hud-overlay {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            background: var(--bg-dark);
+            border: var(--border-glow);
+            border-radius: 8px;
+            padding: 15px;
+            z-index: 10;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+            backdrop-filter: blur(10px);
+        }
+
+        .hud-header {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-cyan);
+            margin-bottom: 8px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            background: #101720;
+            border: 1px solid #1e293b;
+            color: var(--text-main);
+            border-radius: 4px;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        select:focus {
+            border-color: var(--accent-cyan);
+        }
+
+        /* Phase 4 UI: Arrival Pop-up Modal */
+        #arrival-card {
+            position: absolute;
+            bottom: -300px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 85%;
+            max-width: 380px;
+            background: #101720;
+            border-top: 3px solid var(--accent-cyan);
+            border-left: var(--border-glow);
+            border-right: var(--border-glow);
+            border-radius: 12px 12px 0 0;
+            padding: 20px;
+            z-index: 20;
+            transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        #arrival-card.active {
+            bottom: 0;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .card-msg {
+            font-size: 0.85rem;
+            color: #7a8c9e;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .close-btn {
+            background: transparent;
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+        }
+    </style>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "gaussian-splats-3d": "https://unpkg.com/@mkkellogg/gaussian-splats-3d@0.4.4/build/gaussian-splats-3d.module.js"
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <div id="viewport-container"></div>
+
+    <div id="hud-overlay">
+        <div class="hud-header" id="route-status">Select Destination</div>
+        <select id="destination-selector">
+            <option value="">-- Choose a Stall/Shop --</option>
+        </select>
+    </div>
+
+    <div id="arrival-card">
+        <div class="card-title" id="pop-title">Stall Arrival</div>
+        <div class="card-msg" id="pop-msg">Welcome data layer loaded.</div>
+        <button class="close-btn" onclick="dismissArrival()">Acknowledge & Close</button>
+    </div>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import * as GaussianSplats3D from 'gaussian-splats-3d';
+
+        // Paste your exact PlayCanvas exported layout coordinate dictionary here
+        const spatialConfigData = {
+            "entrances": {
+                "Entrance_Main": { "name": "Main Entrance Gate", "x": 0.00, "y": 0.00, "z": 5.00 }
+            },
+            "shops": {
+                "Shop_TechHub": { "name": "Tech Hub Expo Space", "x": -4.50, "y": 0.00, "z": -8.20, "welcome_message": "Welcome to the Tech Hub! Show this screen for a 10% discount on 3D upgrades." },
+                "Shop_CarbonZone": { "name": "Carbon Zone Displays", "x": 6.20, "y": 0.00, "z": -12.40, "welcome_message": "Welcome to Carbon Zone. Explore our latest custom forged composite iterations here." }
+            }
+        };
+
+        const container = document.getElementById('viewport-container');
+        let viewer, scene, camera, activeTargetKey = null;
+        let navPathLine = null;
+
+        // 1. Setup Core Splat Rendering Ecosystem
+        viewer = new GaussianSplats3D.Viewer({
+            'selfDrivenMode': true,
+            'useBuiltInControls': true,
+            'rootElement': container,
+            'initialCameraPosition': [0, 5, 10],
+            'initialCameraLookAt': [0, 0, 0],
+            'sphericalHarmonicsDegree': 0 
+        });
+
+        scene = viewer.threeScene;
+        camera = viewer.camera;
+
+        // Load your uncompressed SuperSplat file
+        viewer.addSplatScene('scan.ply', {
+            'splatAlphaRemovalThreshold': 5,
+            'showLoadingUI': true
+        }).then(() => {
+            initUiAndRouting();
+        });
+
+        // Phase 2: Parse URL and Populate Dropdowns
+        function initUiAndRouting() {
+            const selector = document.getElementById('destination-selector');
+            
+            // Populate Dropdown from your config schema
+            for (let key in spatialConfigData.shops) {
+                let opt = document.createElement('option');
+                opt.value = key;
+                opt.innerText = spatialConfigData.shops[key].name;
+                selector.appendChild(opt);
+            }
+
+            // Look for QR entry strings in URL parameters (e.g., index.html?entrance=Entrance_Main)
+            const urlParams = new URLSearchParams(window.location.search);
+            const entranceParam = urlParams.get('entrance');
+            
+            if (entranceParam && spatialConfigData.entrances[entranceParam]) {
+                const entCoords = spatialConfigData.entrances[entranceParam];
+                // Teleport virtual user position straight to the specific QR anchor point
+                camera.position.set(entCoords.x, entCoords.y + 1.6, entCoords.z); 
+                viewer.controls.target.set(entCoords.x, entCoords.y, entCoords.z - 5);
+                viewer.controls.update();
+                document.getElementById('route-status').innerText = `Started at: ${entCoords.name}`;
+            }
+
+            selector.addEventListener('change', (e) => {
+                activeTargetKey = e.target.value;
+                drawNavigationPath();
+            });
+
+            // Run structural framing loop
+            animateLoop();
+        }
+
+        // Phase 3: Live 3D Vector Arrow/Line Generating Math
+        function drawNavigationPath() {
+            if (navPathLine) {
+                scene.remove(navPathLine);
+                navPathLine.geometry.dispose();
+                navPathLine = null;
+            }
+
+            if (!activeTargetKey) return;
+            const dest = spatialConfigData.shops[activeTargetKey];
+
+            // Build vector chain from current camera point down onto floor coordinates
+            const points = [];
+            points.push(new THREE.Vector3(camera.position.x, 0.05, camera.position.z));
+            points.push(new THREE.Vector3(dest.x, 0.05, dest.z));
+
+            const lineGeo = new THREE.BufferGeometry().setFromPoints(points);
+            const lineMat = new THREE.LineBasicMaterial({
+                color: 0x00f0ff,
+                linewidth: 4, // Attenuates cleanly on mobile devices
+                transparent: true,
+                opacity: 0.8
+            });
+
+            navPathLine = new THREE.Line(lineGeo, lineMat);
+            scene.add(navPathLine);
+            document.getElementById('route-status').innerText = `Routing to: ${dest.name}`;
+        }
+
+        // Phase 4: Frame Evaluation Loop & Proximity Triggers
+        function animateLoop() {
+            requestAnimationFrame(animateLoop);
+
+            if (activeTargetKey) {
+                const dest = spatialConfigData.shops[activeTargetKey];
+                
+                // Mathematical proximity calculations
+                const dx = camera.position.x - dest.x;
+                const dz = camera.position.z - dest.z;
+                const flatDistance = Math.sqrt(dx * dx + dz * dz);
+
+                // Re-draw path dynamically to follow user movement metrics
+                drawNavigationPath();
+
+                // Trigger arrival pop-up when user steps within 1.8 meters of target coordinates
+                if (flatDistance < 1.8) {
+                    document.getElementById('pop-title').innerText = dest.name;
+                    document.getElementById('pop-msg').innerText = dest.welcome_message || "You have reached your destination coordinates.";
+                    document.getElementById('arrival-card').classList.add('active');
+                    
+                    // Clear search vectors to prevent trigger loops
+                    activeTargetKey = null; 
+                    document.getElementById('destination-selector').value = "";
+                    document.getElementById('route-status').innerText = "Arrived at Destination";
+                    if (navPathLine) scene.remove(navPathLine);
+                }
+            }
+        }
+
+        // Global context scope bind for modal termination
+        window.dismissArrival = function() {
+            document.getElementById('arrival-card').classList.remove('active');
+        };
+    </script>
+</body>
+</html>
