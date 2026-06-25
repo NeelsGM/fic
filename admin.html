@@ -208,12 +208,12 @@
 
             <div class="section-title">Scan Tuning Matrix</div>
             <div class="form-group">
-                <label>Point Scale Size: <span id="val-size">0.35</span></label>
-                <input type="range" id="scale-size" min="0.05" max="1.50" step="0.05" value="0.35">
+                <label>Focal Density Scale: <span id="val-size">0.25</span></label>
+                <input type="range" id="scale-size" min="0.02" max="0.80" step="0.01" value="0.25">
             </div>
             <div class="form-group">
-                <label>Point Opacity: <span id="val-opacity">1.00</span></label>
-                <input type="range" id="scale-opacity" min="0.10" max="1.00" step="0.05" value="1.00">
+                <label>Core Opacity: <span id="val-opacity">0.95</span></label>
+                <input type="range" id="scale-opacity" min="0.10" max="1.00" step="0.05" value="0.95">
             </div>
             <div class="form-group">
                 <label>Height Offset (Y): <span id="val-height">-1.60</span>m</label>
@@ -312,7 +312,6 @@
         const fileInput = document.getElementById('splat-file-input');
         const systemStatus = document.getElementById('system-status');
         
-        // Expose global access hooks for controls updates
         let currentSplatParticles = null;
         let splatMaterial = null;
 
@@ -325,17 +324,17 @@
         const labelOpacity = document.getElementById('val-opacity');
         const labelHeight = document.getElementById('val-height');
 
-        // Real-Time Event Matrix Interceptors
+        // Real-Time Control Hook Interceptors
         sliderSize.addEventListener('input', () => {
             const val = parseFloat(sliderSize.value);
             labelSize.innerText = val.toFixed(2);
-            if (splatMaterial) splatMaterial.size = val;
+            if (splatMaterial) splatMaterial.uniforms.uSize.value = val;
         });
 
         sliderOpacity.addEventListener('input', () => {
             const val = parseFloat(sliderOpacity.value);
             labelOpacity.innerText = val.toFixed(2);
-            if (splatMaterial) splatMaterial.opacity = val;
+            if (splatMaterial) splatMaterial.uniforms.uOpacity.value = val;
         });
 
         sliderHeight.addEventListener('input', () => {
@@ -343,6 +342,27 @@
             labelHeight.innerText = val.toFixed(2);
             if (currentSplatParticles) currentSplatParticles.position.y = val;
         });
+
+        // Generate a high-contrast radial blur particle texture programmatically
+        function generateSplattedTexture() {
+            const size = 64;
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+
+            const gradient = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+            gradient.addColorStop(0, 'rgba(255, 255, 255, 1.0)');
+            gradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.8)');
+            gradient.addColorStop(0.6, 'rgba(255, 255, 255, 0.15)');
+            gradient.addColorStop(1, 'rgba(255, 255, 255, 0.0)');
+
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+
+            const texture = new THREE.CanvasTexture(canvas);
+            return texture;
+        }
 
         fileInput.addEventListener('change', function(event) {
             const file = event.target.files[0];
@@ -384,21 +404,45 @@
                     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
                     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 4));
 
-                    // Use current slider state variables to generate dynamic layout values cleanly
+                    // CUSTOM SHADER MATERIAL: Replaces coarse square pixels with soft focused Gaussian particle discs
                     splatMaterial = new THREE.PointsMaterial({
-                        size: parseFloat(sliderSize.value),            
                         vertexColors: true,
+                        map: generateSplattedTexture(),
                         transparent: true,
-                        opacity: parseFloat(sliderOpacity.value),          
                         depthWrite: false,     
                         blending: THREE.NormalBlending,
                         sizeAttenuation: true
                     });
 
+                    // Wrap parameters inside real-time update hooks
+                    splatMaterial.onBeforeCompile = function(shader) {
+                        shader.uniforms.uSize = { value: parseFloat(sliderSize.value) };
+                        shader.uniforms.uOpacity = { value: parseFloat(sliderOpacity.value) };
+                        
+                        shader.vertexShader = shader.vertexShader.replace(
+                            'uniform float size;',
+                            'uniform float size;\nuniform float uSize;'
+                        );
+                        shader.vertexShader = shader.vertexShader.replace(
+                            'gl_PointSize = size;',
+                            'gl_PointSize = uSize * ( 300.0 / -mvPosition.z );'
+                        );
+
+                        shader.fragmentShader = shader.fragmentShader.replace(
+                            'uniform float opacity;',
+                            'uniform float opacity;\nuniform float uOpacity;'
+                        );
+                        shader.fragmentShader = shader.fragmentShader.replace(
+                            'gl_FragColor = vec4( outgoingLight, diffusedColor.a );',
+                            'gl_FragColor = vec4( outgoingLight, diffusedColor.a * uOpacity );'
+                        );
+
+                        splatMaterial.uniforms = shader.uniforms;
+                    };
+
                     currentSplatParticles = new THREE.Points(geometry, splatMaterial);
                     currentSplatParticles.rotateX(Math.PI); 
 
-                    // Ingest matching slider height defaults right into placement pipeline
                     currentSplatParticles.position.y = parseFloat(sliderHeight.value); 
                     currentSplatParticles.position.x = 0.0;
                     currentSplatParticles.position.z = 0.0;
