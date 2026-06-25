@@ -231,7 +231,7 @@
     </div>
 
     <div class="output-bar">
-        <div class="json-preview" id="json-string-view">Current Config Session Output: Empty database matrix.</div>
+        <div class="json-preview" id="json-string-view">Current Config Session Output: Empty database config matrix.</div>
         <button id="export-btn" style="margin: 0;">Copy Data Stack</button>
     </div>
 
@@ -240,12 +240,12 @@
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
         import { LumaSplatsThree } from '@lumaai/luma-web';
 
-        // Setup Scene Elements
         const container = document.getElementById('viewport');
         const scene = new THREE.Scene();
         
-        const camera = new THREE.Camera3D ? new THREE.Camera3D() : new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-        camera.position.set(0, 1.5, 3);
+        // FIXED: Using absolute bulletproof Perspective Camera properties
+        const camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 1000);
+        camera.position.set(0, 3, 5);
 
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(container.clientWidth, container.clientHeight);
@@ -255,18 +255,30 @@
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
 
-        // Load the Public Placeholder Gaussian Splat (A beautiful indoor venue)
-        const splat = new LumaSplatsThree({
-            source: 'https://lumalabs.ai/capture/d80d4876-cf71-4b8a-8b5b-4916ca4c16de'
-        });
-        scene.add(splat);
+        // Visual test anchor to confirm the 3D canvas is active immediately
+        const testBox = new THREE.Mesh(
+            new THREE.BoxGeometry(1, 1, 1),
+            new THREE.MeshBasicMaterial({ color: 0x00f0ff, wireframe: true })
+        );
+        testBox.position.set(0, 0.5, 0);
+        scene.add(testBox);
 
-        // Grid helper to help your staff visually see the floor coordinates plane
+        // Grid helper representing the physical tracking plane
         const gridHelper = new THREE.GridHelper(60, 60, 0x00f0ff, 0x1e293b);
-        gridHelper.position.y = -0.5; // Offset slightly to match the splat floor plane
+        gridHelper.position.y = 0;
         scene.add(gridHelper);
 
-        // Raycasting setup to track mouse-clicks in 3D space
+        // Load the Public Placeholder Gaussian Splat
+        try {
+            const splat = new LumaSplatsThree({
+                source: 'https://lumalabs.ai/capture/d80d4876-cf71-4b8a-8b5b-4916ca4c16de'
+            });
+            scene.add(splat);
+        } catch(e) {
+            console.error("Splat failed to parse, fallback scene active.", e);
+        }
+
+        // Raycasting interface setup
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
         const planeGeo = new THREE.PlaneGeometry(100, 100);
@@ -286,10 +298,12 @@
                 const point = intersects[0].point;
                 document.getElementById('coord-x').value = point.x.toFixed(2);
                 document.getElementById('coord-z').value = point.z.toFixed(2);
+                
+                // Move test box to visually indicate click point
+                testBox.position.set(point.x, 0.5, point.z);
             }
         });
 
-        // Loop animation rendering pipeline
         function animate() {
             requestAnimationFrame(animate);
             controls.update();
@@ -297,14 +311,13 @@
         }
         animate();
 
-        // Responsive scaling if builder window resizes
         window.addEventListener('resize', () => {
             camera.aspect = container.clientWidth / container.clientHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(container.clientWidth, container.clientHeight);
         });
 
-        // App Data State Management Logic
+        // App State Management Logic
         let spatialConfigData = { entrances: {}, shops: {} };
         const addBtn = document.getElementById('add-btn');
         const exportBtn = document.getElementById('export-btn');
@@ -320,12 +333,11 @@
             if(type === 'entrance') {
                 spatialConfigData.entrances[id] = { name: name, x: x, z: z };
             } else if(type === 'shop') {
-                spatialConfigData.shops[id] = { name: name, x: x, z: z, welcome_message: msg, path_nodes: [] };
+                spatialConfigData.shops[id] = { name: name, x: x, z: z, welcome_message: msg };
             }
 
             document.getElementById('json-string-view').innerText = JSON.stringify(spatialConfigData);
             
-            // Clear entry inputs for next selection
             document.getElementById('node-id').value = '';
             document.getElementById('node-name').value = '';
             document.getElementById('node-msg').value = '';
