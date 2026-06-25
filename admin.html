@@ -111,7 +111,6 @@
             border-color: var(--accent-cyan);
         }
 
-        /* Custom File Input button style */
         .file-upload-btn {
             background-color: rgba(0, 240, 255, 0.1);
             border: 1px dashed var(--accent-cyan);
@@ -123,6 +122,7 @@
             font-size: 0.85rem;
             font-weight: bold;
             text-transform: uppercase;
+            display: block;
         }
 
         button.action-btn {
@@ -190,7 +190,7 @@
 
     <header>
         <h1>FIC-3D // <span>MAP NODE GENERATOR</span></h1>
-        <div id="system-status" style="font-size: 0.8rem; color: var(--text-dim);">STATUS: AWAITING LOCAL SPLAT DATA...</div>
+        <div id="system-status" style="font-size: 0.8rem; color: var(--accent-cyan);">ENGINE CORE: STANDBY</div>
     </header>
 
     <div class="main-container">
@@ -274,7 +274,7 @@
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
 
-        // Visual test anchor cube
+        // Persistent Blue Workspace Wireframes
         const testBox = new THREE.Mesh(
             new THREE.BoxGeometry(0.5, 0.5, 0.5),
             new THREE.MeshBasicMaterial({ color: 0x00f0ff, wireframe: true })
@@ -282,54 +282,61 @@
         testBox.position.set(0, 0.25, 0);
         scene.add(testBox);
 
-        // Grid helper floor representation
         const gridHelper = new THREE.GridHelper(60, 60, 0x00f0ff, 0x1e293b);
         scene.add(gridHelper);
 
-        // Raycasting floor intersection mesh
-        const raycaster = new THREE.Raycaster();
-        const mouse = new THREE.Vector2();
         const planeGeo = new THREE.PlaneGeometry(200, 200);
         planeGeo.rotateX(-Math.PI / 2);
         const physicalFloorPlane = new THREE.Mesh(planeGeo, new THREE.MeshBasicMaterial({ visible: false }));
         scene.add(physicalFloorPlane);
 
-        // Setup the local file load handler
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+
+        // Local Splat Asset Injection Handler via decoupled drop-in class
         const fileInput = document.getElementById('splat-file-input');
         const systemStatus = document.getElementById('system-status');
+        let activeDropInSplat = null;
 
         fileInput.addEventListener('change', (event) => {
             const file = event.target.files[0];
             if (!file) return;
 
-            systemStatus.innerText = "PARSING LOCAL SPLAT DATA...";
+            systemStatus.innerText = "PARSING ASSET STREAM...";
             systemStatus.style.color = "#ffaa00";
+
+            if (activeDropInSplat) {
+                scene.remove(activeDropInSplat);
+                activeDropInSplat.dispose();
+            }
 
             const fileURL = URL.createObjectURL(file);
 
-            // Initialize the high-performance local splat viewer asset pipeline
-            const viewer = new GaussianSplats3D.Viewer({
-                'selfContain': false,
-                'useBuiltInControls': false,
-                'rootElement': container,
-                'threeScene': scene,
-                'camera': camera,
-                'renderer': renderer
-            });
+            // Use independent drop-in layer object configuration
+            try {
+                activeDropInSplat = new GaussianSplats3D.DropInViewer({
+                    'splatAlphaRemovalThreshold': 5
+                });
+                
+                activeDropInSplat.addSplatScene(fileURL, {
+                    'progressiveLoad': false
+                }).then(() => {
+                    scene.add(activeDropInSplat);
+                    systemStatus.innerText = `ACTIVE ASSET: ${file.name.toUpperCase()}`;
+                    systemStatus.style.color = "var(--accent-cyan)";
+                }).catch((e) => {
+                    systemStatus.innerText = "PARSING RUNTIME CRASH";
+                    systemStatus.style.color = "#ff3333";
+                    console.error(e);
+                });
 
-            viewer.addSplatScene(fileURL, {
-                'progressiveLoad': false
-            }).then(() => {
-                systemStatus.innerText = `ACTIVE SCAN: ${file.name.toUpperCase()}`;
-                systemStatus.style.color = "var(--accent-cyan)";
-            }).catch((err) => {
-                systemStatus.innerText = "INGEST ERROR: INVALID STRUCTURE";
+            } catch (err) {
+                systemStatus.innerText = "MODULE INITIALIZATION ERROR";
                 systemStatus.style.color = "#ff3333";
                 console.error(err);
-            });
+            }
         });
 
-        // Click behavior to lock coordinates
         container.addEventListener('click', (event) => {
             const rect = renderer.domElement.getBoundingClientRect();
             mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -342,7 +349,6 @@
                 const point = intersects[0].point;
                 document.getElementById('coord-x').value = point.x.toFixed(2);
                 document.getElementById('coord-z').value = point.z.toFixed(2);
-                
                 testBox.position.set(point.x, 0.25, point.z);
             }
         });
@@ -350,6 +356,12 @@
         function animate() {
             requestAnimationFrame(animate);
             controls.update();
+            
+            // Decoupled manual update call to prevent animation frame thread hijacking
+            if (activeDropInSplat) {
+                activeDropInSplat.update();
+            }
+            
             renderer.render(scene, camera);
         }
         animate();
@@ -360,7 +372,7 @@
             renderer.setSize(container.clientWidth, container.clientHeight);
         });
 
-        // App State Management Data Logic
+        // Form Storage Logic
         let spatialConfigData = { entrances: {}, shops: {} };
         const addBtn = document.getElementById('add-btn');
         const exportBtn = document.getElementById('export-btn');
@@ -380,7 +392,6 @@
             }
 
             document.getElementById('json-string-view').innerText = JSON.stringify(spatialConfigData);
-            
             document.getElementById('node-id').value = '';
             document.getElementById('node-name').value = '';
             document.getElementById('node-msg').value = '';
