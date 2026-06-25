@@ -5,15 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FIC-3D // AR Navigation Map Builder</title>
     
-    <script type="importmap">
-    {
-        "imports": {
-            "three": "https://unpkg.com/three@0.157.0/build/three.module.js",
-            "three/addons/": "https://unpkg.com/three@0.157.0/examples/jsm/",
-            "gaussian-splats-3d": "https://unpkg.com/@mkkellogg/gaussian-splats-3d@0.4.2/dist/gaussian-splats-3d.module.js"
-        }
-    }
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
     <style>
         :root {
@@ -50,7 +43,6 @@
             margin: 0;
             font-size: 1.2rem;
             letter-spacing: 2px;
-            color: var(--text-main);
         }
 
         header h1 span {
@@ -106,18 +98,9 @@
             font-size: 0.9rem;
         }
 
-        .file-upload-btn {
-            background-color: rgba(0, 240, 255, 0.1);
-            border: 1px dashed var(--accent-cyan);
-            color: var(--accent-cyan);
-            padding: 12px;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            display: block;
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
         }
 
         button.action-btn {
@@ -143,13 +126,6 @@
             flex: 1;
             position: relative;
             background-color: #000;
-            display: flex;
-            flex-direction: column;
-        }
-
-        #viewport-canvas {
-            flex: 1;
-            width: 100%;
         }
 
         #canvas-overlay {
@@ -164,22 +140,6 @@
             z-index: 5;
             line-height: 1.4;
         }
-
-        /* NEW: Live Debugger Console Style */
-        .debug-console {
-            height: 120px;
-            background-color: #050a0e;
-            border-top: 1px solid var(--border-color);
-            padding: 10px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.75rem;
-            color: #38bdf8;
-            overflow-y: auto;
-            box-sizing: border-box;
-        }
-
-        .debug-err { color: #ef4444; }
-        .debug-success { color: #4ade80; }
 
         .output-bar {
             height: 70px;
@@ -207,17 +167,11 @@
 
     <header>
         <h1>FIC-3D // <span>MAP NODE GENERATOR</span></h1>
-        <div id="system-status" style="font-size: 0.8rem; color: var(--accent-cyan);">ENGINE CORE: STANDBY</div>
+        <div style="font-size: 0.8rem; color: var(--accent-cyan);">ENGINE CORE: ACTIVE</div>
     </header>
 
     <div class="main-container">
         <div class="sidebar">
-            <div class="section-title">0. Ingest Local Scan</div>
-            <div class="form-group">
-                <label for="splat-file-input" class="file-upload-btn">📂 Select .splat / .ply File</label>
-                <input type="file" id="splat-file-input" accept=".splat,.ply" style="display: none;">
-            </div>
-
             <div class="section-title">1. Node Classification</div>
             <div class="form-group">
                 <label for="node-type">Marker Type</label>
@@ -256,16 +210,13 @@
             <button class="action-btn" id="add-btn">Capture Node Location</button>
         </div>
 
-        <div class="viewport-container">
+        <div class="viewport-container" id="viewport">
             <div id="canvas-overlay">
-                <strong>FIC CONTROLS:</strong><br>
-                • <strong>Left Click + Drag:</strong> Rotate Look Angle<br>
-                • <strong>Single Click on Floor:</strong> Capture Coordinates
-            </div>
-            <div id="viewport-canvas"></div>
-            
-            <div class="debug-console" id="debug-log">
-                [SYSTEM LOG initialized] Awaiting click action on 'Select File'...
+                <strong>FIC MAP MATRIX CONTROLS:</strong><br>
+                • <strong>Left Click + Drag:</strong> Orbit Camera View<br>
+                • <strong>Right Click + Drag:</strong> Pan Across Floor Grid<br>
+                • <strong>Scroll Wheel:</strong> Zoom Perspective<br>
+                • <strong style="color: var(--accent-cyan);">Single Click on Floor:</strong> Position Node Pin & Lock Coordinates
             </div>
         </div>
     </div>
@@ -275,41 +226,23 @@
         <button class="action-btn" id="export-btn" style="margin: 0;">Copy Data Stack</button>
     </div>
 
-    <script type="module">
-        import * as THREE from 'three';
-        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-        import * as GaussianSplats3D from 'gaussian-splats-3d';
-
-        const canvasContainer = document.getElementById('viewport-canvas');
-        const debugLog = document.getElementById('debug-log');
-
-        function logMessage(text, type = '') {
-            const time = new Date().toLocaleTimeString();
-            let cssClass = '';
-            if (type === 'error') cssClass = 'class="debug-err"';
-            if (type === 'success') cssClass = 'class="debug-success"';
-            debugLog.innerHTML += `<br><span ${cssClass}>[${time}] ${text}</span>`;
-            debugLog.scrollTop = debugLog.scrollHeight;
-        }
-
-        // Handle structural errors globally to catch library setup glitches
-        window.onerror = function(message, source, lineno, colno, error) {
-            logMessage(`CRITICAL SCRIPT ERROR: ${message} (Line ${lineno})`, 'error');
-            return false;
-        };
-
+    <script>
+        // Completely non-module execution prevents browser runtime blocking
+        const container = document.getElementById('viewport');
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(60, canvasContainer.clientWidth / canvasContainer.clientHeight, 0.1, 1000);
-        camera.position.set(0, 5, 10);
+        
+        const camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 1000);
+        camera.position.set(0, 5, 12);
 
         const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
-        canvasContainer.appendChild(renderer.domElement);
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        container.appendChild(renderer.domElement);
 
-        const controls = new OrbitControls(camera, renderer.domElement);
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
 
+        // Visual tracker anchor node pin
         const testBox = new THREE.Mesh(
             new THREE.BoxGeometry(0.5, 0.5, 0.5),
             new THREE.MeshBasicMaterial({ color: 0x00f0ff, wireframe: true })
@@ -317,6 +250,7 @@
         testBox.position.set(0, 0.25, 0);
         scene.add(testBox);
 
+        // Core Spatial Ground Plane Grid
         const gridHelper = new THREE.GridHelper(60, 60, 0x00f0ff, 0x1e293b);
         scene.add(gridHelper);
 
@@ -328,57 +262,7 @@
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
 
-        const fileInput = document.getElementById('splat-file-input');
-        const systemStatus = document.getElementById('system-status');
-        let activeDropInSplat = null;
-
-        fileInput.addEventListener('change', (event) => {
-            const file = event.target.files[0];
-            if (!file) {
-                logMessage("File input triggered, but no file chosen.", 'error');
-                return;
-            }
-
-            logMessage(`File selected: ${file.name} (${(file.size / (1024*1024)).toFixed(2)} MB)`);
-            systemStatus.innerText = "PARSING ASSET STREAM...";
-            systemStatus.style.color = "#ffaa00";
-
-            if (activeDropInSplat) {
-                scene.remove(activeDropInSplat);
-                logMessage("Removed previous splat object from scene.");
-            }
-
-            logMessage("Generating local blob URL object...");
-            const fileURL = URL.createObjectURL(file);
-
-            try {
-                logMessage("Initializing GaussianSplats3D DropInViewer parser layer...");
-                activeDropInSplat = new GaussianSplats3D.DropInViewer({
-                    'splatAlphaRemovalThreshold': 5
-                });
-                
-                logMessage("Loading file data into memory array, please wait...");
-                activeDropInSplat.addSplatScene(fileURL, {
-                    'progressiveLoad': false
-                }).then(() => {
-                    scene.add(activeDropInSplat);
-                    systemStatus.innerText = `ACTIVE ASSET: ${file.name.toUpperCase()}`;
-                    systemStatus.style.color = "var(--accent-cyan)";
-                    logMessage(`SUCCESS: '${file.name}' added to 3D workspace rendering queue.`, 'success');
-                }).catch((e) => {
-                    systemStatus.innerText = "PARSING RUNTIME CRASH";
-                    systemStatus.style.color = "#ff3333";
-                    logMessage(`LOAD FAILURE: ${e.message}`, 'error');
-                });
-
-            } catch (err) {
-                systemStatus.innerText = "MODULE INITIALIZATION ERROR";
-                systemStatus.style.color = "#ff3333";
-                logMessage(`SETUP ERROR: ${err.message}`, 'error');
-            }
-        });
-
-        canvasContainer.addEventListener('click', (event) => {
+        container.addEventListener('click', (event) => {
             const rect = renderer.domElement.getBoundingClientRect();
             mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
             mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
@@ -397,20 +281,17 @@
         function animate() {
             requestAnimationFrame(animate);
             controls.update();
-            if (activeDropInSplat) {
-                activeDropInSplat.update();
-            }
             renderer.render(scene, camera);
         }
         animate();
 
         window.addEventListener('resize', () => {
-            camera.aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
+            camera.aspect = container.clientWidth / container.clientHeight;
             camera.updateProjectionMatrix();
-            renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
+            renderer.setSize(container.clientWidth, container.clientHeight);
         });
 
-        // Data Storage Array Logic
+        // Matrix Form Tracking Logic
         let spatialConfigData = { entrances: {}, shops: {} };
         const addBtn = document.getElementById('add-btn');
         const exportBtn = document.getElementById('export-btn');
@@ -430,7 +311,9 @@
             }
 
             document.getElementById('json-string-view').innerText = JSON.stringify(spatialConfigData);
-            logMessage(`Captured tracking entry configuration for ID: ${id}`, 'success');
+            document.getElementById('node-id').value = '';
+            document.getElementById('node-name').value = '';
+            document.getElementById('node-msg').value = '';
         });
 
         exportBtn.addEventListener('click', () => {
