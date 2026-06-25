@@ -87,6 +87,13 @@
         label {
             font-size: 0.8rem;
             color: var(--text-dim);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        label span {
+            color: var(--accent-cyan);
+            font-family: monospace;
         }
 
         input, textarea, select {
@@ -96,6 +103,13 @@
             padding: 8px;
             border-radius: 4px;
             font-size: 0.9rem;
+        }
+
+        input[type="range"] {
+            padding: 0;
+            accent-color: var(--accent-cyan);
+            background: transparent;
+            cursor: pointer;
         }
 
         input:focus, textarea:focus, select:focus {
@@ -192,6 +206,20 @@
                 <input type="file" id="splat-file-input" accept=".splat" style="display: none;">
             </div>
 
+            <div class="section-title">Scan Tuning Matrix</div>
+            <div class="form-group">
+                <label>Point Scale Size: <span id="val-size">0.35</span></label>
+                <input type="range" id="scale-size" min="0.05" max="1.50" step="0.05" value="0.35">
+            </div>
+            <div class="form-group">
+                <label>Point Opacity: <span id="val-opacity">1.00</span></label>
+                <input type="range" id="scale-opacity" min="0.10" max="1.00" step="0.05" value="1.00">
+            </div>
+            <div class="form-group">
+                <label>Height Offset (Y): <span id="val-height">-1.60</span>m</label>
+                <input type="range" id="scale-height" min="-10.00" max="10.00" step="0.05" value="-1.60">
+            </div>
+
             <div class="section-title">1. Node Classification</div>
             <div class="form-group">
                 <label for="node-type">Marker Type</label>
@@ -269,4 +297,184 @@
         scene.add(testBox);
 
         // Ground Plane Workspace Grid
-        const gridHelper = new THREE.GridHelper(80,
+        const gridHelper = new THREE.GridHelper(80, 80, 0x00f0ff, 0x1e293b);
+        scene.add(gridHelper);
+
+        const planeGeo = new THREE.PlaneGeometry(250, 250);
+        planeGeo.rotateX(-Math.PI / 2);
+        const physicalFloorPlane = new THREE.Mesh(planeGeo, new THREE.MeshBasicMaterial({ visible: false }));
+        scene.add(physicalFloorPlane);
+
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+
+        // Native Binary Array Reader Pipeline 
+        const fileInput = document.getElementById('splat-file-input');
+        const systemStatus = document.getElementById('system-status');
+        
+        // Expose global access hooks for controls updates
+        let currentSplatParticles = null;
+        let splatMaterial = null;
+
+        // Tie into DOM Tuning Input Nodes
+        const sliderSize = document.getElementById('scale-size');
+        const sliderOpacity = document.getElementById('scale-opacity');
+        const sliderHeight = document.getElementById('scale-height');
+
+        const labelSize = document.getElementById('val-size');
+        const labelOpacity = document.getElementById('val-opacity');
+        const labelHeight = document.getElementById('val-height');
+
+        // Real-Time Event Matrix Interceptors
+        sliderSize.addEventListener('input', () => {
+            const val = parseFloat(sliderSize.value);
+            labelSize.innerText = val.toFixed(2);
+            if (splatMaterial) splatMaterial.size = val;
+        });
+
+        sliderOpacity.addEventListener('input', () => {
+            const val = parseFloat(sliderOpacity.value);
+            labelOpacity.innerText = val.toFixed(2);
+            if (splatMaterial) splatMaterial.opacity = val;
+        });
+
+        sliderHeight.addEventListener('input', () => {
+            const val = parseFloat(sliderHeight.value);
+            labelHeight.innerText = val.toFixed(2);
+            if (currentSplatParticles) currentSplatParticles.position.y = val;
+        });
+
+        fileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            systemStatus.innerText = "READING SCANNED DATA MATRIX...";
+            systemStatus.style.color = "#ffaa00";
+
+            const reader = new FileReader();
+            reader.readAsArrayBuffer(file);
+
+            reader.onload = function(e) {
+                try {
+                    if (currentSplatParticles) scene.remove(currentSplatParticles);
+
+                    const buffer = e.target.result;
+                    const rowLength = 32; 
+                    const totalSplats = Math.floor(buffer.byteLength / rowLength);
+                    
+                    const positions = new Float32Array(totalSplats * 3);
+                    const colors = new Float32Array(totalSplats * 4);
+
+                    const floatView = new Float32Array(buffer);
+                    const uint8View = new Uint8Array(buffer);
+
+                    for (let i = 0; i < totalSplats; i++) {
+                        positions[i * 3 + 0] = floatView[i * 8 + 0]; 
+                        positions[i * 3 + 1] = floatView[i * 8 + 1]; 
+                        positions[i * 3 + 2] = floatView[i * 8 + 2]; 
+
+                        const colorOffset = i * 32 + 24;
+                        colors[i * 4 + 0] = uint8View[colorOffset + 0] / 255;
+                        colors[i * 4 + 1] = uint8View[colorOffset + 1] / 255;
+                        colors[i * 4 + 2] = uint8View[colorOffset + 2] / 255;
+                        colors[i * 4 + 3] = uint8View[colorOffset + 3] / 255;
+                    }
+
+                    const geometry = new THREE.BufferGeometry();
+                    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+                    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 4));
+
+                    // Use current slider state variables to generate dynamic layout values cleanly
+                    splatMaterial = new THREE.PointsMaterial({
+                        size: parseFloat(sliderSize.value),            
+                        vertexColors: true,
+                        transparent: true,
+                        opacity: parseFloat(sliderOpacity.value),          
+                        depthWrite: false,     
+                        blending: THREE.NormalBlending,
+                        sizeAttenuation: true
+                    });
+
+                    currentSplatParticles = new THREE.Points(geometry, splatMaterial);
+                    currentSplatParticles.rotateX(Math.PI); 
+
+                    // Ingest matching slider height defaults right into placement pipeline
+                    currentSplatParticles.position.y = parseFloat(sliderHeight.value); 
+                    currentSplatParticles.position.x = 0.0;
+                    currentSplatParticles.position.z = 0.0;
+
+                    scene.add(currentSplatParticles);
+
+                    systemStatus.innerText = `ACTIVE ASSET: ${file.name.toUpperCase()}`;
+                    systemStatus.style.color = "var(--accent-cyan)";
+
+                } catch (err) {
+                    systemStatus.innerText = "BUFFER UNREADABLE";
+                    systemStatus.style.color = "#ff3333";
+                    console.error(err);
+                }
+            };
+        });
+
+        // Click interaction interface loop
+        container.addEventListener('click', (event) => {
+            const rect = renderer.domElement.getBoundingClientRect();
+            mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+            mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObject(physicalFloorPlane);
+
+            if (intersects.length > 0) {
+                const point = intersects[0].point;
+                document.getElementById('coord-x').value = point.x.toFixed(2);
+                document.getElementById('coord-z').value = point.z.toFixed(2);
+                testBox.position.set(point.x, 0.3, point.z);
+            }
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
+
+        // Form Storage Logic Array
+        let spatialConfigData = { entrances: {}, shops: {} };
+        const addBtn = document.getElementById('add-btn');
+        const exportBtn = document.getElementById('export-btn');
+
+        addBtn.addEventListener('click', () => {
+            const type = document.getElementById('node-type').value;
+            const id = document.getElementById('node-id').value.replace(/\s+/g, '_') || "Node_" + Date.now();
+            const name = document.getElementById('node-name').value || id;
+            const msg = document.getElementById('node-msg').value;
+            const x = parseFloat(document.getElementById('coord-x').value);
+            const z = parseFloat(document.getElementById('coord-z').value);
+
+            if(type === 'entrance') {
+                spatialConfigData.entrances[id] = { name: name, x: x, z: z };
+            } else if(type === 'shop') {
+                spatialConfigData.shops[id] = { name: name, x: x, z: z, welcome_message: msg };
+            }
+
+            document.getElementById('json-string-view').innerText = JSON.stringify(spatialConfigData);
+            document.getElementById('node-id').value = '';
+            document.getElementById('node-name').value = '';
+            document.getElementById('node-msg').value = '';
+        });
+
+        exportBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(JSON.stringify(spatialConfigData, null, 2));
+            alert("Configuration matrix successfully copied to your clipboard!");
+        });
+    </script>
+</body>
+</html>
