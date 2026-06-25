@@ -10,7 +10,7 @@
         "imports": {
             "three": "https://unpkg.com/three@0.157.0/build/three.module.js",
             "three/addons/": "https://unpkg.com/three@0.157.0/examples/jsm/",
-            "@lumaai/luma-web": "https://unpkg.com/@lumaai/luma-web@0.2.0/dist/library/luma-web.module.js"
+            "gaussian-splats-3d": "https://unpkg.com/@mkkellogg/gaussian-splats-3d@0.4.2/dist/gaussian-splats-3d.module.js"
         }
     }
     </script>
@@ -111,7 +111,21 @@
             border-color: var(--accent-cyan);
         }
 
-        button {
+        /* Custom File Input button style */
+        .file-upload-btn {
+            background-color: rgba(0, 240, 255, 0.1);
+            border: 1px dashed var(--accent-cyan);
+            color: var(--accent-cyan);
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        button.action-btn {
             background-color: transparent;
             border: 1px solid var(--accent-cyan);
             color: var(--accent-cyan);
@@ -124,7 +138,7 @@
             margin-top: 10px;
         }
 
-        button:hover {
+        button.action-btn:hover {
             background-color: var(--accent-cyan);
             color: var(--bg-color);
             box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
@@ -176,11 +190,17 @@
 
     <header>
         <h1>FIC-3D // <span>MAP NODE GENERATOR</span></h1>
-        <div id="system-status" style="font-size: 0.8rem; color: var(--accent-cyan);">STREAMING ASSET OVER WEBGL...</div>
+        <div id="system-status" style="font-size: 0.8rem; color: var(--text-dim);">STATUS: AWAITING LOCAL SPLAT DATA...</div>
     </header>
 
     <div class="main-container">
         <div class="sidebar">
+            <div class="section-title">0. Ingest Local Scan</div>
+            <div class="form-group">
+                <label for="splat-file-input" class="file-upload-btn">📂 Select .splat / .ply File</label>
+                <input type="file" id="splat-file-input" accept=".splat,.ply" style="display: none;">
+            </div>
+
             <div class="section-title">1. Node Classification</div>
             <div class="form-group">
                 <label for="node-type">Marker Type</label>
@@ -216,7 +236,7 @@
                 </div>
             </div>
 
-            <button id="add-btn">Capture Node Location</button>
+            <button class="action-btn" id="add-btn">Capture Node Location</button>
         </div>
 
         <div class="viewport-container" id="viewport">
@@ -232,20 +252,19 @@
 
     <div class="output-bar">
         <div class="json-preview" id="json-string-view">Current Config Session Output: Empty database config matrix.</div>
-        <button id="export-btn" style="margin: 0;">Copy Data Stack</button>
+        <button class="action-btn" id="export-btn" style="margin: 0;">Copy Data Stack</button>
     </div>
 
     <script type="module">
         import * as THREE from 'three';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-        import { LumaSplatsThree } from '@lumaai/luma-web';
+        import * as GaussianSplats3D from 'gaussian-splats-3d';
 
         const container = document.getElementById('viewport');
         const scene = new THREE.Scene();
         
-        // FIXED: Using absolute bulletproof Perspective Camera properties
         const camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 1000);
-        camera.position.set(0, 3, 5);
+        camera.position.set(0, 5, 10);
 
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(container.clientWidth, container.clientHeight);
@@ -255,37 +274,62 @@
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
 
-        // Visual test anchor to confirm the 3D canvas is active immediately
+        // Visual test anchor cube
         const testBox = new THREE.Mesh(
-            new THREE.BoxGeometry(1, 1, 1),
+            new THREE.BoxGeometry(0.5, 0.5, 0.5),
             new THREE.MeshBasicMaterial({ color: 0x00f0ff, wireframe: true })
         );
-        testBox.position.set(0, 0.5, 0);
+        testBox.position.set(0, 0.25, 0);
         scene.add(testBox);
 
-        // Grid helper representing the physical tracking plane
+        // Grid helper floor representation
         const gridHelper = new THREE.GridHelper(60, 60, 0x00f0ff, 0x1e293b);
-        gridHelper.position.y = 0;
         scene.add(gridHelper);
 
-        // Load the Public Placeholder Gaussian Splat
-        try {
-            const splat = new LumaSplatsThree({
-                source: 'https://lumalabs.ai/capture/d80d4876-cf71-4b8a-8b5b-4916ca4c16de'
-            });
-            scene.add(splat);
-        } catch(e) {
-            console.error("Splat failed to parse, fallback scene active.", e);
-        }
-
-        // Raycasting interface setup
+        // Raycasting floor intersection mesh
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
-        const planeGeo = new THREE.PlaneGeometry(100, 100);
+        const planeGeo = new THREE.PlaneGeometry(200, 200);
         planeGeo.rotateX(-Math.PI / 2);
         const physicalFloorPlane = new THREE.Mesh(planeGeo, new THREE.MeshBasicMaterial({ visible: false }));
         scene.add(physicalFloorPlane);
 
+        // Setup the local file load handler
+        const fileInput = document.getElementById('splat-file-input');
+        const systemStatus = document.getElementById('system-status');
+
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            systemStatus.innerText = "PARSING LOCAL SPLAT DATA...";
+            systemStatus.style.color = "#ffaa00";
+
+            const fileURL = URL.createObjectURL(file);
+
+            // Initialize the high-performance local splat viewer asset pipeline
+            const viewer = new GaussianSplats3D.Viewer({
+                'selfContain': false,
+                'useBuiltInControls': false,
+                'rootElement': container,
+                'threeScene': scene,
+                'camera': camera,
+                'renderer': renderer
+            });
+
+            viewer.addSplatScene(fileURL, {
+                'progressiveLoad': false
+            }).then(() => {
+                systemStatus.innerText = `ACTIVE SCAN: ${file.name.toUpperCase()}`;
+                systemStatus.style.color = "var(--accent-cyan)";
+            }).catch((err) => {
+                systemStatus.innerText = "INGEST ERROR: INVALID STRUCTURE";
+                systemStatus.style.color = "#ff3333";
+                console.error(err);
+            });
+        });
+
+        // Click behavior to lock coordinates
         container.addEventListener('click', (event) => {
             const rect = renderer.domElement.getBoundingClientRect();
             mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -299,8 +343,7 @@
                 document.getElementById('coord-x').value = point.x.toFixed(2);
                 document.getElementById('coord-z').value = point.z.toFixed(2);
                 
-                // Move test box to visually indicate click point
-                testBox.position.set(point.x, 0.5, point.z);
+                testBox.position.set(point.x, 0.25, point.z);
             }
         });
 
@@ -317,7 +360,7 @@
             renderer.setSize(container.clientWidth, container.clientHeight);
         });
 
-        // App State Management Logic
+        // App State Management Data Logic
         let spatialConfigData = { entrances: {}, shops: {} };
         const addBtn = document.getElementById('add-btn');
         const exportBtn = document.getElementById('export-btn');
