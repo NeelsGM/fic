@@ -7,6 +7,8 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@mkkellogg/gaussian-splats-3d@0.1.2/dist/gaussian-splats-3d.umd.js"></script>
 
     <style>
         :root {
@@ -103,6 +105,20 @@
             border-color: var(--accent-cyan);
         }
 
+        .file-upload-btn {
+            background-color: rgba(0, 240, 255, 0.1);
+            border: 1px dashed var(--accent-cyan);
+            color: var(--accent-cyan);
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            display: block;
+        }
+
         button.action-btn {
             background-color: transparent;
             border: 1px solid var(--accent-cyan);
@@ -167,11 +183,17 @@
 
     <header>
         <h1>FIC-3D // <span>MAP NODE GENERATOR</span></h1>
-        <div style="font-size: 0.8rem; color: var(--accent-cyan);">ENGINE CORE: ACTIVE</div>
+        <div id="system-status" style="font-size: 0.8rem; color: var(--accent-cyan);">ENGINE CORE: ACTIVE</div>
     </header>
 
     <div class="main-container">
         <div class="sidebar">
+            <div class="section-title">0. Ingest Local Scan</div>
+            <div class="form-group">
+                <label for="splat-file-input" class="file-upload-btn">📂 Select Local .splat File</label>
+                <input type="file" id="splat-file-input" accept=".splat" style="display: none;">
+            </div>
+
             <div class="section-title">1. Node Classification</div>
             <div class="form-group">
                 <label for="node-type">Marker Type</label>
@@ -227,7 +249,6 @@
     </div>
 
     <script>
-        // Completely non-module execution prevents browser runtime blocking
         const container = document.getElementById('viewport');
         const scene = new THREE.Scene();
         
@@ -261,6 +282,53 @@
 
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
+
+        // Local file handler hooked into UMD standalone parser
+        const fileInput = document.getElementById('splat-file-input');
+        const systemStatus = document.getElementById('system-status');
+        let activeSplatMesh = null;
+
+        fileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            systemStatus.innerText = "STREAMING SCAN MARKERS...";
+            systemStatus.style.color = "#ffaa00";
+
+            if (activeSplatMesh) {
+                scene.remove(activeSplatMesh);
+            }
+
+            const fileURL = URL.createObjectURL(file);
+
+            try {
+                // Initialize using standard global wrapper window scope object
+                const viewer = new GaussianSplats3D.Viewer({
+                    'selfContain': false,
+                    'useBuiltInControls': false,
+                    'rootElement': container,
+                    'threeScene': scene,
+                    'camera': camera,
+                    'renderer': renderer
+                });
+
+                viewer.addSplatScene(fileURL, {
+                    'progressiveLoad': false
+                }).then(function() {
+                    systemStatus.innerText = "ASSET DEPLOYED SUCCESSFULLY";
+                    systemStatus.style.color = "var(--accent-cyan)";
+                }).catch(function(err) {
+                    systemStatus.innerText = "PARSING ERROR";
+                    systemStatus.style.color = "#ff3333";
+                    console.error(err);
+                });
+
+            } catch (e) {
+                systemStatus.innerText = "LOAD RUNTIME ERROR";
+                systemStatus.style.color = "#ff3333";
+                console.error(e);
+            }
+        });
 
         container.addEventListener('click', (event) => {
             const rect = renderer.domElement.getBoundingClientRect();
