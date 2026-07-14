@@ -132,7 +132,7 @@
                             id="viewer" 
                             class="absolute inset-0 w-full h-full border-0" 
                             allow="fullscreen; xr-spatial-tracking" 
-                            src="https://superspl.at/s?id=49e397e9">
+                            src="https://superspl.at/s?id=e7f039e0">
                         </iframe>
                     </div>
                 </div>
@@ -168,65 +168,4 @@
         <footer class="py-16 border-t border-white/10 px-6 text-center">
             <div class="flex justify-center gap-10 mb-10 text-2xl">
                 <a href="https://wa.me/27740535875" target="_blank" class="hover:text-cyan-400 transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
-                <a href="https://www.facebook.com/FIC3d" target="_blank" class="hover:text-cyan-400 transition-colors"><i class="fa-brands fa-facebook"></i></a>
-                <a href="https://x.com/Neelsgm" target="_blank" class="hover:text-cyan-400 transition-colors"><i class="fa-brands fa-x-twitter"></i></a>
-                <a href="mailto:neels@fic-3d.co.za" class="hover:text-cyan-400 transition-colors"><i class="fa-regular fa-envelope"></i></a>
-            </div>
-            <p class="text-[10px] uppercase tracking-[0.5em] text-gray-600 font-bold">&copy; 2026 FORGED IN CARBON | WESTVILLE, DURBAN, SA</p>
-        </footer>
-    </main>
-
-<script>
-    function toggleMenu() { 
-        const menu = document.getElementById('mobile-menu');
-        if(menu) menu.classList.toggle('hidden'); 
-    }
-
-    window.addEventListener('load', () => {
-        const loader = document.getElementById('loader');
-        if(loader) {
-            loader.style.opacity = '0';
-            setTimeout(() => { loader.style.display = 'none'; }, 500);
-        }
-
-        if (typeof THREE !== 'undefined') {
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-
-            const geometry = new THREE.BufferGeometry();
-            const vertices = [];
-            for (let i = 0; i < 1500; i++) {
-                vertices.push(THREE.MathUtils.randFloatSpread(50), THREE.MathUtils.randFloatSpread(50), THREE.MathUtils.randFloatSpread(50));
-            }
-            geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-            const particles = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0x00f3ff, size: 0.04 }));
-            scene.add(particles);
-
-            camera.position.z = 15;
-            let mouseX = 0, mouseY = 0;
-
-            document.addEventListener('mousemove', (e) => {
-                mouseX = (e.clientX - window.innerWidth / 2) / window.innerWidth * 0.15;
-                mouseY = (e.clientY - window.innerHeight / 2) / window.innerHeight * 0.15;
-            });
-
-            function animate() {
-                requestAnimationFrame(animate);
-                particles.rotation.y += 0.0003; 
-                particles.rotation.x += (mouseY * 0.05); 
-                renderer.render(scene, camera);
-            }
-            animate();
-
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            });
-        }
-    });
-</script>
-</body>
-</html>
+                <a href="
