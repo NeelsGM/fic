@@ -97,12 +97,8 @@
                 <div class="flex flex-col space-y-4">
                     <div class="glass-panel p-6 sm:p-8 border-l-2 border-cyan-400 flex flex-col justify-start flex-1">
                         <h3 class="font-display text-xl text-white mb-3 uppercase tracking-widest flex items-center gap-3">
-                            <i class="fa-solid fa-drone text-cyan-400"></i> Drone Flights
+                            <i class="fa-solid fa-drone text-cyan-400"></i> Drone Footage & Archive
                         </h3>
-                        <p class="text-gray-300 text-sm font-bold tracking-wide leading-relaxed uppercase">
-                            Drone flights for construction and road works provide critical aerial data, revolutionizing how sites are surveyed, monitored, and managed.
-                            <span class="block mt-3"><span class="text-cyan-400">Progress Tracking:</span> Regular flights produce photos and videos to catch deviations early.</span>
-                        </p>
                     </div>
                     <div class="glass-panel min-h-[350px] flex items-center justify-center border-l-2 border-cyan-400 rounded-none relative overflow-hidden group">
                         <video 
@@ -115,21 +111,28 @@
                             Your browser does not support the video tag.
                         </video>
                     </div>
+                    <div class="glass-panel min-h-[350px] flex items-center justify-center border-l-2 border-cyan-400 rounded-none relative overflow-hidden group">
+                        <iframe 
+                            id="viewer-old" 
+                            class="absolute inset-0 w-full h-full border-0" 
+                            allow="fullscreen; xr-spatial-tracking" 
+                            src="https://superspl.at/s?id=e7f039e0">
+                        </iframe>
+                    </div>
                 </div>
 
                 <div class="flex flex-col space-y-4">
                     <div class="glass-panel p-6 sm:p-8 border-l-2 border-cyan-400 flex flex-col justify-start flex-1">
                         <h3 class="font-display text-xl text-white mb-3 uppercase tracking-widest flex items-center gap-3">
-                            Photogrammetry
+                            Current Photogrammetry
                         </h3>
                         <p class="text-gray-300 text-sm font-bold tracking-wide leading-relaxed uppercase">
                             Drone photogrammetry is the process of capturing hundreds of overlapping 2D photographs with a drone, and using specialized software to stitch them together.
-                            <span class="block mt-3">This technique translates raw images into highly accurate 3D models for surveying, construction, and agriculture.</span>
                         </p>
                     </div>
                     <div class="glass-panel min-h-[350px] flex items-center justify-center border-l-2 border-cyan-400 rounded-none relative overflow-hidden group">
                         <iframe 
-                            id="viewer" 
+                            id="viewer-new" 
                             class="absolute inset-0 w-full h-full border-0" 
                             allow="fullscreen; xr-spatial-tracking" 
                             src="https://superspl.at/s?id=bffa93dc">
@@ -138,46 +141,9 @@
                 </div>
 
             </div>
-
-            <div class="max-w-4xl mx-auto text-center border-t border-b border-white/5 py-12 px-4">
-                <p class="text-white uppercase text-lg md:text-xl tracking-[0.15em] leading-relaxed font-bold italic">
-                    Transforming physical geography and real-world infrastructure into <span class="text-cyan-400 neon-text">highly precise geometric realities</span> optimized directly for development pipelines.
-                </p>
-            </div>
-        </section>
-
-        <section id="contact" class="py-20 px-6 max-w-4xl mx-auto">
-            <div class="glass-panel p-8 rounded-none border-t-2 border-cyan-400">
-                <h2 class="font-display text-2xl text-white mb-6 uppercase tracking-widest text-center">Drone Project Inquiry</h2>
-                <form action="https://formspree.io/f/mrebnpga" method="POST" class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input type="text" name="name" placeholder="YOUR NAME" required class="bg-black/50 border border-white/10 p-4 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
-                        <input type="email" name="email" placeholder="YOUR EMAIL" required class="bg-black/50 border border-white/10 p-4 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
-                    </div>
-                    <select name="service" class="w-full bg-black/50 border border-white/10 p-4 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
-                        <option>3D PHOTOGRAMMETRY SCANNING</option>
-                        <option>INDUSTRIAL DRONE SURVEY / INSPECTION</option>
-                        <option>OTHER AERIAL CAPTURE PROJECTS</option>
-                    </select>
-                    <textarea name="message" rows="4" placeholder="PROJECT DETAILS (LOCATION, OBJECT SIZE, EXPECTED OUTPUT)..." required class="w-full bg-black/50 border border-white/10 p-4 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest"></textarea>
-                    <button type="submit" class="w-full bg-cyan-400 text-black py-4 font-display font-bold uppercase tracking-[0.3em] hover:bg-white transition-colors cursor-pointer">Initialize Flight Inquiry</button>
-                </form>
-            </div>
-        </section>
-
-        <footer class="py-16 border-t border-white/10 px-6 text-center">
-            <div class="flex justify-center gap-10 mb-10 text-2xl">
-                <a href="https://wa.me/27740535875" target="_blank" class="hover:text-cyan-400 transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
-            </div>
-        </footer>
-    </main>
-
-    <script>
-        window.addEventListener('load', () => {
-            document.getElementById('loader').style.opacity = '0';
-            setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 500);
-        });
-        function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
-    </script>
-</body>
+            
+            </section>
+        
+        </main>
+    </body>
 </html>
