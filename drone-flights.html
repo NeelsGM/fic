@@ -11,52 +11,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="canonical" href="https://www.fic-3d.co.za/drone-flights.html">
-
     <link rel="icon" type="image/png" href="favicon.png">
     
-    <link rel="preconnect" href="https://cdn.tailwindcss.com">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <title>DroneFlights & 3D Photogramatry | Forged in Carbon Durban</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <meta name="description" content="Advanced UAV Drone Flights and 3D Photogrammetry services in Westville, Durban. High-accuracy aerial site scanning, asset inspection, and digital twin engineering.">
-    <meta name="referrer" content="origin">
-
+    <meta name="description" content="Advanced UAV Drone Flights and 3D Photogrammetry services in Westville, Durban.">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
 
-    <script src="https://cdn.tailwindcss.com" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
-
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            tailwind.config = {
-                theme: {
-                    extend: {
-                        colors: { cyan: { 400: '#00f3ff' }, carbon: { 900: '#0a0a0a' } },
-                        fontFamily: { sans: ['Rajdhani', 'sans-serif'], display: ['Orbitron', 'sans-serif'] }
-                    }
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { cyan: { 400: '#00f3ff' }, carbon: { 900: '#0a0a0a' } },
+                    fontFamily: { sans: ['Rajdhani', 'sans-serif'], display: ['Orbitron', 'sans-serif'] }
                 }
             }
-        });
+        }
     </script>
+
     <style>
         .neon-text { text-shadow: 0 0 15px rgba(0, 243, 255, 0.7); }
         canvas#bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-        .glass-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); transition: all 0.3s ease; }
-        #loader { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease-out; }
+        .glass-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
+        #loader { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease; }
     </style>
 </head>
 <body class="bg-carbon-900 text-gray-300 font-sans">
 
     <div id="loader">
-        <div class="text-2xl font-display font-bold text-cyan-400 animate-pulse uppercase tracking-widest leading-none">LOADING TECH</div>
+        <div class="text-2xl font-display font-bold text-cyan-400 animate-pulse uppercase tracking-widest">LOADING TECH</div>
     </div>
-    <canvas id="bg-canvas"></canvas>
-
+    
     <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='index.html'">
@@ -64,86 +51,50 @@
                 <span class="font-display font-bold text-2xl text-white uppercase">FIC</span>
             </div>
             <div class="hidden md:flex gap-8 items-center uppercase text-xs font-bold tracking-[0.2em]">
-                <a href="index.html" class="hover:text-cyan-400 transition-colors">Home</a>
-                <a href="modeling.html" class="hover:text-cyan-400 transition-colors">Modeling & Scanning</a>
-                <a href="drone-flights.html" class="text-cyan-400">Drone Flights & Photogrammetry</a>
-                <a href="#contact" class="bg-cyan-400 text-black px-5 py-2 hover:bg-white transition-colors">Start Project</a>
+                <a href="index.html" class="hover:text-cyan-400">Home</a>
+                <a href="drone-flights.html" class="text-cyan-400">Drone Flights</a>
+                <a href="#contact" class="bg-cyan-400 text-black px-5 py-2">Start Project</a>
             </div>
-            <button onclick="toggleMenu()" class="md:hidden text-white"><i class="fa-solid fa-bars text-2xl"></i></button>
-        </div>
-        <div id="mobile-menu" class="hidden md:hidden bg-black/95 border-b border-white/10 flex flex-col p-6 gap-4 uppercase text-sm font-bold tracking-widest">
-            <a href="index.html">Home</a>
-            <a href="modeling.html">Modeling & Scanning</a>
-            <a href="drone-flights.html" class="text-cyan-400">Drone Flights & Photogrammetry</a>
-            <a href="#contact" onclick="toggleMenu()">Contact Us</a>
         </div>
     </nav>
 
-    <main class="relative z-10 pt-32">
-        <section class="min-h-[50vh] flex flex-col items-center justify-center px-6 text-center">
-            <div class="mb-4 inline-block border border-cyan-400/30 px-4 py-1 rounded-full bg-cyan-400/5 text-cyan-400 text-[10px] font-bold uppercase tracking-[0.3em]">
-                UAV Mapping • Spatial Intelligence • KZN
-            </div>
-            <h1 class="font-display text-4xl md:text-7xl font-black text-white mb-6 tracking-tighter uppercase leading-none">
-                DRONE FLIGHTS & <span class="neon-text text-gray-400">3D PHOTOGRAMATRY</span>
-            </h1>
-            <p class="text-base md:text-lg text-gray-400 max-w-2xl mx-auto mb-10 uppercase font-bold tracking-[0.2em]">
-                High-precision industrial drone capture converted into production-ready 3D structural data models.
-            </p>
-        </section>
-        <section class="py-12 px-6 max-w-7xl mx-auto border-t border-white/5">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch mb-16">
+    <main class="relative z-10 pt-32 pb-20">
+        <section class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 
-                <div class="flex flex-col space-y-4">
-                    <div class="glass-panel p-6 sm:p-8 border-l-2 border-cyan-400 flex flex-col justify-start flex-1">
-                        <h3 class="font-display text-xl text-white mb-3 uppercase tracking-widest flex items-center gap-3">
-                            <i class="fa-solid fa-drone text-cyan-400"></i> Drone Footage & Archive
-                        </h3>
+                <div class="space-y-4">
+                    <div class="glass-panel p-8 border-l-2 border-cyan-400">
+                        <h3 class="font-display text-xl text-white uppercase">Archive Data</h3>
                     </div>
-                    <div class="glass-panel min-h-[350px] flex items-center justify-center border-l-2 border-cyan-400 rounded-none relative overflow-hidden group">
-                        <video 
-                            class="absolute inset-0 w-full h-full object-cover" 
-                            autoplay 
-                            loop 
-                            muted 
-                            playsinline>
+                    <div class="glass-panel h-[350px] relative overflow-hidden">
+                        <video class="w-full h-full object-cover" autoplay loop muted playsinline>
                             <source src="interchange.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
                         </video>
                     </div>
-                    <div class="glass-panel min-h-[350px] flex items-center justify-center border-l-2 border-cyan-400 rounded-none relative overflow-hidden group">
-                        <iframe 
-                            id="viewer-old" 
-                            class="absolute inset-0 w-full h-full border-0" 
-                            allow="fullscreen; xr-spatial-tracking" 
-                            src="https://superspl.at/s?id=e7f039e0">
-                        </iframe>
+                    <div class="glass-panel h-[350px] relative overflow-hidden">
+                        <iframe class="w-full h-full" src="https://superspl.at/s?id=e7f039e0"></iframe>
                     </div>
                 </div>
 
-                <div class="flex flex-col space-y-4">
-                    <div class="glass-panel p-6 sm:p-8 border-l-2 border-cyan-400 flex flex-col justify-start flex-1">
-                        <h3 class="font-display text-xl text-white mb-3 uppercase tracking-widest flex items-center gap-3">
-                            Current Photogrammetry
-                        </h3>
-                        <p class="text-gray-300 text-sm font-bold tracking-wide leading-relaxed uppercase">
-                            Drone photogrammetry is the process of capturing hundreds of overlapping 2D photographs with a drone, and using specialized software to stitch them together.
-                        </p>
+                <div class="space-y-4">
+                    <div class="glass-panel p-8 border-l-2 border-cyan-400">
+                        <h3 class="font-display text-xl text-white uppercase">Current Photogrammetry</h3>
                     </div>
-                    <div class="glass-panel min-h-[350px] flex items-center justify-center border-l-2 border-cyan-400 rounded-none relative overflow-hidden group">
-                        <iframe 
-                            id="viewer-new" 
-                            class="absolute inset-0 w-full h-full border-0" 
-                            allow="fullscreen; xr-spatial-tracking" 
-                            src="https://superspl.at/s?id=bffa93dc">
-                        </iframe>
+                    <div class="glass-panel h-[716px] relative overflow-hidden">
+                        <iframe class="w-full h-full" src="https://superspl.at/s?id=bffa93dc"></iframe>
                     </div>
                 </div>
-
             </div>
-            
-            </section>
-        
-        </main>
-    </body>
+        </section>
+    </main>
+
+    <script>
+        // Force hide loader when everything is ready
+        window.onload = () => {
+            const loader = document.getElementById('loader');
+            loader.style.opacity = '0';
+            setTimeout(() => { loader.style.display = 'none'; }, 500);
+        };
+    </script>
+</body>
 </html>
