@@ -36,6 +36,8 @@
         canvas#bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         .glass-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
         #loader { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease-out; }
+        /* Force iframe fill */
+        iframe { width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body class="bg-carbon-900 text-gray-100 font-sans text-lg">
@@ -74,20 +76,19 @@
             </p>
             <h3 class="text-xl font-bold text-cyan-400 uppercase tracking-widest mb-6">Why it matters for your workflows:</h3>
             <ul class="space-y-6 text-lg text-gray-200">
-                <li><strong class="text-white">Unscannable Detail:</strong> Traditional photogrammetry often fails on reflective surfaces, thin cables, scaffolding, or foliage. Gaussian Splatting captures these elements with cinematic accuracy, preserving the "look and feel" of the environment that a standard 3D mesh would miss.</li>
-                <li><strong class="text-white">Immersive Fidelity:</strong> By discarding the constraints of rigid geometry, you gain the ability to visualize sites and products with high-end, true-to-life reflections and depth. Whether for a structural inspection or a high-impact marketing display, the visual result is indistinguishable from reality.</li>
-                <li><strong class="text-white">Workflow Efficiency:</strong> Gaussian Splatting is generally faster to process than complex mesh-based photogrammetry, allowing for quicker turnaround times from raw flight data to a finished, interactive model.</li>
-                <li><strong class="text-white">Intuitive Visualization:</strong>
-                    <ul class="list-disc ml-8 mt-2 space-y-2">
-                        <li>For Construction/Engineering: Stakeholders can inspect site progress and complex infrastructure through an immersive lens that is far more intuitive and accessible than navigating a raw, "blobby" 3D mesh.</li>
-                        <li>For Media/Marketing: Brands can showcase products or environments with cinematic quality, allowing users to interact with high-fidelity digital assets that feel grounded and natural.</li>
-                    </ul>
-                </li>
+                <li><strong class="text-white">Unscannable Detail:</strong> Traditional photogrammetry often fails on reflective surfaces, thin cables, scaffolding, or foliage. Gaussian Splatting captures these elements with cinematic accuracy.</li>
+                <li><strong class="text-white">Immersive Fidelity:</strong> Visualize sites and products with high-end, true-to-life reflections and depth.</li>
+                <li><strong class="text-white">Workflow Efficiency:</strong> Faster to process than mesh-based photogrammetry, allowing for quicker turnaround.</li>
             </ul>
         </section>
 
         <section class="py-16 px-6 max-w-7xl mx-auto">
-            <div class="text-center mb-12">
+            <div class="mb-12 text-center glass-panel p-8 border-b-4 border-cyan-400">
+                <h2 class="font-display text-3xl text-white uppercase tracking-widest mb-4">Aerial Precision & Industrial Mapping</h2>
+                <p class="text-lg text-gray-300 max-w-3xl mx-auto">Our drone flight services provide high-resolution aerial data for construction progress, industrial inspection, and topographic mapping. We bridge the gap between physical site assets and digital twin engineering.</p>
+            </div>
+
+            <div class="mb-12 text-center">
                 <button onclick="document.getElementById('controls-menu').classList.toggle('hidden')" class="border-2 border-cyan-400 text-cyan-400 px-8 py-4 uppercase font-bold tracking-widest text-lg hover:bg-cyan-400 hover:text-black transition-all">
                     How to navigate 3D Viewports <i class="fa-solid fa-chevron-down ml-2"></i>
                 </button>
@@ -98,22 +99,22 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                <div class="glass-panel min-h-[500px] border-l-4 border-cyan-400 relative overflow-hidden">
-                    <video class="absolute inset-0 w-full h-full object-cover" autoplay loop muted playsinline>
+                <div class="glass-panel h-[500px] border-l-4 border-cyan-400 relative overflow-hidden">
+                    <video class="w-full h-full object-cover" autoplay loop muted playsinline>
                         <source src="interchange.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="space-y-12">
-                    <div class="glass-panel min-h-[500px] relative border-r-4 border-cyan-400 overflow-hidden">
-                        <iframe class="w-full h-full" allow="fullscreen; xr-spatial-tracking" sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock" src="https://superspl.at/s?id=e7f039e0"></iframe>
+                    <div class="glass-panel h-[500px] relative border-r-4 border-cyan-400 overflow-hidden">
+                        <iframe allow="fullscreen; xr-spatial-tracking" src="https://superspl.at/s?id=e7f039e0"></iframe>
                     </div>
-                    <div class="glass-panel min-h-[500px] relative border-r-4 border-cyan-400 overflow-hidden">
-                        <iframe class="w-full h-full" allow="fullscreen; xr-spatial-tracking" sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock" src="https://superspl.at/s?id=bffa93dc"></iframe>
+                    <div class="glass-panel h-[500px] relative border-r-4 border-cyan-400 overflow-hidden">
+                        <iframe allow="fullscreen; xr-spatial-tracking" src="https://superspl.at/s?id=bffa93dc"></iframe>
                     </div>
                 </div>
             </div>
         </section>
-
+        
         <section id="contact" class="py-24 px-6 max-w-4xl mx-auto">
             <div class="glass-panel p-10 border-t-4 border-cyan-400">
                 <h2 class="font-display text-3xl text-white mb-8 uppercase tracking-widest text-center">Initialize Flight Inquiry</h2>
@@ -141,7 +142,6 @@
         window.addEventListener('load', () => {
             const loader = document.getElementById('loader');
             if(loader) { loader.style.opacity = '0'; setTimeout(() => { loader.style.display = 'none'; }, 500); }
-            
             if (typeof THREE !== 'undefined') {
                 const scene = new THREE.Scene();
                 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
