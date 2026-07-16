@@ -11,37 +11,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="canonical" href="https://www.fic-3d.co.za/drone-flights.html">
-
     <link rel="icon" type="image/png" href="favicon.png">
     
-    <link rel="preconnect" href="https://cdn.tailwindcss.com">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <title>DroneFlights & 3D Photogramatry | Forged in Carbon Durban</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <meta name="description" content="Advanced UAV Drone Flights and 3D Photogrammetry services in Westville, Durban. High-accuracy aerial site scanning, asset inspection, and digital twin engineering.">
-    <meta name="referrer" content="origin">
-
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
 
-    <script src="https://cdn.tailwindcss.com" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
-
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            tailwind.config = {
-                theme: {
-                    extend: {
-                        colors: { cyan: { 400: '#00f3ff' }, carbon: { 900: '#0a0a0a' } },
-                        fontFamily: { sans: ['Rajdhani', 'sans-serif'], display: ['Orbitron', 'sans-serif'] }
-                    }
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { cyan: { 400: '#00f3ff' }, carbon: { 900: '#0a0a0a' } },
+                    fontFamily: { sans: ['Rajdhani', 'sans-serif'], display: ['Orbitron', 'sans-serif'] }
                 }
             }
-        });
+        }
     </script>
     <style>
         .neon-text { text-shadow: 0 0 15px rgba(0, 243, 255, 0.7); }
@@ -55,7 +41,6 @@
     <div id="loader">
         <div class="text-2xl font-display font-bold text-cyan-400 animate-pulse uppercase tracking-widest leading-none">LOADING TECH</div>
     </div>
-    <canvas id="bg-canvas"></canvas>
 
     <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
@@ -66,117 +51,76 @@
             <div class="hidden md:flex gap-8 items-center uppercase text-xs font-bold tracking-[0.2em]">
                 <a href="index.html" class="hover:text-cyan-400 transition-colors">Home</a>
                 <a href="modeling.html" class="hover:text-cyan-400 transition-colors">Modeling & Scanning</a>
-                <a href="drone-flights.html" class="text-cyan-400">Drone Flights & Photogrammetry</a>
+                <a href="drone-flights.html" class="text-cyan-400">Drone Flights</a>
                 <a href="#contact" class="bg-cyan-400 text-black px-5 py-2 hover:bg-white transition-colors">Start Project</a>
             </div>
-            <button onclick="toggleMenu()" class="md:hidden text-white"><i class="fa-solid fa-bars text-2xl"></i></button>
-        </div>
-        <div id="mobile-menu" class="hidden md:hidden bg-black/95 border-b border-white/10 flex flex-col p-6 gap-4 uppercase text-sm font-bold tracking-widest">
-            <a href="index.html">Home</a>
-            <a href="modeling.html">Modeling & Scanning</a>
-            <a href="drone-flights.html" class="text-cyan-400">Drone Flights & Photogrammetry</a>
-            <a href="#contact" onclick="toggleMenu()">Contact Us</a>
         </div>
     </nav>
 
     <main class="relative z-10 pt-32">
-        <section class="min-h-[50vh] flex flex-col items-center justify-center px-6 text-center">
-            <div class="mb-4 inline-block border border-cyan-400/30 px-4 py-1 rounded-full bg-cyan-400/5 text-cyan-400 text-[10px] font-bold uppercase tracking-[0.3em]">
-                UAV Mapping • Spatial Intelligence • KZN
-            </div>
-            <h1 class="font-display text-4xl md:text-7xl font-black text-white mb-6 tracking-tighter uppercase leading-none">
-                DRONE FLIGHTS & <span class="neon-text text-gray-400">3D PHOTOGRAMATRY</span>
-            </h1>
-            <p class="text-base md:text-lg text-gray-400 max-w-2xl mx-auto mb-10 uppercase font-bold tracking-[0.2em]">
-                High-precision industrial drone capture converted into production-ready 3D structural data models.
-            </p>
+        <section class="min-h-[40vh] flex flex-col items-center justify-center px-6 text-center mb-16">
+            <h1 class="font-display text-4xl md:text-7xl font-black text-white mb-6 uppercase tracking-tighter">Drone Flights & Photogrammetry</h1>
+            <p class="text-gray-400 max-w-2xl uppercase font-bold tracking-[0.2em]">High-precision industrial drone capture converted into production-ready 3D structural data.</p>
         </section>
+
+        <section class="py-12 px-6 max-w-4xl mx-auto glass-panel p-8 mb-16 border-t-2 border-cyan-400">
+            <h2 class="font-display text-2xl text-white mb-6 uppercase tracking-widest text-center">The Evolution: Gaussian Splatting</h2>
+            <p class="text-gray-300 text-sm leading-relaxed mb-6">Gaussian Splatting is a paradigm shift in 3D capture. Unlike traditional photogrammetry, which builds rigid surface meshes, this process renders scenes using millions of tiny 3D points, resulting in near-photorealistic fidelity.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs uppercase font-bold">
+                <div class="border-l border-cyan-400 pl-4">
+                    <h4 class="text-cyan-400 mb-2">Construction & Engineering</h4>
+                    <p>Captures reflective surfaces, thin cables, and foliage with cinematic accuracy, providing intuitive, immersive site progress visualization.</p>
+                </div>
+                <div class="border-l border-cyan-400 pl-4">
+                    <h4 class="text-cyan-400 mb-2">Media & Marketing</h4>
+                    <p>Showcase products and environments with high-end, true-to-life reflections and depth that feel grounded and natural.</p>
+                </div>
+            </div>
+        </section>
+
         <section class="py-12 px-6 max-w-7xl mx-auto border-t border-white/5">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch mb-16">
-                
-                <div class="flex flex-col space-y-4">
-                    <div class="glass-panel p-6 sm:p-8 border-l-2 border-cyan-400 flex flex-col justify-start flex-1">
-                        <h3 class="font-display text-xl text-white mb-3 uppercase tracking-widest flex items-center gap-3">
-                            <i class="fa-solid fa-drone text-cyan-400"></i> Drone Flights
-                        </h3>
-                        <p class="text-gray-300 text-sm font-bold tracking-wide leading-relaxed uppercase">
-                            Drone flights for construction and road works provide critical aerial data, revolutionizing how sites are surveyed, monitored, and managed.
-                            <span class="block mt-3"><span class="text-cyan-400">Progress Tracking:</span> Regular flights produce photos and videos to catch deviations early.</span>
-                        </p>
-                    </div>
-                    <div class="glass-panel min-h-[350px] flex items-center justify-center border-l-2 border-cyan-400 rounded-none relative overflow-hidden group">
-                        <video 
-                            class="absolute inset-0 w-full h-full object-cover" 
-                            autoplay 
-                            loop 
-                            muted 
-                            playsinline>
-                            <source src="interchange.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    </div>
+            <div class="text-center mb-10">
+                <h3 class="font-display text-xl text-white uppercase tracking-widest">Interactive 3D Controls</h3>
+                <p class="text-gray-500 text-xs mt-2 uppercase tracking-[0.2em]">Rotate: Left-Click+Drag | Zoom: Scroll | Pan: Right-Click+Drag | Reset: Double-Click</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                <div class="glass-panel min-h-[350px] flex items-center justify-center border-l-2 border-cyan-400 relative overflow-hidden">
+                    <video class="absolute inset-0 w-full h-full object-cover" autoplay loop muted playsinline>
+                        <source src="interchange.mp4" type="video/mp4">
+                    </video>
                 </div>
 
-                <div class="flex flex-col space-y-4">
-                    <div class="glass-panel p-6 sm:p-8 border-l-2 border-cyan-400 flex flex-col justify-start flex-1">
-                        <h3 class="font-display text-xl text-white mb-3 uppercase tracking-widest flex items-center gap-3">
-                            Photogrammetry Models
-                        </h3>
-                        <p class="text-gray-300 text-sm font-bold tracking-wide leading-relaxed uppercase">
-                            Drone photogrammetry translates raw images into highly accurate 3D models.
-                        </p>
+                <div class="flex flex-col space-y-8">
+                    <div class="glass-panel min-h-[350px] relative overflow-hidden border-r-2 border-cyan-400">
+                        <iframe class="w-full h-full border-0" src="https://superspl.at/s?id=e7f039e0"></iframe>
                     </div>
-                    <div class="glass-panel min-h-[350px] flex items-center justify-center border-l-2 border-cyan-400 rounded-none relative overflow-hidden group">
-                        <iframe 
-                            class="absolute inset-0 w-full h-full border-0" 
-                            allow="fullscreen; xr-spatial-tracking" 
-                            src="https://superspl.at/s?id=e7f039e0">
-                        </iframe>
-                    </div>
-                    <div class="glass-panel min-h-[350px] flex items-center justify-center border-l-2 border-cyan-400 rounded-none relative overflow-hidden group">
-                        <iframe 
-                            class="absolute inset-0 w-full h-full border-0" 
-                            allow="fullscreen; xr-spatial-tracking" 
-                            src="https://superspl.at/s?id=bffa93dc">
-                        </iframe>
+                    <div class="glass-panel min-h-[350px] relative overflow-hidden border-r-2 border-cyan-400">
+                        <iframe class="w-full h-full border-0" src="https://superspl.at/s?id=bffa93dc"></iframe>
                     </div>
                 </div>
-
             </div>
         </section>
 
         <section id="contact" class="py-20 px-6 max-w-4xl mx-auto">
             <div class="glass-panel p-8 rounded-none border-t-2 border-cyan-400">
-                <h2 class="font-display text-2xl text-white mb-6 uppercase tracking-widest text-center">Drone Project Inquiry</h2>
+                <h2 class="font-display text-2xl text-white mb-6 uppercase tracking-widest text-center">Initialize Flight Inquiry</h2>
                 <form action="https://formspree.io/f/mrebnpga" method="POST" class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input type="text" name="name" placeholder="YOUR NAME" required class="bg-black/50 border border-white/10 p-4 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
-                        <input type="email" name="email" placeholder="YOUR EMAIL" required class="bg-black/50 border border-white/10 p-4 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
-                    </div>
-                    <select name="service" class="w-full bg-black/50 border border-white/10 p-4 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest">
-                        <option>3D PHOTOGRAMMETRY SCANNING</option>
-                        <option>INDUSTRIAL DRONE SURVEY / INSPECTION</option>
-                        <option>OTHER AERIAL CAPTURE PROJECTS</option>
-                    </select>
-                    <textarea name="message" rows="4" placeholder="PROJECT DETAILS (LOCATION, OBJECT SIZE, EXPECTED OUTPUT)..." required class="w-full bg-black/50 border border-white/10 p-4 focus:border-cyan-400 outline-none text-sm uppercase font-bold tracking-widest"></textarea>
-                    <button type="submit" class="w-full bg-cyan-400 text-black py-4 font-display font-bold uppercase tracking-[0.3em] hover:bg-white transition-colors cursor-pointer">Initialize Flight Inquiry</button>
+                    <input type="text" name="name" placeholder="YOUR NAME" required class="w-full bg-black/50 border border-white/10 p-4 outline-none text-sm uppercase font-bold">
+                    <input type="email" name="email" placeholder="YOUR EMAIL" required class="w-full bg-black/50 border border-white/10 p-4 outline-none text-sm uppercase font-bold">
+                    <textarea name="message" rows="4" placeholder="PROJECT DETAILS" required class="w-full bg-black/50 border border-white/10 p-4 outline-none text-sm uppercase font-bold"></textarea>
+                    <button type="submit" class="w-full bg-cyan-400 text-black py-4 font-display font-bold uppercase tracking-[0.3em] hover:bg-white transition-colors">Submit</button>
                 </form>
             </div>
         </section>
-
-        <footer class="py-16 border-t border-white/10 px-6 text-center">
-            <div class="flex justify-center gap-10 mb-10 text-2xl">
-                <a href="https://wa.me/27740535875" target="_blank" class="hover:text-cyan-400 transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
-            </div>
-        </footer>
     </main>
 
     <script>
         window.addEventListener('load', () => {
-            document.getElementById('loader').style.opacity = '0';
-            setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 500);
+            const loader = document.getElementById('loader');
+            loader.style.opacity = '0';
+            setTimeout(() => { loader.style.display = 'none'; }, 500);
         });
-        function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
     </script>
 </body>
 </html>
