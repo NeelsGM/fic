@@ -21,15 +21,15 @@
         header {
             text-align: center;
             margin-top: 40px;
-            margin-bottom: 30px;
+            margin-bottom: 50px;
         }
 
         h1 {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 3.5rem;
+            font-size: 4rem;
             margin: 0;
-            /* 3D Effect for white text: Layered shadows */
-            text-shadow: 2px 2px 0px #003300, 0 0 15px #90EE90; 
+            /* Pronounced 3D effect: darker, sharper offset shadow + glow */
+            text-shadow: 4px 4px 2px #000000, 0 0 20px #90EE90; 
         }
 
         .forged-salisbury { color: white; }
@@ -37,47 +37,52 @@
 
         h2 {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 2rem;
+            font-size: 2.2rem;
             margin: 5px 0 0 0;
             color: white;
-            text-shadow: 2px 2px 0px #003300, 0 0 10px #90EE90;
+            text-shadow: 3px 3px 2px #000000, 0 0 15px #90EE90;
         }
 
         .container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px 100px; /* Large gap clears the middle */
-            width: 85%;
-            max-width: 900px;
+            grid-template-columns: 200px 1fr 200px; /* Fixed side columns for buttons */
+            width: 95%;
+            max-width: 1200px;
+            gap: 20px;
             padding-bottom: 50px;
         }
 
+        .side-col {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
         .btn {
-            background-color: #006400; /* Dark green button */
+            background-color: #006400;
             color: white;
-            padding: 12px 20px;
+            padding: 10px 15px;
             text-decoration: none;
             text-align: center;
-            border-radius: 25px; /* Rounded corners */
+            border-radius: 20px;
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 0.9rem;
             transition: transform 0.2s, background 0.3s;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
         }
 
         .btn:hover {
-            background-color: #004d00;
+            background-color: #003300;
             transform: scale(1.05);
         }
 
         /* Mobile Optimization */
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             .container {
                 grid-template-columns: 1fr;
-                gap: 10px;
                 width: 90%;
             }
-            h1 { font-size: 2rem; }
+            h1 { font-size: 2.5rem; }
             h2 { font-size: 1.5rem; }
         }
     </style>
@@ -90,7 +95,7 @@
     </header>
 
     <div class="container">
-        <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div class="side-col">
             <script>
                 for(let i=1; i<=9; i++) {
                     document.write(`<a href="hole${i}.html" class="btn">HOLE ${i}</a>`);
@@ -98,7 +103,9 @@
             </script>
         </div>
 
-        <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div></div>
+
+        <div class="side-col">
             <script>
                 for(let i=10; i<=18; i++) {
                     document.write(`<a href="hole${i}.html" class="btn">HOLE ${i}</a>`);
