@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOLE 10 | Salisbury Greens</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: url('1.webp') no-repeat center center fixed;
+            background-size: cover;
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            color: white;
+        }
+
+        header {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 4rem;
+            margin: 0;
+            /* 3D Effect matching the golf.html header */
+            text-shadow: 4px 4px 2px #000000, 0 0 20px #90EE90;
+        }
+
+        .hole-text { color: white; }
+        .number-text { color: #006400; }
+
+        .viewer-container {
+            margin-top: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid #006400;
+        }
+
+        .back-link {
+            margin-top: 30px;
+            color: white;
+            text-decoration: none;
+            background: #006400;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        /* Responsive Iframe */
+        iframe {
+            max-width: 90vw;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1><span class="hole-text">HOLE</span> <span class="number-text">10</span></h1>
+    </header>
+
+    <div class="viewer-container">
+        <iframe id="viewer" width="800" height="500" allow="fullscreen; xr-spatial-tracking" src="https://superspl.at/s?id=113e8b9b"></iframe>
+    </div>
+
+    <a href="golf.html" class="back-link">BACK TO COURSE</a>
+
+</body>
+</html>
