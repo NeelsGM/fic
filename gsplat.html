@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FIC Golf | Navigation Engine</title>
+    <style>
+        body { margin: 0; background: #000; color: #fff; font-family: 'Rajdhani', sans-serif; overflow: hidden; }
+        #crosshair { 
+            position: absolute; top: 50%; left: 50%; width: 20px; height: 20px; 
+            border: 2px solid #00f3ff; border-radius: 50%; transform: translate(-50%, -50%); 
+            pointer-events: none; z-index: 200; 
+        }
+        #sidebar { position: absolute; left: 0; top: 0; bottom: 0; width: 250px; background: rgba(0,0,0,0.9); border-right: 2px solid #00f3ff; padding: 20px; z-index: 100; box-sizing: border-box; }
+        #caddieView { position: absolute; top: 0; left: 280px; right: 0; bottom: 0; background: #111; z-index: 50; display: none; padding: 40px; }
+        button, label.file-upload { display: block; width: 100%; margin-bottom: 15px; padding: 12px; background: #000; border: 1px solid #00f3ff; color: #00f3ff; cursor: pointer; text-transform: uppercase; font-weight: bold; text-align: center; box-sizing: border-box; }
+        button:hover, label.file-upload:hover { background: #00f3ff; color: #000; }
+        input[type="file"] { display: none; }
+        #loadStatus { font-size: 13px; color: #00f3ff; margin-top: 10px; text-transform: uppercase; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div id="crosshair"></div>
+    <div id="sidebar">
+        <h2>FIC GOLF</h2>
+        <button id="toggleModeBtn">Caddie View</button>
+        
+        <label class="file-upload">
+            Load Splat / PLY
+            <input type="file" id="filePicker" accept=".ksplat,.ply,.splat">
+        </label>
+        <div id="loadStatus">Status: Ready</div>
+
+        <button id="flipBtn">Flip View</button>
+        <button id="resetBtn">Reset Camera</button>
+    </div>
+
+    <div id="caddieView">
+        <h1>Caddie View</h1>
+        <p>Distance to Pin: <span id="distVal">--</span>m</p>
+    </div>
+
+    <script type="importmap">
+        { "imports": { 
+            "three": "./node_modules/three/build/three.module.js",
+            "@mkkellogg/gaussian-splats-3d": "./node_modules/@mkkellogg/gaussian-splats-3d/build/gaussian-splats-3d.module.js"
+        } }
+    </script>
+
+    <script type="module">
+        import * as GaussianSplats3D from '@mkkellogg/gaussian-splats-3d';
+        import * as THREE from 'three';
+        import { PointerLockControls } from './node_modules/three/examples/jsm/controls/PointerLockControls.js';
+        import { HoleController } from './HoleController.js';
+
+        const hole10 = new HoleController(10, { lat: -29.797569, lon: 30.790783 }, { lat: -29.801203, lon: 30.790283 });
+        
+        let viewer = null;
+        const raycaster = new THREE.Raycaster();
+        let controls = null;
+        let speed = 0.05;
+        const keys = { w: false, s: false, a: false, d: false };
+
+        function destroyViewer() {
+            if (viewer) {
+                try {
+                    viewer.stop();
+                } catch(e) {}
+                viewer = null;
+            }
+            // Clear all leftover canvas elements from the DOM
+            document.querySelectorAll('canvas').forEach(c => c.remove());
+        }
+
+        async function loadScene(source, fileExtension = 'ksplat') {
+            const statusEl = document.getElementById('loadStatus');
+            statusEl.innerText = "Status: Loading file...";
+
+            // Wipe out the old viewer context completely before starting a new one
+            destroyViewer();
+
+            viewer = new GaussianSplats3D.Viewer({ 
+                'cameraUp': [0, 1, 0], 
+                'useBuiltInControls': false 
+            });
+
+            try {
+                let format = GaussianSplats3D.SceneFormat.KSplat;
+                if (fileExtension === 'ply') format = GaussianSplats3D.SceneFormat.Ply;
+                if (fileExtension === 'splat') format = GaussianSplats3D.SceneFormat.Splat;
+
+                await viewer.addSplatScene(source, {
+                    'format': format,
+                    'showLoadingUI': true
+                });
+                
+                viewer.start();
+                
+                // Automated Orientation Fix
+                if (viewer.splatMesh) {
+                    viewer.splatMesh.quaternion.multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), Math.PI));
+                }
+
+                controls = new PointerLockControls(viewer.camera, document.body);
+                statusEl.innerText = "Status: Ready";
+            } catch (err) {
+                console.error("Failed to load splat:", err);
+                statusEl.innerText = "Status: Load Failed";
+            }
+        }
+
+        // Initial default load
+        loadScene('golf.ksplat', 'ksplat');
+
+        // Dynamic File Selector Handler
+        document.getElementById('filePicker').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            const fileURL = URL.createObjectURL(file);
+            
+            await loadScene(fileURL, fileExtension);
+        });
+
+        document.body.addEventListener('click', () => {
+            if (!controls || !viewer || !viewer.splatMesh) return;
+            if (!controls.isLocked) { controls.lock(); return; }
+            
+            raycaster.setFromCamera(new THREE.Vector2(0, 0), viewer.camera);
+            const intersects = raycaster.intersectObject(viewer.splatMesh, true);
+            
+            if (intersects.length > 0) {
+                const target = intersects.length > 3 ? intersects[3].point : intersects[0].point;
+                viewer.camera.position.set(target.x, target.y + 2, target.z);
+            }
+        });
+
+        document.addEventListener('keydown', (e) => { 
+            if (e.code === 'ShiftLeft') speed = 0.2;
+            if (e.code === 'KeyW') keys.w = true; 
+            if (e.code === 'KeyS') keys.s = true; 
+            if (e.code === 'KeyA') keys.a = true; 
+            if (e.code === 'KeyD') keys.d = true; 
+        });
+        
+        document.addEventListener('keyup', (e) => { 
+            if (e.code === 'ShiftLeft') speed = 0.05;
+            if (e.code === 'KeyW') keys.w = false; 
+            if (e.code === 'KeyS') keys.s = false; 
+            if (e.code === 'KeyA') keys.a = false; 
+            if (e.code === 'KeyD') keys.d = false; 
+        });
+
+        const animate = () => {
+            requestAnimationFrame(animate);
+            if (viewer && hole10.mode === 'PLANNING' && controls && controls.isLocked) {
+                if (keys.w) viewer.camera.translateZ(-speed);
+                if (keys.s) viewer.camera.translateZ(speed);
+                if (keys.a) viewer.camera.translateX(-speed);
+                if (keys.d) viewer.camera.translateX(speed);
+            }
+            if (viewer) {
+                viewer.render();
+            }
+        };
+        animate();
+
+        // UI Action Buttons
+        document.getElementById('flipBtn').onclick = () => {
+            if (viewer && viewer.splatMesh) {
+                viewer.splatMesh.quaternion.multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), Math.PI));
+            }
+        };
+        document.getElementById('resetBtn').onclick = () => { 
+            if (viewer) {
+                viewer.camera.position.set(0, 5, 10); 
+                viewer.camera.lookAt(0, 0, 0); 
+            }
+        };
+        document.getElementById('toggleModeBtn').onclick = () => {
+            const mode = hole10.toggleMode();
+            document.getElementById('caddieView').style.display = (mode === 'ACTIVE') ? 'block' : 'none';
+        };
+    </script>
+</body>
+</html>

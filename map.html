@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FIC Golf | Live Satellite Map & 3D Splat View</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { margin: 0; padding: 0; font-family: 'Rajdhani', sans-serif; background: #111; color: #fff; }
+        .view-container { height: 80vh; width: 100%; position: relative; }
+        #map, #splat-container { height: 100%; width: 100%; position: absolute; top: 0; left: 0; }
+        #splat-container { background: #0a0a0a; display: none; z-index: 10; }
+        /* Iframe takes up the entire splat container area */
+        #splat-frame { width: 100%; height: 100%; border: none; }
+        #ui-panel { padding: 20px; background: #000; border-top: 2px solid #00f3ff; display: flex; justify-content: space-between; align-items: center; }
+        .stat-box { font-size: 18px; font-weight: bold; color: #00f3ff; }
+        .action-btn { padding: 12px 24px; background: #000; border: 1px solid #00f3ff; color: #00f3ff; cursor: pointer; font-weight: bold; text-transform: uppercase; transition: all 0.2s; }
+        .action-btn:hover { background: #00f3ff; color: #000; }
+    </style>
+</head>
+<body>
+
+    <div class="view-container">
+        <div id="map"></div>
+        
+        <div id="splat-container">
+            <iframe id="splat-frame" src="gsplat.html"></iframe>
+        </div>
+    </div>
+    
+    <div id="ui-panel">
+        <div>
+            <h3 id="holeTitle" style="margin: 0 0 5px 0;">Loading Hole Data...</h3>
+            <p style="margin: 0;">Distance to Pin: <span id="distanceVal" class="stat-box">--</span> meters</p>
+        </div>
+        <button id="view3dBtn" class="action-btn">Switch to 3D Splat View</button>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Supabase Configuration
+        const SUPABASE_URL = 'https://gdtrlqofhxehiokpllyg.supabase.co';
+        const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_wMD3s8nIDv4f_9Fpgi4jQQ_mjpXIQ7V';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+        let map, pinMarker, playerMarker;
+        let pinLatLng = [];
+        let is3DView = false;
+
+        async function initMap() {
+            const { data, error } = await supabaseClient
+                .from('holes')
+                .select('*')
+                .limit(1)
+                .single();
+
+            if (error || !data) {
+                console.error("Error fetching hole data:", error);
+                alert("Could not load hole data from Supabase. Check your table rows.");
+                return;
+            }
+
+            document.getElementById('holeTitle').innerText = `${data.course_name} - Hole ${data.hole_number} (Par ${data.par})`;
+
+            pinLatLng = [data.pin_lat, data.pin_lon];
+            const teeLatLng = [data.tee_lat, data.tee_lon];
+
+            // Initialize Map
+            map = L.map('map').setView(teeLatLng, 18);
+
+            // Add Esri Satellite Imagery Layer with CORS safeguards enabled
+            L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                attribution: 'Tiles &copy; Esri &mdash; Source: Esri, USGS',
+                maxZoom: 19,
+                crossOrigin: true
+            }).addTo(map);
+
+            pinMarker = L.marker(pinLatLng).addTo(map).bindPopup("Today's Pin Location");
+            playerMarker = L.marker(teeLatLng, { draggable: true }).addTo(map).bindPopup("Your Ball Position (Drag me!)");
+
+            playerMarker.on('drag', updateDistance);
+            updateDistance();
+
+            setTimeout(() => {
+                map.invalidateSize();
+            }, 250);
+        }
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371e3;
+            const φ1 = lat1 * Math.PI/180;
+            const φ2 = lat2 * Math.PI/180;
+            const Δφ = (lat2-lat1) * Math.PI/180;
+            const Δλ = (lon2-lon1) * Math.PI/180;
+
+            const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                      Math.cos(φ1) * Math.cos(φ2) *
+                      Math.sin(Δλ/2) * Math.sin(Δλ/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
+        function updateDistance() {
+            const pos = playerMarker.getLatLng();
+            const dist = calculateDistance(pos.lat, pos.lng, pinLatLng[0], pinLatLng[1]);
+            document.getElementById('distanceVal', dist).innerText = dist.toFixed(1);
+        }
+
+        // View Switching Handlers
+        const view3dBtn = document.getElementById('view3dBtn');
+        const splatContainer = document.getElementById('splat-container');
+        const mapContainer = document.getElementById('map');
+
+        view3dBtn.onclick = () => {
+            is3DView = !is3DView;
+            if (is3DView) {
+                mapContainer.style.display = 'none';
+                splatContainer.style.display = 'block';
+                view3dBtn.innerText = 'Switch to 2D Map View';
+            } else {
+                splatContainer.style.display = 'none';
+                mapContainer.style.display = 'block';
+                view3dBtn.innerText = 'Switch to 3D Splat View';
+                if (map) map.invalidateSize();
+            }
+        };
+
+        // Initialize application
+        initMap();
+    </script>
+</body>
+</html>
