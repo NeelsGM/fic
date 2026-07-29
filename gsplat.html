@@ -64,7 +64,7 @@
 
     <canvas id="canvas"></canvas>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mkkellogg/gaussian-splats-3d@0.4.3/build/gaussian-splats-3d.min.js"></script>
 
     <script>
@@ -81,7 +81,7 @@
 
         // 2. Initialize the GaussianSplats3D Viewer instance targeting your canvas
         const viewer = new GaussianSplats3D.Viewer({
-            cameraUp: [0, -1, -0.2], // Adjust orientation if needed for golf course topology
+            cameraUp: [0, -1, -0.2], 
             initialCameraPosition: [-9.08, -6.04, -3.42],
             initialCameraLookAt: [5.08, 3.04, 1.42],
             rootElement: document.getElementById('canvas')
