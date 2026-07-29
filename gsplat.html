@@ -2,23 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FIC Golf | 3D Gaussian Splat Viewer</title>
+    <title>FIC Golf | 3D Splat Viewer Engine</title>
     <style>
-        body, html {
-            margin: 0;
+        body, html { 
+            margin: 0; 
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden;
-            background-color: #000;
-            font-family: 'Rajdhani', sans-serif;
-            color: #fff;
+            background: #000; 
+            color: #fff; 
+            font-family: 'Rajdhani', sans-serif; 
+            overflow: hidden; 
         }
-        #canvas {
+        #canvas-container {
             width: 100%;
             height: 100%;
-            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
         #loading-overlay {
             position: absolute;
@@ -52,16 +53,15 @@
             font-weight: bold;
             color: #00f3ff;
             letter-spacing: 1px;
+            text-transform: uppercase;
         }
     </style>
 
     <script type="importmap">
-      {
-        "imports": {
-          "three": "https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js",
-          "@mkkellogg/gaussian-splats-3d": "https://cdn.jsdelivr.net/npm/@mkkellogg/gaussian-splats-3d@0.4.3/build/gaussian-splats-3d.module.js"
-        }
-      }
+        { "imports": { 
+            "three": "./node_modules/three/build/three.module.js",
+            "@mkkellogg/gaussian-splats-3d": "./node_modules/@mkkellogg/gaussian-splats-3d/build/gaussian-splats-3d.module.js"
+        } }
     </script>
 </head>
 <body>
@@ -71,54 +71,56 @@
         <div id="loading-text">Loading Course Radiance Field...</div>
     </div>
 
-    <canvas id="canvas"></canvas>
+    <div id="canvas-container"></div>
 
     <script type="module">
         import * as GaussianSplats3D from '@mkkellogg/gaussian-splats-3d';
+        import * as THREE from 'three';
 
-        // 1. Read the file source passed from map.html via URL parameters
+        // 1. Read the target file passed dynamically from map.html (or fallback to local golf.ksplat)
         const urlParams = new URLSearchParams(window.location.search);
-        let splatFile = urlParams.get('url');
+        let targetFile = urlParams.get('url') || 'golf.ksplat';
 
-        // Fallback safety check: if no URL parameter is passed, default to your local file name
-        if (!splatFile) {
-            splatFile = 'golf.ksplat';
-        }
+        console.log("Initializing 3D Splat Engine with source:", targetFile);
 
-        console.log("Initializing 3D Splat Viewer with asset:", splatFile);
+        let viewer = null;
 
-        try {
-            // 2. Initialize the GaussianSplats3D Viewer instance targeting your canvas
-            const viewer = new GaussianSplats3D.Viewer({
-                cameraUp: [0, -1, -0.2], 
-                initialCameraPosition: [-9.08, -6.04, -3.42],
-                initialCameraLookAt: [5.08, 3.04, 1.42],
-                rootElement: document.getElementById('canvas')
-            });
+        async function initViewer() {
+            try {
+                viewer = new GaussianSplats3D.Viewer({ 
+                    'cameraUp': [0, 1, 0], 
+                    'useBuiltInControls': true,
+                    'rootElement': document.getElementById('canvas-container')
+                });
 
-            // 3. Load the local .ksplat file
-            viewer.addSplatScene(splatFile, {
-                progressiveLoad: true
-            })
-            .then(() => {
-                console.log("Splat scene loaded successfully!");
+                let format = GaussianSplats3D.SceneFormat.KSplat;
+                if (targetFile.endsWith('.ply')) format = GaussianSplats3D.SceneFormat.Ply;
+                if (targetFile.endsWith('.splat')) format = GaussianSplats3D.SceneFormat.Splat;
+
+                await viewer.addSplatScene(targetFile, {
+                    'format': format,
+                    'showLoadingUI': false // handled by our custom overlay
+                });
+                
+                viewer.start();
+                
+                // Automated Orientation Fix from your working snippet
+                if (viewer.splatMesh) {
+                    viewer.splatMesh.quaternion.multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), Math.PI));
+                }
+
+                // Fade out custom loader
                 const overlay = document.getElementById('loading-overlay');
                 overlay.style.opacity = '0';
-                setTimeout(() => {
-                    overlay.style.display = 'none';
-                }, 500);
+                setTimeout(() => { overlay.style.display = 'none'; }, 500);
 
-                viewer.start();
-            })
-            .catch((error) => {
-                console.error("Error loading splat scene:", error);
-                document.getElementById('loading-text').innerText = "Failed to load 3D course model. Check console.";
-            });
-
-        } catch (err) {
-            console.error("Initialization error:", err);
-            document.getElementById('loading-text').innerText = "Viewer initialization error. Check console.";
+            } catch (err) {
+                console.error("Failed to initialize splat viewer:", err);
+                document.getElementById('loading-text').innerText = "Status: Load Failed - Check Console";
+            }
         }
+
+        initViewer();
     </script>
 </body>
 </html>
