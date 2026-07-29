@@ -64,8 +64,7 @@
 
     <canvas id="canvas"></canvas>
 
-    <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mkkellogg/gaussian-splats-3d@0.4.3/build/gaussian-splats-3d.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mkkellogg/gaussian-splats-3d@0.4.3/build/gaussian-splats-3d.umd.min.js"></script>
 
     <script>
         // 1. Read the file source passed from map.html via URL parameters
@@ -80,32 +79,37 @@
         console.log("Initializing 3D Splat Viewer with asset:", splatFile);
 
         // 2. Initialize the GaussianSplats3D Viewer instance targeting your canvas
-        const viewer = new GaussianSplats3D.Viewer({
-            cameraUp: [0, -1, -0.2], 
-            initialCameraPosition: [-9.08, -6.04, -3.42],
-            initialCameraLookAt: [5.08, 3.04, 1.42],
-            rootElement: document.getElementById('canvas')
-        });
+        window.addEventListener('DOMContentLoaded', () => {
+            try {
+                const viewer = new GaussianSplats3D.Viewer({
+                    cameraUp: [0, -1, -0.2], 
+                    initialCameraPosition: [-9.08, -6.04, -3.42],
+                    initialCameraLookAt: [5.08, 3.04, 1.42],
+                    rootElement: document.getElementById('canvas')
+                });
 
-        // 3. Load the local .ksplat file
-        viewer.addSplatScene(splatFile, {
-            progressiveLoad: true
-        })
-        .then(() => {
-            console.log("Splat scene loaded successfully!");
-            // Hide the loading overlay smoothly once rendering starts
-            const overlay = document.getElementById('loading-overlay');
-            overlay.style.opacity = '0';
-            setTimeout(() => {
-                overlay.style.display = 'none';
-            }, 500);
+                // 3. Load the local .ksplat file
+                viewer.addSplatScene(splatFile, {
+                    progressiveLoad: true
+                })
+                .then(() => {
+                    console.log("Splat scene loaded successfully!");
+                    const overlay = document.getElementById('loading-overlay');
+                    overlay.style.opacity = '0';
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                    }, 500);
 
-            // Start the render loop
-            viewer.start();
-        })
-        .catch((error) => {
-            console.error("Error loading splat scene:", error);
-            document.getElementById('loading-text').innerText = "Failed to load 3D course model. Check console.";
+                    viewer.start();
+                })
+                .catch((error) => {
+                    console.error("Error loading splat scene:", error);
+                    document.getElementById('loading-text').innerText = "Failed to load 3D course model. Check console.";
+                });
+            } catch (err) {
+                console.error("Initialization error:", err);
+                document.getElementById('loading-text').innerText = "Viewer initialization error. Check console.";
+            }
         });
     </script>
 </body>
