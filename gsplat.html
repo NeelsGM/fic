@@ -54,6 +54,15 @@
             letter-spacing: 1px;
         }
     </style>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+          "@mkkellogg/gaussian-splats-3d": "https://cdn.jsdelivr.net/npm/@mkkellogg/gaussian-splats-3d@0.4.3/build/gaussian-splats-3d.module.js"
+        }
+      }
+    </script>
 </head>
 <body>
 
@@ -65,7 +74,7 @@
     <canvas id="canvas"></canvas>
 
     <script type="module">
-        import * as GaussianSplats3D from 'https://cdn.jsdelivr.net/npm/@mkkellogg/gaussian-splats-3d@0.4.3/build/gaussian-splats-3d.module.js';
+        import * as GaussianSplats3D from '@mkkellogg/gaussian-splats-3d';
 
         // 1. Read the file source passed from map.html via URL parameters
         const urlParams = new URLSearchParams(window.location.search);
