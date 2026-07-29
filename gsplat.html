@@ -64,17 +64,8 @@
 
     <canvas id="canvas"></canvas>
 
-    <script type="importmap">
-      {
-        "imports": {
-          "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-          "@mkkellogg/gaussian-splats-3d": "https://cdn.jsdelivr.net/npm/@mkkellogg/gaussian-splats-3d@0.4.3/build/gaussian-splats-3d.module.js"
-        }
-      }
-    </script>
-
     <script type="module">
-        import * as GaussianSplats3D from '@mkkellogg/gaussian-splats-3d';
+        import * as GaussianSplats3D from 'https://cdn.jsdelivr.net/npm/@mkkellogg/gaussian-splats-3d@0.4.3/build/gaussian-splats-3d.module.js';
 
         // 1. Read the file source passed from map.html via URL parameters
         const urlParams = new URLSearchParams(window.location.search);
@@ -85,10 +76,10 @@
             splatFile = 'golf.ksplat';
         }
 
-        console.log("Initializing 3D Splat Viewer via ESM with asset:", splatFile);
+        console.log("Initializing 3D Splat Viewer with asset:", splatFile);
 
         try {
-            // 2. Initialize the GaussianSplats3D Viewer instance
+            // 2. Initialize the GaussianSplats3D Viewer instance targeting your canvas
             const viewer = new GaussianSplats3D.Viewer({
                 cameraUp: [0, -1, -0.2], 
                 initialCameraPosition: [-9.08, -6.04, -3.42],
@@ -114,6 +105,7 @@
                 console.error("Error loading splat scene:", error);
                 document.getElementById('loading-text').innerText = "Failed to load 3D course model. Check console.";
             });
+
         } catch (err) {
             console.error("Initialization error:", err);
             document.getElementById('loading-text').innerText = "Viewer initialization error. Check console.";
