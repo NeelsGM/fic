@@ -9,8 +9,11 @@
     <!-- Include AR.js for A-Frame -->
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <style>
-        body {
+        body, html {
             margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
             overflow: hidden;
             font-family: sans-serif;
         }
@@ -19,15 +22,15 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             background: #111;
             color: white;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 9999;
+            z-index: 99999;
             text-align: center;
             padding: 20px;
             box-sizing: border-box;
@@ -54,12 +57,7 @@
             border-radius: 6px;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(230, 57, 70, 0.4);
-            transition: background 0.2s;
         }
-        #start-btn:hover {
-            background: #d62828;
-        }
-        /* Hidden class */
         .hidden {
             display: none !important;
         }
@@ -67,21 +65,21 @@
 </head>
 <body>
 
-    <!-- Professional Splash Screen to prompt camera permission naturally -->
+    <!-- Professional Splash Screen -->
     <div id="splash-screen">
         <h1>FORGED IN CARBON</h1>
         <p>Point your camera at the tracking marker to reveal the vehicle inside the container.</p>
-        <button id="start-btn" onclick="startAR()">LAUNCH AR EXPERIENCE</button>
+        <button id="start-btn" onclick="dismissSplash()">LAUNCH AR EXPERIENCE</button>
     </div>
 
-    <!-- A-Frame AR Scene (Hidden initially) -->
-    <a-scene id="ar-scene" embedded arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;" style="display: none;">
+    <!-- A-Frame AR Scene initialized cleanly in DOM -->
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
 
         <a-assets>
             <a-asset-item id="car-model" src="https://arjs-cors-proxy.herokuapp.com/https://raw.githack.com/femrtnz/threejs-loaders/master/gltf/buggy/buggy.gltf"></a-asset-item>
         </a-assets>
 
-        <!-- Hiro Marker -->
+        <!-- Hiro Marker Tracking -->
         <a-marker preset="hiro">
             <!-- Container Structure Proxy -->
             <a-box position="0 0.5 -1" depth="0.1" height="1.2" width="2" color="#2b2b2b"></a-box>
@@ -89,7 +87,7 @@
             <a-box position="1 0.5 -0.5" depth="1" height="1.2" width="0.1" color="#2b2b2b"></a-box>
             <a-box position="0 1.1 -0.5" depth="1.1" height="0.1" width="2.1" color="#1f1f1f"></a-box>
 
-            <!-- Car Model -->
+            <!-- Car Model Inside Container -->
             <a-entity 
                 gltf-model="#car-model" 
                 position="0 0.05 -0.5" 
@@ -105,11 +103,9 @@
     </a-scene>
 
     <script>
-        function startAR() {
-            // Hide splash screen
+        function dismissSplash() {
+            // Fade out or hide the splash screen so the active AR.js canvas underneath is fully exposed
             document.getElementById('splash-screen').classList.add('hidden');
-            // Show AR scene which automatically initializes the webcam feed
-            document.getElementById('ar-scene').style.display = 'block';
         }
     </script>
 
