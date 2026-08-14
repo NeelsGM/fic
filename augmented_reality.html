@@ -48,13 +48,19 @@
 
     <div id="splash-screen">
         <h1>FORGED IN CARBON</h1>
-        <p>Point your camera at the Hiro tracking marker to reveal the vehicle inside the container.</p>
+        <p>Point your camera at the Hiro tracking marker to reveal the vehicle inside the container. If you're showing the marker on a laptop/phone screen, display it full-screen below, turn brightness up, and avoid reflections.</p>
         <button id="start-btn">LAUNCH AR EXPERIENCE</button>
-        <a href="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/hiro.png" target="_blank" rel="noopener">Open / print the Hiro marker</a>
+        <a id="marker-link" href="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/hiro.png" target="_blank" rel="noopener">Open / print the Hiro marker</a>
+        <button id="show-marker-btn" style="margin-top:12px; background:transparent; color:#e63946; border:1px solid #e63946; padding:10px 24px; font-size:14px; border-radius:6px; cursor:pointer;">Display marker full-screen on this device</button>
         <div id="error-msg" class="hidden"></div>
     </div>
 
-    <div id="hint" class="hidden">Point the camera at the Hiro marker</div>
+    <div id="marker-fullscreen" class="hidden" style="position:fixed; inset:0; background:#fff; display:flex; justify-content:center; align-items:center; z-index:99999; cursor:pointer;">
+        <img src="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/hiro.png" alt="Hiro marker" style="max-width:95vw; max-height:95vh; width:auto; height:auto; display:block; image-rendering:pixelated;">
+        <div style="position:absolute; bottom:12px; left:0; right:0; text-align:center; color:#000; font-size:14px; padding:8px; background:rgba(255,255,255,.8);">Tap anywhere to close</div>
+    </div>
+
+    <div id="hint" class="hidden">Point the camera at the Hiro marker. On a screen: full brightness, no glare, hold steady.</div>
     <div id="debug" class="hidden"></div>
     <div id="ar-container"></div>
 
@@ -65,6 +71,19 @@
       var errorBox = document.getElementById('error-msg');
       var hint = document.getElementById('hint');
       var dbg = document.getElementById('debug');
+      var markerBtn = document.getElementById('show-marker-btn');
+      var markerFs = document.getElementById('marker-fullscreen');
+
+      if (markerBtn && markerFs) {
+        markerBtn.addEventListener('click', function () {
+          markerFs.classList.remove('hidden');
+          if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+        });
+        markerFs.addEventListener('click', function () {
+          markerFs.classList.add('hidden');
+          if (document.exitFullscreen) document.exitFullscreen();
+        });
+      }
 
       function log(msg) {
         dbg.classList.remove('hidden');
