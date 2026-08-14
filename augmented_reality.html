@@ -4,10 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Forged in Carbon - AR Experience</title>
+    <!-- A-Frame Library -->
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.js"></script>
+    <!-- MindAR A-Frame Integration Library -->
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    
     <style>
-        /* True edge-to-edge full screen viewport with zero gaps */
         html, body { 
             margin: 0; padding: 0; 
             width: 100vw; height: 100vh; 
@@ -15,17 +17,7 @@
             position: fixed;
         }
         
-        /* Perfectly crop and center the camera stream to eliminate black borders and stretching */
-        video, #arjs-video {
-            position: fixed !important; 
-            top: 50% !important; left: 50% !important;
-            min-width: 100vw !important; min-height: 100vh !important;
-            width: 100vw !important; height: 100vh !important;
-            transform: translate(-50%, -50%) !important;
-            object-fit: cover !important; 
-            z-index: 0 !important; 
-            display: block !important;
-        }
+        /* MindAR handles video and canvas insertion natively; ensure they fill container seamlessly */
         .a-canvas, canvas.a-canvas {
             position: fixed !important; 
             top: 0 !important; left: 0 !important;
@@ -46,16 +38,10 @@
             background: #e63946; color: #fff; border: none; padding: 14px 32px; font-size: 16px;
             font-weight: bold; border-radius: 6px; cursor: pointer; box-shadow: 0 4px 15px rgba(230,57,70,.4);
         }
-        #splash-screen a { color: #e63946; font-size: 13px; margin-top: 18px; text-decoration: none; }
         #error-msg { color: #e63946; font-size: 13px; max-width: 320px; margin-top: 18px; line-height: 1.5; }
         #hint {
             position: fixed; bottom: 18px; left: 0; right: 0; text-align: center;
             color: #fff; font-size: 13px; text-shadow: 0 1px 3px #000; z-index: 10;
-        }
-        #debug {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 20;
-            font: 11px/1.4 monospace; color: #0f0; background: rgba(0,0,0,.55);
-            padding: 4px 6px; white-space: pre-wrap; display: none;
         }
         .hidden { display: none !important; }
     </style>
@@ -65,122 +51,96 @@
     <!-- Splash Screen -->
     <div id="splash-screen">
         <h1>FORGED IN CARBON</h1>
-        <p>Point your camera at the Hiro tracking marker.</p>
+        <p>Point your camera at your custom container target image.</p>
         <button id="start-btn">LAUNCH AR EXPERIENCE</button>
-        <a id="marker-link" href="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/hiro.png" target="_blank" rel="noopener">Open / print the Hiro marker</a>
-        <button id="show-marker-btn" style="margin-top:12px; background:transparent; color:#e63946; border:1px solid #e63946; padding:10px 24px; font-size:14px; border-radius:6px; cursor:pointer;">Display marker full-screen on this device</button>
         <div id="error-msg" class="hidden"></div>
     </div>
 
-    <!-- Fullscreen Marker View -->
-    <div id="marker-fullscreen" class="hidden" style="position:fixed; inset:0; background:#fff; display:flex; justify-content:center; align-items:center; z-index:99999; cursor:pointer;">
-        <img src="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/hiro.png" alt="Hiro marker" style="max-width:95vw; max-height:95vh; width:auto; height:auto; display:block;">
-        <div style="position:absolute; bottom:12px; left:0; right:0; text-align:center; color:#000; font-size:14px; padding:8px; background:rgba(255,255,255,.8);">Tap anywhere to close</div>
-    </div>
+    <div id="hint" class="hidden">Point the camera at your tracking target.</div>
 
-    <div id="hint" class="hidden">Point the camera at the Hiro marker.</div>
-    <div id="debug"></div>
-
-    <!-- Static AR Scene -->
-    <a-scene embedded renderer="antialias: true; alpha: true; logarithmicDepthBuffer: true" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false" arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono; patternRatio: 0.5;">
+    <!-- MindAR Scene Setup -->
+    <!-- Replace 'targets.mind' with your exported MindAR target file URL or relative path -->
+    <a-scene 
+        mindar-image="imageTargetSrc: targets.mind; uiLoading: no; uiError: yes; uiScanning: yes;" 
+        embedded 
+        renderer="antialias: true; alpha: true; logarithmicDepthBuffer: true" 
+        vr-mode-ui="enabled: false" 
+        device-orientation-permission-ui="enabled: false">
 
         <a-assets timeout="15000">
             <a-asset-item id="car-model" src="car_optimized.glb"></a-asset-item>
         </a-assets>
 
-        <a-entity light="type: ambient; intensity: 1.0"></a-entity>
-        <a-entity light="type: directional; intensity: 0.8" position="1 4 2"></a-entity>
+        <!-- General ambient lighting to keep shadows soft -->
+        <a-entity light="type: ambient; intensity: 0.5"></a-entity>
+        
+        <!-- Directional surface light -->
+        <a-entity light="type: directional; intensity: 0.7" position="1 4 2"></a-entity>
 
-        <!-- Marker tracking with heavy smoothing to eliminate jitter/bouncing -->
-        <a-marker id="marker" preset="hiro" smooth="true" smoothCount="15" smoothTolerance="0.001" smoothThreshold="10">
+        <!-- MindAR Image Target Anchor (Index 0 corresponds to your first compiled target graphic) -->
+        <a-entity mindar-image-target="targetIndex: 0">
             
+            <!-- Simulated Internal Container Light ("Jedi Mind Trick" depth glow) -->
+            <a-entity light="type: point; intensity: 1.5; distance: 2.5; color: #ffffff" position="0 0.2 -0.4"></a-entity>
+
             <!-- Car Model: 
-                 If you baked orientation in Blender, change rotation to "0 0 0" 
-                 (or keep adjusting here if it still needs minor rotation tweaks). -->
+                 Positioned slightly back along Z (-0.3) to sit deeper inside the container space.
+                 Adjust rotation/scale here if needed after your Blender axis baking. -->
             <a-entity 
                 gltf-model="#car-model" 
-                position="0 0 0" 
+                position="0 0 -0.3" 
                 rotation="0 0 0" 
-                scale="0.8 0.8 0.8">
+                scale="0.7 0.7 0.7">
             </a-entity>
 
-        </a-marker>
+        </a-entity>
 
         <a-entity camera></a-entity>
     </a-scene>
 
     <script>
-    (function () {
-      var btn = document.getElementById('start-btn');
-      var splash = document.getElementById('splash-screen');
-      var errorBox = document.getElementById('error-msg');
-      var hint = document.getElementById('hint');
-      var dbg = document.getElementById('debug');
-      var markerBtn = document.getElementById('show-marker-btn');
-      var markerFs = document.getElementById('marker-fullscreen');
+    document.addEventListener("DOMContentLoaded", function() {
+        var btn = document.getElementById('start-btn');
+        var splash = document.getElementById('splash-screen');
+        var errorBox = document.getElementById('error-msg');
+        var hint = document.getElementById('hint');
+        var sceneEl = document.querySelector('a-scene');
 
-      if (markerBtn && markerFs) {
-        markerBtn.addEventListener('click', function () {
-          markerFs.classList.remove('hidden');
-          if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+        sceneEl.addEventListener("arReady", function () {
+            console.log("MindAR is ready.");
         });
-        markerFs.addEventListener('click', function () {
-          markerFs.classList.add('hidden');
-          if (document.exitFullscreen) document.exitFullscreen();
+
+        sceneEl.addEventListener("arError", function (event) {
+            console.error("MindAR failed to start", event);
+            errorBox.textContent = "Could not start camera. Check permissions or HTTPS.";
+            errorBox.classList.remove('hidden');
+            btn.disabled = false;
+            btn.textContent = 'TRY AGAIN';
         });
-      }
 
-      function log(msg) {
-        dbg.style.display = 'block';
-        dbg.textContent = (msg + '\n' + dbg.textContent).split('\n').slice(0, 7).join('\n');
-      }
-      function fail(msg) {
-        errorBox.textContent = msg;
-        errorBox.classList.remove('hidden');
-        btn.disabled = false;
-        btn.textContent = 'TRY AGAIN';
-      }
+        btn.addEventListener('click', function () {
+            errorBox.classList.add('hidden');
 
-      var marker = document.getElementById('marker');
-      marker.addEventListener('markerFound', function () {
-        log('MARKER FOUND');
-        hint.classList.add('hidden');
-      });
-      marker.addEventListener('markerLost', function () {
-        log('marker lost');
-        hint.classList.remove('hidden');
-      });
+            if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
+                errorBox.textContent = 'Camera access requires HTTPS.';
+                errorBox.classList.remove('hidden');
+                return;
+            }
 
-      window.addEventListener('resize', function() {
-        window.dispatchEvent(new Event('resize'));
-      });
+            btn.disabled = true;
+            btn.textContent = 'STARTING CAMERA…';
 
-      btn.addEventListener('click', function () {
-        errorBox.classList.add('hidden');
-
-        if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
-          return fail('Camera access requires HTTPS.');
-        }
-        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-          return fail('Browser does not support camera access.');
-        }
-
-        btn.disabled = true;
-        btn.textContent = 'STARTING CAMERA…';
-
-        navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' } }, audio: false })
-          .then(function (stream) {
-            stream.getTracks().forEach(function (t) { t.stop(); });
-            log('permission ok');
+            // Hide splash screen and expose the AR container
             splash.classList.add('hidden');
             hint.classList.remove('hidden');
-            window.dispatchEvent(new Event('resize'));
-          })
-          .catch(function (err) {
-            fail('Camera error: ' + (err && err.name ? err.name : 'unknown'));
-          });
-      });
-    })();
+            
+            // Trigger MindAR system start explicitly via A-Frame component
+            let mindarSystem = sceneEl.systems["mindar-image-system"];
+            if (mindarSystem) {
+                mindarSystem.start();
+            }
+        });
+    });
     </script>
 </body>
 </html>
