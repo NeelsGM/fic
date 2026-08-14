@@ -6,8 +6,8 @@
     <title>Forged in Carbon - AR Experience</title>
     <!-- A-Frame Library -->
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-    <!-- MindAR A-Frame Integration Library -->
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <!-- Updated MindAR A-Frame Integration Library (v1.2.7 fixes internal getObject3D resize conflicts) -->
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.7/dist/mindar-image-aframe.prod.js"></script>
     
     <style>
         html, body { 
@@ -81,7 +81,7 @@
             <!-- Simulated Internal Container Light -->
             <a-entity light="type: point; intensity: 1.5; distance: 2.5; color: #ffffff" position="0 0.2 -0.4"></a-entity>
 
-            <!-- Car Model wrapped with a loaded state check to completely prevent getObject3D errors -->
+            <!-- Car Model -->
             <a-entity 
                 id="car-entity"
                 gltf-model="#car-model" 
@@ -105,7 +105,6 @@
         var sceneEl = document.querySelector('a-scene');
         var carEntity = document.getElementById('car-entity');
 
-        // Ensure model only renders/displays once the GLB asset is completely loaded by Three.js
         carEntity.addEventListener('model-loaded', function () {
             console.log("Car model loaded successfully into scene.");
             carEntity.setAttribute('visible', 'true');
