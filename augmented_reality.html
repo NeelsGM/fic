@@ -14,47 +14,20 @@
             margin: 0; padding: 0; 
             width: 100vw; height: 100vh; 
             overflow: hidden; background: #000; 
-            position: fixed;
         }
-        
         .a-canvas, canvas.a-canvas {
             position: fixed !important; 
             top: 0 !important; left: 0 !important;
             width: 100vw !important; height: 100vh !important;
-            background: transparent !important; 
-            z-index: 1 !important;
         }
         .a-enter-vr, .a-enter-ar, .a-orientation-modal { display: none !important; }
-        
-        #splash-screen {
-            position: fixed; inset: 0; background: #111; color: #fff;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 99999; text-align: center; padding: 20px; box-sizing: border-box;
-        }
-        #splash-screen h1 { font-size: 24px; margin-bottom: 10px; letter-spacing: 1px; }
-        #splash-screen p { font-size: 14px; color: #aaa; max-width: 320px; margin-bottom: 24px; line-height: 1.5; }
-        #start-btn {
-            background: #e63946; color: #fff; border: none; padding: 14px 32px; font-size: 16px;
-            font-weight: bold; border-radius: 6px; cursor: pointer; box-shadow: 0 4px 15px rgba(230,57,70,.4);
-            z-index: 100000;
-        }
-        #error-msg { color: #e63946; font-size: 13px; max-width: 320px; margin-top: 18px; line-height: 1.5; }
-        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <!-- Splash Screen with Launch Button -->
-    <div id="splash-screen">
-        <h1>FORGED IN CARBON</h1>
-        <p>Point your camera at your custom container target image.</p>
-        <button id="start-btn">LAUNCH AR EXPERIENCE</button>
-        <div id="error-msg" class="hidden"></div>
-    </div>
-
-    <!-- MindAR Scene Setup (Auto-init disabled, controlled via button click) -->
+    <!-- MindAR Scene Setup with Native UI Enabled -->
     <a-scene 
-        mindar-image="imageTargetSrc: targets.mind; autoStart: false; uiLoading: yes; uiError: yes; uiScanning: yes;" 
+        mindar-image="imageTargetSrc: targets.mind; uiLoading: yes; uiError: yes; uiScanning: yes;" 
         embedded 
         renderer="antialias: true; alpha: true; logarithmicDepthBuffer: true; physicallyCorrectLights: false;" 
         vr-mode-ui="enabled: false" 
@@ -93,60 +66,11 @@
 
     <script>
     document.addEventListener("DOMContentLoaded", function() {
-        var btn = document.getElementById('start-btn');
-        var splash = document.getElementById('splash-screen');
-        var errorBox = document.getElementById('error-msg');
-        var sceneEl = document.querySelector('a-scene');
         var carEntity = document.getElementById('car-entity');
-        var arSystem = null;
-
-        // Wait for A-Scene to fully load so we can safely hook into the system API
-        sceneEl.addEventListener('loaded', function () {
-            arSystem = sceneEl.systems["mindar-image-system"];
-        });
 
         carEntity.addEventListener('model-loaded', function () {
             console.log("Car model loaded successfully into scene.");
             carEntity.setAttribute('visible', 'true');
-        });
-
-        sceneEl.addEventListener("arError", function (event) {
-            console.error("MindAR failed to start", event);
-            errorBox.textContent = "Could not start camera. Check permissions or HTTPS.";
-            errorBox.classList.remove('hidden');
-            btn.disabled = false;
-            btn.textContent = 'TRY AGAIN';
-        });
-
-        // Trigger camera initialization explicitly on user interaction
-        btn.addEventListener('click', function (e) {
-            e.stopPropagation();
-            errorBox.classList.add('hidden');
-
-            if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
-                errorBox.textContent = 'Camera access requires HTTPS.';
-                errorBox.classList.remove('hidden');
-                return;
-            }
-
-            btn.disabled = true;
-            btn.textContent = 'STARTING CAMERA…';
-
-            // Hide splash screen immediately
-            splash.classList.add('hidden');
-
-            // Fire up the MindAR tracking engine and camera stream
-            if (arSystem) {
-                arSystem.start();
-            } else {
-                // Fallback loop if system load took a millisecond longer
-                let checkSystem = setInterval(function() {
-                    if (sceneEl.systems["mindar-image-system"]) {
-                        sceneEl.systems["mindar-image-system"].start();
-                        clearInterval(checkSystem);
-                    }
-                }, 200);
-            }
         });
     });
     </script>
