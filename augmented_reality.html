@@ -4,33 +4,100 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Forged in Carbon - AR Experience</title>
-    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.8/dist/mindar-image-aframe.prod.js"></script>
+    
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GLTFLoader -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <!-- MindAR Image Tracking Pure JS -->
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.8/dist/mindar-image-three.prod.js"></script>
+    
     <style>
-        html, body { margin: 0; padding: 0; width: 100vw; height: 100vh; overflow: hidden; background: #000; }
-        .a-enter-vr, .a-enter-ar, .a-orientation-modal { display: none !important; }
+        html, body {
+            margin: 0; padding: 0;
+            width: 100vw; height: 100vh;
+            overflow: hidden; background: #000;
+        }
+        #ar-container {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+        }
+        #instructions {
+            position: fixed; bottom: 30px; left: 0; right: 0;
+            text-align: center; color: #fff; font-family: sans-serif;
+            font-size: 15px; text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            z-index: 100; pointer-events: none;
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
-    <a-scene 
-        mindar-image="imageTargetSrc: targets.mind; uiLoading: yes; uiError: yes; uiScanning: yes;" 
-        embedded 
-        renderer="colorManagement: true, alpha: true; logarithmicDepthBuffer: true;" 
-        vr-mode-ui="enabled: false" 
-        device-orientation-permission-ui="enabled: false">
-        
-        <a-assets>
-            <a-asset-item id="car-model" src="car_optimized.glb"></a-asset-item>
-        </a-assets>
 
-        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+    <div id="instructions">Point your camera at the target image</div>
+    <div id="ar-container"></div>
 
-        <a-entity light="type: ambient; intensity: 1"></a-entity>
-        <a-entity light="type: directional; intensity: 0.8" position="1 4 2"></a-entity>
+    <script>
+    document.addEventListener("DOMContentLoaded", async function() {
+        // 1. Initialize MindAR Three.js engine binding directly to container
+        const mindarThree = new window.MINDAR.IMAGE.MindARThree({
+            container: document.querySelector("#ar-container"),
+            imageTargetSrc: "targets.mind",
+        });
 
-        <a-entity mindar-image-target="targetIndex: 0">
-            <a-gltf-model src="#car-model" position="0 0 0" scale="0.5 0.5 0.5" rotation="0 0 0"></a-gltf-model>
-        </a-entity>
-    </a-scene>
+        const { renderer, scene, camera } = mindarThree;
+
+        // 2. Setup baseline scene lighting
+        const ambientLight = new THREE.AmbientLight(0xffffee, 1.0);
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
+        directionalLight.position.set(1, 4, 2);
+        scene.add(directionalLight);
+
+        // 3. Create Target Anchor (Index 0)
+        const anchor = mindarThree.addAnchor(0);
+
+        // 4. Load your optimized GLB car model
+        const loader = new THREE.GLTFLoader();
+        loader.load('car_optimized.glb', (gltf) => {
+            const model = gltf.scene;
+            model.scale.set(0.5, 0.5, 0.5);
+            model.position.set(0, 0, 0);
+            model.rotation.set(0, 0, 0);
+            
+            // Initially hide model until target is actively tracked
+            model.visible = false;
+            anchor.group.add(model);
+
+            // Bind MindAR target found/lost tracking events directly to visibility
+            anchor.onTargetFound = () => {
+                console.log("Target Found!");
+                model.visible = true;
+                document.getElementById('instructions').style.display = 'none';
+            };
+
+            anchor.onTargetLost = () => {
+                console.log("Target Lost.");
+                model.visible = false;
+                document.getElementById('instructions').style.display = 'block';
+            };
+
+        }, undefined, (error) => {
+            console.error("Error loading car_optimized.glb:", error);
+        });
+
+        // 5. Start the AR engine and open the camera stream
+        try {
+            await mindarThree.start();
+            renderer.setAnimationLoop(() => {
+                renderer.render(scene, camera);
+            });
+            console.log("MindAR camera stream successfully running.");
+        } catch (err) {
+            console.error("Failed to start MindAR camera stream:", err);
+            alert("Camera access failed. Ensure you are using HTTPS and granted camera permissions.");
+        }
+    });
+    </script>
 </body>
 </html>
