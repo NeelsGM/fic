@@ -6,7 +6,7 @@
     <title>Forged in Carbon - AR Experience</title>
     <!-- A-Frame -->
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-    <!-- MindAR A-Frame Component (Updated to v1.2.8 to fix getObject3D resize crash) -->
+    <!-- MindAR A-Frame Component -->
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.8/dist/mindar-image-aframe.prod.js"></script>
     
     <style>
@@ -33,6 +33,7 @@
             background: #e63946; color: #fff; border: none; padding: 14px 32px; font-size: 16px;
             font-weight: bold; border-radius: 6px; cursor: pointer; box-shadow: 0 4px 15px rgba(230,57,70,.4);
         }
+        #start-btn:disabled { background: #555; cursor: not-allowed; box-shadow: none; }
         #error-msg { color: #e63946; font-size: 13px; max-width: 320px; margin-top: 18px; line-height: 1.5; }
         .hidden { display: none !important; }
     </style>
@@ -43,7 +44,7 @@
     <div id="splash-screen">
         <h1>FORGED IN CARBON</h1>
         <p>Point your camera at your custom container target image.</p>
-        <button id="start-btn">LAUNCH AR EXPERIENCE</button>
+        <button id="start-btn" disabled>LOADING AR ENGINE...</button>
         <div id="error-msg" class="hidden"></div>
     </div>
 
@@ -91,10 +92,23 @@
         var errorBox = document.getElementById('error-msg');
         var sceneEl = document.querySelector('a-scene');
         var carEntity = document.getElementById('car-entity');
+        var arSystem = null;
 
         carEntity.addEventListener('model-loaded', function () {
             console.log("Car model loaded successfully into scene.");
             carEntity.setAttribute('visible', 'true');
+        });
+
+        // Wait for A-Frame scene to load components
+        sceneEl.addEventListener('loaded', function () {
+            arSystem = sceneEl.systems["mindar-image-system"];
+        });
+
+        // Enable button only when MindAR compilation and engine are fully ready
+        sceneEl.addEventListener("arReady", function () {
+            console.log("MindAR engine is ready.");
+            btn.disabled = false;
+            btn.textContent = 'LAUNCH AR EXPERIENCE';
         });
 
         sceneEl.addEventListener("arError", function (event) {
@@ -106,6 +120,7 @@
         });
 
         btn.addEventListener('click', function () {
+            if (btn.disabled) return;
             errorBox.classList.add('hidden');
 
             if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
@@ -118,13 +133,15 @@
             btn.textContent = 'STARTING CAMERA…';
             splash.classList.add('hidden');
 
-            let system = sceneEl.systems["mindar-image-system"];
-            if (system) {
-                system.start();
+            if (arSystem) {
+                arSystem.start();
             } else {
-                sceneEl.addEventListener('loaded', function() {
-                    sceneEl.systems["mindar-image-system"].start();
-                });
+                let checkSystem = setInterval(function() {
+                    if (sceneEl.systems["mindar-image-system"]) {
+                        sceneEl.systems["mindar-image-system"].start();
+                        clearInterval(checkSystem);
+                    }
+                }, 100);
             }
         });
     });
