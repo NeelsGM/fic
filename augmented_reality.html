@@ -68,11 +68,12 @@
             const anchor = mindarThree.addAnchor(0);
 
             let carModel = null;
-            let modelLoaded = false;
+            let isTargetVisible = false;
 
             anchor.onTargetFound = () => {
                 console.log("Target Found!");
-                if (modelLoaded && carModel) {
+                isTargetVisible = true;
+                if (carModel) {
                     carModel.visible = true;
                     document.getElementById('instructions').style.display = 'none';
                 }
@@ -80,6 +81,7 @@
 
             anchor.onTargetLost = () => {
                 console.log("Target Lost.");
+                isTargetVisible = false;
                 if (carModel) {
                     carModel.visible = false;
                     document.getElementById('instructions').style.display = 'block';
@@ -94,13 +96,18 @@
                 carModel.rotation.set(Math.PI / 2, 0, 0); 
                 carModel.position.set(0, 0, 0);
                 
-                carModel.visible = false;
-                anchor.group.add(carModel);
+                // If target was already found while model was downloading, show it immediately
+                carModel.visible = isTargetVisible;
+                if (isTargetVisible) {
+                    document.getElementById('instructions').style.display = 'none';
+                }
 
-                modelLoaded = true;
+                anchor.group.add(carModel);
                 console.log("bakkie_container_compressed.glb loaded successfully.");
             }, (xhr) => {
-                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                if (xhr.total > 0) {
+                    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                }
             }, (error) => {
                 console.error("Error loading bakkie_container_compressed.glb. Check file path or local server status.", error);
             });
