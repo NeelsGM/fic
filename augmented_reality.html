@@ -6,8 +6,8 @@
     <title>Forged in Carbon - AR Experience</title>
     <!-- A-Frame -->
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-    <!-- MindAR A-Frame Component -->
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <!-- MindAR A-Frame Component (Updated to v1.2.8 to fix getObject3D resize crash) -->
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.8/dist/mindar-image-aframe.prod.js"></script>
     
     <style>
         html, body { 
@@ -39,7 +39,7 @@
 </head>
 <body>
 
-    <!-- Splash Screen to satisfy mobile browser camera user-activation constraints -->
+    <!-- Splash Screen -->
     <div id="splash-screen">
         <h1>FORGED IN CARBON</h1>
         <p>Point your camera at your custom container target image.</p>
@@ -118,7 +118,6 @@
             btn.textContent = 'STARTING CAMERA…';
             splash.classList.add('hidden');
 
-            // Access the A-Frame scene component system safely
             let system = sceneEl.systems["mindar-image-system"];
             if (system) {
                 system.start();
