@@ -15,20 +15,15 @@
             width: 100vw; height: 100vh; 
             overflow: hidden; background: #000; 
         }
-        .a-canvas, canvas.a-canvas {
-            position: fixed !important; 
-            top: 0 !important; left: 0 !important;
-            width: 100vw !important; height: 100vh !important;
-        }
         .a-enter-vr, .a-enter-ar, .a-orientation-modal { display: none !important; }
     </style>
 </head>
 <body>
 
     <a-scene 
-        mindar-image="imageTargetSrc: targets.mind; autoStart: true; uiLoading: yes; uiError: yes; uiScanning: yes;" 
+        mindar-image="imageTargetSrc: targets.mind; uiLoading: yes; uiError: yes; uiScanning: yes;" 
         embedded 
-        renderer="antialias: true; alpha: true; colorManagement: true;" 
+        renderer="precision: mediump; antialias: true; alpha: true; colorManagement: true;" 
         vr-mode-ui="enabled: false" 
         device-orientation-permission-ui="enabled: false">
 
@@ -36,50 +31,45 @@
             <a-asset-item id="car-model" src="car_optimized.glb"></a-asset-item>
         </a-assets>
 
-        <a-entity light="type: ambient; intensity: 0.8"></a-entity>
-        <a-entity light="type: directional; intensity: 1.0" position="1 4 2"></a-entity>
+        <a-entity light="type: ambient; intensity: 1"></a-entity>
+        <a-entity light="type: directional; intensity: 0.8" position="1 4 2"></a-entity>
 
         <!-- Target Anchor -->
         <a-entity id="target-anchor" mindar-image-target="targetIndex: 0">
-            <a-entity light="type: point; intensity: 2.0; distance: 3.0; color: #ffffff" position="0 0.2 -0.4"></a-entity>
-
-            <!-- Car Model explicitly defaults to visible="false" -->
+            <!-- Car Model (Hidden until target is found) -->
             <a-entity 
                 id="car-entity"
                 gltf-model="#car-model" 
-                position="0 0 -0.3" 
+                position="0 0 0" 
                 rotation="0 0 0" 
-                scale="0.7 0.7 0.7"
+                scale="0.5 0.5 0.5"
                 visible="false">
             </a-entity>
         </a-entity>
 
-        <a-entity camera></a-entity>
+        <a-entity camera position="0 0 0" look-controls="enabled: false"></a-entity>
     </a-scene>
 
     <script>
     document.addEventListener("DOMContentLoaded", function() {
         var targetAnchor = document.getElementById('target-anchor');
         var carEntity = document.getElementById('car-entity');
-        var modelReady = false;
+        var modelLoaded = false;
 
-        // 1. Confirm model is downloaded/parsed, but DO NOT show it yet
         carEntity.addEventListener('model-loaded', function () {
-            console.log("3D Car Model downloaded & parsed. Waiting for target scan...");
-            modelReady = true;
+            console.log("Model loaded successfully.");
+            modelLoaded = true;
         });
 
-        // 2. ONLY show the car when the physical target image is detected by camera
         targetAnchor.addEventListener("targetFound", function() {
-            console.log("Target image FOUND! Displaying car model.");
-            if (modelReady) {
+            console.log("Target found!");
+            if (modelLoaded) {
                 carEntity.setAttribute('visible', 'true');
             }
         });
 
-        // 3. Hide the car when camera loses sight of target image
         targetAnchor.addEventListener("targetLost", function() {
-            console.log("Target image LOST.");
+            console.log("Target lost.");
             carEntity.setAttribute('visible', 'false');
         });
     });
