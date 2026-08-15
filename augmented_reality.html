@@ -26,42 +26,22 @@
         }
         .a-enter-vr, .a-enter-ar, .a-orientation-modal { display: none !important; }
         
-        #splash-screen {
-            position: fixed; inset: 0; background: #111; color: #fff;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 99999; text-align: center; padding: 20px; box-sizing: border-box;
-        }
-        #splash-screen h1 { font-size: 24px; margin-bottom: 10px; letter-spacing: 1px; }
-        #splash-screen p { font-size: 14px; color: #aaa; max-width: 320px; margin-bottom: 24px; line-height: 1.5; }
-        #start-btn {
-            background: #e63946; color: #fff; border: none; padding: 14px 32px; font-size: 16px;
-            font-weight: bold; border-radius: 6px; cursor: pointer; box-shadow: 0 4px 15px rgba(230,57,70,.4);
-            z-index: 100000;
-        }
-        #error-msg { color: #e63946; font-size: 13px; max-width: 320px; margin-top: 18px; line-height: 1.5; }
+        /* Let MindAR manage its own native scanning/loading UI cleanly */
+        .mindar-ui-overlay { z-index: 1000 !important; }
+
         #hint {
             position: fixed; bottom: 18px; left: 0; right: 0; text-align: center;
             color: #fff; font-size: 13px; text-shadow: 0 1px 3px #000; z-index: 10;
         }
-        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <!-- Splash Screen -->
-    <div id="splash-screen">
-        <h1>FORGED IN CARBON</h1>
-        <p>Point your camera at your custom container target image.</p>
-        <button id="start-btn">LAUNCH AR EXPERIENCE</button>
-        <div id="error-msg" class="hidden"></div>
-    </div>
+    <div id="hint">Point the camera at your tracking target.</div>
 
-    <div id="hint" class="hidden">Point the camera at your tracking target.</div>
-
-    <!-- MindAR Scene Setup -->
-    <!-- Added physicallyCorrectLights: false to suppress legacy warnings and keep light scaling stable -->
+    <!-- MindAR Scene Setup (Autostarts cleanly without custom click-blockers) -->
     <a-scene 
-        mindar-image="imageTargetSrc: targets.mind; uiLoading: no; uiError: yes; uiScanning: yes;" 
+        mindar-image="imageTargetSrc: targets.mind; uiLoading: yes; uiError: yes; uiScanning: yes;" 
         embedded 
         renderer="antialias: true; alpha: true; logarithmicDepthBuffer: true; physicallyCorrectLights: false;" 
         vr-mode-ui="enabled: false" 
@@ -80,7 +60,7 @@
         <!-- MindAR Image Target Anchor -->
         <a-entity mindar-image-target="targetIndex: 0">
             
-            <!-- Internal Container Light (increased intensity for visual pop) -->
+            <!-- Internal Container Light -->
             <a-entity light="type: point; intensity: 2.0; distance: 3.0; color: #ffffff" position="0 0.2 -0.4"></a-entity>
 
             <!-- Car Model -->
@@ -100,55 +80,11 @@
 
     <script>
     document.addEventListener("DOMContentLoaded", function() {
-        var btn = document.getElementById('start-btn');
-        var splash = document.getElementById('splash-screen');
-        var errorBox = document.getElementById('error-msg');
-        var hint = document.getElementById('hint');
-        var sceneEl = document.querySelector('a-scene');
         var carEntity = document.getElementById('car-entity');
 
         carEntity.addEventListener('model-loaded', function () {
             console.log("Car model loaded successfully into scene.");
             carEntity.setAttribute('visible', 'true');
-        });
-
-        sceneEl.addEventListener("arError", function (event) {
-            console.error("MindAR failed to start", event);
-            errorBox.textContent = "Could not start camera. Check permissions or HTTPS.";
-            errorBox.classList.remove('hidden');
-            btn.disabled = false;
-            btn.textContent = 'TRY AGAIN';
-        });
-
-        // Prevent click event leakage into the underlying 3D canvas
-        btn.addEventListener('click', function (e) {
-            e.stopPropagation();
-            errorBox.classList.add('hidden');
-
-            if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
-                errorBox.textContent = 'Camera access requires HTTPS.';
-                errorBox.classList.remove('hidden');
-                return;
-            }
-
-            btn.disabled = true;
-            btn.textContent = 'STARTING CAMERA…';
-
-            splash.classList.add('hidden');
-            hint.classList.remove('hidden');
-            
-            // Explicitly boot up the MindAR system pipeline
-            let mindarSystem = sceneEl.systems["mindar-image-system"];
-            if (mindarSystem) {
-                mindarSystem.start();
-            } else {
-                // Fallback if system initialization is slightly delayed
-                setTimeout(function() {
-                    if (sceneEl.systems["mindar-image-system"]) {
-                        sceneEl.systems["mindar-image-system"].start();
-                    }
-                }, 500);
-            }
         });
     });
     </script>
