@@ -56,6 +56,7 @@
 
             renderer.setClearColor(0x000000, 0);
             scene.background = null;
+            renderer.outputColorSpace = THREE.SRGBColorSpace;
 
             const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
             scene.add(ambientLight);
@@ -69,7 +70,6 @@
             let carModel = null;
             let modelLoaded = false;
 
-            // Bind tracking events immediately so they are ready when target is scanned
             anchor.onTargetFound = () => {
                 console.log("Target Found!");
                 if (modelLoaded && carModel) {
@@ -86,7 +86,6 @@
                 }
             };
 
-            // Load the compressed model
             const loader = new GLTFLoader();
             loader.load('bakkie_container_compressed.glb', (gltf) => {
                 carModel = gltf.scene;
@@ -99,9 +98,11 @@
                 anchor.group.add(carModel);
 
                 modelLoaded = true;
-                console.log("Model loaded successfully.");
-            }, undefined, (error) => {
-                console.error("Error loading bakkie_container_compressed.glb:", error);
+                console.log("bakkie_container_compressed.glb loaded successfully.");
+            }, (xhr) => {
+                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+            }, (error) => {
+                console.error("Error loading bakkie_container_compressed.glb. Check file path or local server status.", error);
             });
 
             try {
