@@ -1,129 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Forged in Carbon - AR Experience</title>
-    
-    <script type="importmap">
-      {
-        "imports": {
-          "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-          "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
-          "mindar-image-three": "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js"
-        }
-      }
-    </script>
+// Replace the GLTFLoader block with this temporary shape:
+const geometry = new THREE.BoxGeometry(1, 1, 1);
+const material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+carModel = new THREE.Mesh(geometry, material);
 
-    <style>
-        html, body {
-            margin: 0; padding: 0;
-            width: 100vw; height: 100vh;
-            overflow: hidden; background: transparent;
-        }
-        #ar-container {
-            position: absolute; inset: 0;
-            width: 100%; height: 100%;
-        }
-        #instructions {
-            position: fixed; bottom: 40px; left: 0; right: 0;
-            text-align: center; color: #fff; font-family: sans-serif;
-            font-size: 16px; text-shadow: 0 1px 4px rgba(0,0,0,0.9);
-            z-index: 100; pointer-events: none; letter-spacing: 1px;
-        }
-    </style>
-</head>
-<body>
+carModel.scale.set(1, 1, 1);
+carModel.position.set(0, 0.5, 0); // lift it slightly above the image
+carModel.visible = isTargetVisible;
+if (isTargetVisible) {
+    document.getElementById('instructions').style.display = 'none';
+}
 
-    <div id="instructions">Point your camera at the target image</div>
-    <div id="ar-container"></div>
-
-    <script type="module">
-        import * as THREE from 'three';
-        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-        import { MindARThree } from 'mindar-image-three';
-
-        document.addEventListener("DOMContentLoaded", async () => {
-            const mindarThree = new MindARThree({
-                container: document.querySelector("#ar-container"),
-                imageTargetSrc: "targets.mind",
-                uiLoading: "yes",
-                uiError: "yes",
-                uiScanning: "yes"
-            });
-
-            const { renderer, scene, camera } = mindarThree;
-
-            renderer.setClearColor(0x000000, 0);
-            scene.background = null;
-            renderer.outputColorSpace = THREE.SRGBColorSpace;
-
-            const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
-            scene.add(ambientLight);
-
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
-            directionalLight.position.set(1, 4, 2);
-            scene.add(directionalLight);
-
-            const anchor = mindarThree.addAnchor(0);
-
-            let carModel = null;
-            let isTargetVisible = false;
-
-            anchor.onTargetFound = () => {
-                console.log("Target Found!");
-                isTargetVisible = true;
-                if (carModel) {
-                    carModel.visible = true;
-                    document.getElementById('instructions').style.display = 'none';
-                }
-            };
-
-            anchor.onTargetLost = () => {
-                console.log("Target Lost.");
-                isTargetVisible = false;
-                if (carModel) {
-                    carModel.visible = false;
-                    document.getElementById('instructions').style.display = 'block';
-                }
-            };
-
-            const loader = new GLTFLoader();
-            loader.load('bakkie_container_compressed.glb', (gltf) => {
-                carModel = gltf.scene;
-                
-                carModel.scale.set(0.2, 0.2, 0.2);
-                carModel.rotation.set(Math.PI / 2, 0, 0); 
-                carModel.position.set(0, 0, 0);
-                
-                // If target was already found while model was downloading, show it immediately
-                carModel.visible = isTargetVisible;
-                if (isTargetVisible) {
-                    document.getElementById('instructions').style.display = 'none';
-                }
-
-                anchor.group.add(carModel);
-                console.log("bakkie_container_compressed.glb loaded successfully.");
-            }, (xhr) => {
-                if (xhr.total > 0) {
-                    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-                }
-            }, (error) => {
-                console.error("Error loading bakkie_container_compressed.glb. Check file path or local server status.", error);
-            });
-
-            try {
-                await mindarThree.start();
-                
-                renderer.setAnimationLoop(() => {
-                    renderer.render(scene, camera);
-                });
-                
-                console.log("MindAR successfully running.");
-            } catch (err) {
-                console.error("Failed to start MindAR:", err);
-            }
-        });
-    </script>
-</body>
-</html>
+anchor.group.add(carModel);
+console.log("Fallback cube loaded successfully.");
