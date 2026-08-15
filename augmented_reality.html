@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Forged in Carbon - AR Experience</title>
-    <!-- A-Frame Library -->
+    <!-- A-Frame -->
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-    <!-- MindAR A-Frame Integration Library -->
+    <!-- MindAR A-Frame Component -->
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
     
     <style>
@@ -14,14 +14,11 @@
             margin: 0; padding: 0; 
             width: 100vw; height: 100vh; 
             overflow: hidden; background: #000; 
-            position: fixed;
         }
         .a-canvas, canvas.a-canvas {
             position: fixed !important; 
             top: 0 !important; left: 0 !important;
             width: 100vw !important; height: 100vh !important;
-            background: transparent !important; 
-            z-index: 1 !important;
         }
         .a-enter-vr, .a-enter-ar, .a-orientation-modal { display: none !important; }
         
@@ -35,7 +32,6 @@
         #start-btn {
             background: #e63946; color: #fff; border: none; padding: 14px 32px; font-size: 16px;
             font-weight: bold; border-radius: 6px; cursor: pointer; box-shadow: 0 4px 15px rgba(230,57,70,.4);
-            z-index: 100000;
         }
         #error-msg { color: #e63946; font-size: 13px; max-width: 320px; margin-top: 18px; line-height: 1.5; }
         .hidden { display: none !important; }
@@ -43,7 +39,7 @@
 </head>
 <body>
 
-    <!-- Splash Screen Button to satisfy mobile browser user-activation rules for cameras -->
+    <!-- Splash Screen to satisfy mobile browser camera user-activation constraints -->
     <div id="splash-screen">
         <h1>FORGED IN CARBON</h1>
         <p>Point your camera at your custom container target image.</p>
@@ -51,7 +47,7 @@
         <div id="error-msg" class="hidden"></div>
     </div>
 
-    <!-- MindAR Scene Setup -->
+    <!-- MindAR A-Frame Scene -->
     <a-scene 
         mindar-image="imageTargetSrc: targets.mind; autoStart: false; uiLoading: yes; uiError: yes; uiScanning: yes;" 
         embedded 
@@ -69,10 +65,9 @@
         <!-- Directional surface light -->
         <a-entity light="type: directional; intensity: 0.8" position="1 4 2"></a-entity>
 
-        <!-- MindAR Image Target Anchor -->
+        <!-- Target Anchor -->
         <a-entity mindar-image-target="targetIndex: 0">
-            
-            <!-- Internal Container Light ("Jedi Mind Trick" depth glow) -->
+            <!-- Internal Container Light Depth Glow -->
             <a-entity light="type: point; intensity: 2.0; distance: 3.0; color: #ffffff" position="0 0.2 -0.4"></a-entity>
 
             <!-- Car Model -->
@@ -84,7 +79,6 @@
                 scale="0.7 0.7 0.7"
                 visible="false">
             </a-entity>
-
         </a-entity>
 
         <a-entity camera></a-entity>
@@ -111,8 +105,7 @@
             btn.textContent = 'TRY AGAIN';
         });
 
-        btn.addEventListener('click', function (e) {
-            e.stopPropagation();
+        btn.addEventListener('click', function () {
             errorBox.classList.add('hidden');
 
             if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
@@ -123,20 +116,16 @@
 
             btn.disabled = true;
             btn.textContent = 'STARTING CAMERA…';
-
             splash.classList.add('hidden');
-            
-            // Cleanly invoke the A-Frame system controller for MindAR
-            let mindarSystem = sceneEl.systems["mindar-image-system"];
-            if (mindarSystem) {
-                mindarSystem.start();
+
+            // Access the A-Frame scene component system safely
+            let system = sceneEl.systems["mindar-image-system"];
+            if (system) {
+                system.start();
             } else {
-                let checkSystem = setInterval(function() {
-                    if (sceneEl.systems["mindar-image-system"]) {
-                        sceneEl.systems["mindar-image-system"].start();
-                        clearInterval(checkSystem);
-                    }
-                }, 100);
+                sceneEl.addEventListener('loaded', function() {
+                    sceneEl.systems["mindar-image-system"].start();
+                });
             }
         });
     });
