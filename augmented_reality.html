@@ -33,7 +33,6 @@
             background: #e63946; color: #fff; border: none; padding: 14px 32px; font-size: 16px;
             font-weight: bold; border-radius: 6px; cursor: pointer; box-shadow: 0 4px 15px rgba(230,57,70,.4);
         }
-        #start-btn:disabled { background: #555; cursor: not-allowed; box-shadow: none; }
         #error-msg { color: #e63946; font-size: 13px; max-width: 320px; margin-top: 18px; line-height: 1.5; }
         .hidden { display: none !important; }
     </style>
@@ -44,7 +43,7 @@
     <div id="splash-screen">
         <h1>FORGED IN CARBON</h1>
         <p>Point your camera at your custom container target image.</p>
-        <button id="start-btn" disabled>LOADING AR ENGINE...</button>
+        <button id="start-btn">LAUNCH AR EXPERIENCE</button>
         <div id="error-msg" class="hidden"></div>
     </div>
 
@@ -92,23 +91,10 @@
         var errorBox = document.getElementById('error-msg');
         var sceneEl = document.querySelector('a-scene');
         var carEntity = document.getElementById('car-entity');
-        var arSystem = null;
 
         carEntity.addEventListener('model-loaded', function () {
             console.log("Car model loaded successfully into scene.");
             carEntity.setAttribute('visible', 'true');
-        });
-
-        // Wait for A-Frame scene to load components
-        sceneEl.addEventListener('loaded', function () {
-            arSystem = sceneEl.systems["mindar-image-system"];
-        });
-
-        // Enable button only when MindAR compilation and engine are fully ready
-        sceneEl.addEventListener("arReady", function () {
-            console.log("MindAR engine is ready.");
-            btn.disabled = false;
-            btn.textContent = 'LAUNCH AR EXPERIENCE';
         });
 
         sceneEl.addEventListener("arError", function (event) {
@@ -120,7 +106,6 @@
         });
 
         btn.addEventListener('click', function () {
-            if (btn.disabled) return;
             errorBox.classList.add('hidden');
 
             if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
@@ -133,6 +118,8 @@
             btn.textContent = 'STARTING CAMERA…';
             splash.classList.add('hidden');
 
+            // Immediately fetch system and start tracking loop on user gesture
+            let arSystem = sceneEl.systems["mindar-image-system"];
             if (arSystem) {
                 arSystem.start();
             } else {
