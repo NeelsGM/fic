@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Forged in Carbon - AR Experience</title>
     
-    <!-- Import map mapping Three.js modules and MindAR correctly -->
     <script type="importmap">
       {
         "imports": {
@@ -20,7 +19,7 @@
         html, body {
             margin: 0; padding: 0;
             width: 100vw; height: 100vh;
-            overflow: hidden; background: #000;
+            overflow: hidden; background: transparent;
         }
         #ar-container {
             position: absolute; inset: 0;
@@ -45,7 +44,6 @@
         import { MindARThree } from 'mindar-image-three';
 
         document.addEventListener("DOMContentLoaded", async () => {
-            // 1. Initialize MindAR Three engine binding directly to container
             const mindarThree = new MindARThree({
                 container: document.querySelector("#ar-container"),
                 imageTargetSrc: "targets.mind",
@@ -56,54 +54,63 @@
 
             const { renderer, scene, camera } = mindarThree;
 
-            // 2. Setup lighting
-            const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
+            // Force transparency on renderer so the live video feed shows through
+            renderer.setClearColor(0x000000, 0);
+            scene.background = null;
+
+            // Lighting setup
+            const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
             scene.add(ambientLight);
 
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
             directionalLight.position.set(1, 4, 2);
             scene.add(directionalLight);
 
-            // 3. Create Target Anchor (Index 0)
             const anchor = mindarThree.addAnchor(0);
 
-            // 4. Load your optimized GLB car model
+            let carModel = null;
+
             const loader = new GLTFLoader();
             loader.load('car_optimized.glb', (gltf) => {
-                const model = gltf.scene;
-                model.scale.set(0.5, 0.5, 0.5);
-                model.position.set(0, 0, 0);
-                model.rotation.set(0, 0, 0);
+                carModel = gltf.scene;
                 
-                // Hide model by default until target is tracked
-                model.visible = false;
-                anchor.group.add(model);
+                // Adjust scale (reduce size if too big)
+                carModel.scale.set(0.2, 0.2, 0.2);
+                
+                // Adjust base orientation if it's lying flat or facing sideways 
+                // (e.g., Math.PI / 2 for 90 degrees on X axis if exported upright differently)
+                carModel.rotation.set(Math.PI / 2, 0, 0); 
+                carModel.position.set(0, 0, 0);
+                
+                carModel.visible = false;
+                anchor.group.add(carModel);
 
                 anchor.onTargetFound = () => {
                     console.log("Target Found!");
-                    model.visible = true;
+                    carModel.visible = true;
                     document.getElementById('instructions').style.display = 'none';
                 };
 
                 anchor.onTargetLost = () => {
                     console.log("Target Lost.");
-                    model.visible = false;
+                    carModel.visible = false;
                     document.getElementById('instructions').style.display = 'block';
                 };
             }, undefined, (error) => {
                 console.error("Error loading car_optimized.glb:", error);
             });
 
-            // 5. Start AR engine and open camera stream
             try {
                 await mindarThree.start();
+                
+                // Animation loop with frame rendering
                 renderer.setAnimationLoop(() => {
                     renderer.render(scene, camera);
                 });
-                console.log("MindAR camera stream successfully active.");
+                
+                console.log("MindAR successfully running.");
             } catch (err) {
                 console.error("Failed to start MindAR:", err);
-                alert("Camera access failed. Ensure you are using HTTPS or localhost.");
             }
         });
     </script>
