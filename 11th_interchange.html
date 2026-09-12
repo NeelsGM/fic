@@ -87,7 +87,8 @@
             </p>
         </section>
 
-        <section class="px-6 max-w-6xl mx-auto mb-20">
+        <!-- 3D Viewer Section -->
+        <section class="px-6 max-w-6xl mx-auto mb-12">
             <div class="glass-panel p-4 md:p-8 rounded-none border-t-2 border-cyan-400 shadow-2xl">
                 <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
@@ -108,7 +109,53 @@
             </div>
         </section>
 
-        <section class="py-12 px-6 max-w-4xl mx-auto">
+        <!-- Navigation Instructions Panel -->
+        <section class="px-6 max-w-6xl mx-auto mb-20">
+            <div class="glass-panel p-6 md:p-8 border-l-4 border-cyan-400">
+                <h3 class="font-display text-xl text-white mb-6 uppercase tracking-widest flex items-center gap-3">
+                    <i class="fa-solid fa-gamepad text-cyan-400"></i> Supersplat Viewport Navigation Guide
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs font-bold uppercase tracking-[0.15em]">
+                    <!-- Desktop Mouse Controls -->
+                    <div class="bg-black/40 p-5 border border-white/10">
+                        <h4 class="text-cyan-400 font-display mb-3 text-sm tracking-widest flex items-center gap-2">
+                            <i class="fa-solid fa-computer-mouse"></i> Desktop Mouse
+                        </h4>
+                        <ul class="space-y-3 text-gray-400">
+                            <li><strong class="text-white">Orbit / Rotate:</strong> Click & Drag Left Mouse Button</li>
+                            <li><strong class="text-white">Pan / Move:</strong> Click & Drag Right Mouse Button (or Shift + Left Click)</li>
+                            <li><strong class="text-white">Zoom:</strong> Scroll Mouse Wheel In/Out</li>
+                        </ul>
+                    </div>
+
+                    <!-- Touch Screen Controls -->
+                    <div class="bg-black/40 p-5 border border-white/10">
+                        <h4 class="text-cyan-400 font-display mb-3 text-sm tracking-widest flex items-center gap-2">
+                            <i class="fa-solid fa-mobile-screen"></i> Touch / Mobile
+                        </h4>
+                        <ul class="space-y-3 text-gray-400">
+                            <li><strong class="text-white">Orbit / Rotate:</strong> One Finger Drag</li>
+                            <li><strong class="text-white">Pan / Move:</strong> Two Finger Drag</li>
+                            <li><strong class="text-white">Zoom:</strong> Pinch In / Pinch Out</li>
+                        </ul>
+                    </div>
+
+                    <!-- Keyboard & Pro Tips -->
+                    <div class="bg-black/40 p-5 border border-white/10">
+                        <h4 class="text-cyan-400 font-display mb-3 text-sm tracking-widest flex items-center gap-2">
+                            <i class="fa-solid fa-keyboard"></i> Pro Tips & View
+                        </h4>
+                        <ul class="space-y-3 text-gray-400">
+                            <li><strong class="text-white">Fullscreen:</strong> Click the "Open Fullscreen" button top-right for maximum workspace.</li>
+                            <li><strong class="text-white">Performance:</strong> Allow a few seconds for the high-density neural splat points to stream and cache.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Overview -->
+        <section class="py-6 px-6 max-w-4xl mx-auto">
             <div class="glass-panel p-8 border-l-4 border-cyan-400">
                 <h3 class="font-display text-2xl text-white mb-4 uppercase tracking-widest text-cyan-400">Project Overview</h3>
                 <p class="text-gray-400 leading-relaxed font-bold uppercase text-sm tracking-wider mb-6">
