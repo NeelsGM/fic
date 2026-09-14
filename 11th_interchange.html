@@ -42,7 +42,6 @@
         .glass-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); transition: all 0.3s ease; }
         #loader { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease-out; }
         .iframe-container { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; overflow: hidden; border: 1px solid rgba(0, 243, 255, 0.3); background: #000; }
-        .iframe-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
     </style>
 </head>
 <body class="bg-carbon-900 text-gray-300 font-sans">
@@ -87,53 +86,8 @@
             </p>
         </section>
 
-        <!-- 3D Viewer Section -->
-        <section class="px-6 max-w-6xl mx-auto mb-12">
-            <div class="glass-panel p-4 md:p-8 rounded-none border-t-2 border-cyan-400 shadow-2xl">
-                <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                    <div>
-                        <h2 class="font-display text-xl text-white uppercase tracking-widest">Interactive 3D Viewer</h2>
-                        <p class="text-xs text-cyan-400 font-bold uppercase tracking-widest">3D Environment</p>
-                    </div>
-                    <a href="https://superspl.at/s?id=dde405d5" target="_blank" class="text-xs bg-black/60 border border-white/20 px-4 py-2 text-cyan-400 hover:border-cyan-400 uppercase tracking-widest font-bold transition-all flex items-center gap-2">
-                        <i class="fa-solid fa-up-right-from-square"></i> Open Fullscreen
-                    </a>
-                </div>
-
-                <!-- On-Demand Gateway Container with Poster Image Placeholder -->
-                <div class="iframe-container shadow-inner relative flex items-center justify-center bg-black/80" id="viewer-gateway">
-                    <!-- Initial Placeholder / Poster Image State -->
-                    <div id="gateway-prompt" class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-20 bg-cover bg-center bg-no-repeat" style="background-image: url('11th_interchange.webp');">
-                        <div class="absolute inset-0 bg-carbon-900/85 backdrop-blur-xs"></div>
-                        <div class="relative z-10 flex flex-col items-center justify-center max-w-lg">
-                            <i class="fa-solid fa-cube text-cyan-400 text-4xl mb-4 animate-bounce"></i>
-                            <h4 class="text-white font-display text-sm md:text-base uppercase tracking-widest mb-2">High-Density 3D Splat Environment</h4>
-                            <p class="text-gray-300 text-[10px] md:text-xs uppercase tracking-wider mb-6">
-                                Optimized for desktop & mobile hardware across all browsers (including Firefox restrictions). Click below to initialize the interactive viewport or open it directly.
-                            </p>
-                            <div class="flex flex-wrap gap-3 justify-center">
-                                <button onclick="loadViewer()" class="bg-cyan-400 text-black px-6 py-3 font-bold uppercase tracking-widest text-xs hover:bg-white transition-all flex items-center gap-2 shadow-lg cursor-pointer">
-                                    <i class="fa-solid fa-play"></i> Load Viewport Here
-                                </button>
-                                <a href="https://superspl.at/s?id=dde405d5" target="_blank" class="bg-black/60 border border-cyan-400/50 text-cyan-400 px-6 py-3 font-bold uppercase tracking-widest text-xs hover:border-cyan-400 transition-all flex items-center gap-2">
-                                    Open Fullscreen <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Iframe injected on click -->
-                    <div id="iframe-target" class="absolute inset-0 w-full h-full"></div>
-                </div>
-
-                <div class="mt-6 text-gray-400 text-xs uppercase tracking-widest font-bold flex flex-wrap items-center justify-between gap-4">
-                    <span><i class="fa-solid fa-circle-info text-cyan-400 mr-2"></i> Please see navigation controls below.</span>
-                    <span class="text-cyan-400">FIC-3D Spatial Division</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Navigation Instructions Panel -->
-        <section class="px-6 max-w-6xl mx-auto mb-20">
+        <!-- Navigation Instructions Panel (Moved directly above viewport) -->
+        <section class="px-6 max-w-6xl mx-auto mb-8">
             <div class="glass-panel p-6 md:p-8 border-l-4 border-cyan-400">
                 <h3 class="font-display text-xl text-white mb-6 uppercase tracking-widest flex items-center gap-3">
                     <i class="fa-solid fa-gamepad text-cyan-400"></i> 3D Viewport Navigation Guide
@@ -169,10 +123,47 @@
                             <i class="fa-solid fa-keyboard"></i> Pro Tips & View
                         </h4>
                         <ul class="space-y-3 text-gray-400">
-                            <li><strong class="text-white">Fullscreen:</strong> Click the "Open Fullscreen" button top-right for maximum workspace.</li>
-                            <li><strong class="text-white">Performance:</strong> Allow a few seconds for the high-density neural splat points to stream and cache.</li>
+                            <li><strong class="text-white">Fullscreen:</strong> Click the load button for maximum workspace view across all browsers.</li>
+                            <li><strong class="text-white">Performance:</strong> Allow a few seconds for high-density neural splat points to stream and cache.</li>
                         </ul>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3D Viewer Section -->
+        <section class="px-6 max-w-6xl mx-auto mb-20">
+            <div class="glass-panel p-4 md:p-8 rounded-none border-t-2 border-cyan-400 shadow-2xl">
+                <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h2 class="font-display text-xl text-white uppercase tracking-widest">Interactive 3D Viewer</h2>
+                        <p class="text-xs text-cyan-400 font-bold uppercase tracking-widest">3D Environment</p>
+                    </div>
+                    <a href="https://superspl.at/s?id=dde405d5" target="_blank" class="bg-cyan-400 text-black px-5 py-2.5 font-bold uppercase tracking-widest text-xs hover:bg-white transition-all flex items-center gap-2 shadow-lg">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Load 3D Model
+                    </a>
+                </div>
+
+                <!-- Poster Image Gateway Container -->
+                <div class="iframe-container shadow-inner relative flex items-center justify-center bg-cover bg-center bg-no-repeat" style="background-image: url('11th_interchange.webp');">
+                    <div class="absolute inset-0 bg-carbon-900/85 backdrop-blur-xs"></div>
+                    <div class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-20">
+                        <i class="fa-solid fa-cube text-cyan-400 text-4xl mb-4 animate-bounce"></i>
+                        <h4 class="text-white font-display text-sm md:text-base uppercase tracking-widest mb-2">High-Density 3D Splat Environment</h4>
+                        <p class="text-gray-300 text-[10px] md:text-xs uppercase tracking-wider max-w-md mb-6">
+                            Bypasses browser iframe restrictions seamlessly across Chrome, Firefox, and mobile devices. Click below to launch the full interactive environment.
+                        </p>
+                        <div>
+                            <a href="https://superspl.at/s?id=dde405d5" target="_blank" class="bg-cyan-400 text-black px-6 py-3 font-bold uppercase tracking-widest text-xs hover:bg-white transition-all inline-flex items-center gap-2 shadow-lg">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Load 3D Model
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 text-gray-400 text-xs uppercase tracking-widest font-bold flex flex-wrap items-center justify-between gap-4">
+                    <span><i class="fa-solid fa-circle-info text-cyan-400 mr-2"></i> Compatible with all modern desktop & mobile browsers.</span>
+                    <span class="text-cyan-400">FIC-3D Spatial Division</span>
                 </div>
             </div>
         </section>
@@ -213,17 +204,6 @@
     function toggleMenu() { 
         const menu = document.getElementById('mobile-menu');
         if(menu) menu.classList.toggle('hidden'); 
-    }
-
-    function loadViewer() {
-        const target = document.getElementById('iframe-target');
-        const prompt = document.getElementById('gateway-prompt');
-        if (target && prompt) {
-            prompt.style.display = 'none';
-            target.innerHTML = `
-                <iframe width="800" height="500" allow="fullscreen; xr-spatial-tracking; autoplay; camera; microphone" referrerpolicy="origin" src="https://superspl.at/s?id=dde405d5" style="width:100%; height:100%; border:0;"></iframe>
-            `;
-        }
     }
 
     window.addEventListener('load', () => {
