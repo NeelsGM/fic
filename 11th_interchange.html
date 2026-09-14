@@ -192,6 +192,24 @@
         if(menu) menu.classList.toggle('hidden'); 
     }
 
+    window.addEventListener('DOMContentLoaded', () => {
+        const canvas = document.createElement('canvas');
+        const gl = canvas.getContext('webgl2');
+        if (!gl) {
+            const container = document.querySelector('.iframe-container');
+            if (container) {
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-full p-6 text-center bg-black text-gray-400 absolute inset-0">
+                        <i class="fa-solid fa-triangle-exclamation text-cyan-400 text-3xl mb-3"></i>
+                        <p class="text-xs uppercase tracking-widest font-bold text-white mb-2">WebGL 2.0 Not Supported on This Device</p>
+                        <p class="text-[10px] uppercase tracking-wider mb-4">Please open the full-page view on a modern desktop or tablet browser.</p>
+                        <a href="https://superspl.at/s?id=dde405d5" target="_blank" class="text-xs bg-cyan-400 text-black px-4 py-2 font-bold uppercase tracking-widest">Open Fullscreen Viewer</a>
+                    </div>
+                `;
+            }
+        }
+    });
+
     window.addEventListener('load', () => {
         const loader = document.getElementById('loader');
         if(loader) {
